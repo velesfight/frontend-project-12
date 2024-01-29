@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory `/Users/ekaterina/Desktop/4 project/frontend-project-12'
+make: Leaving directory `/Users/ekaterina/Desktop/4 project/frontend-project-12'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
