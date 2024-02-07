@@ -9,10 +9,10 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required('Обязательное поле'),
   });
 
+return (
 <Formik
   initialValues={{ username: "", password: "" }}
-  validationSchema={validationSchema}
->
+  validationSchema={validationSchema}>
   {() => (
     <Form>
         <h1>Войти</h1>
@@ -40,6 +40,8 @@ const validationSchema = Yup.object().shape({
     </Form>
   )}
 </Formik>
+)
 }
+
 
 export default LoginForm;
