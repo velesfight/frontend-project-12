@@ -1,9 +1,9 @@
 import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import { Button } from 'react-bootstrap';
+import { Formik, Field, ErrorMessage } from 'formik';
+import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 
-const LoginForm = () => {
+const LoginPage = () => {
 const validationSchema = Yup.object().shape({
     username: Yup.string().required('Обязательное поле'),
     password: Yup.string().required('Обязательное поле'),
@@ -44,4 +44,4 @@ return (
 }
 
 
-export default LoginForm;
+export default LoginPage;

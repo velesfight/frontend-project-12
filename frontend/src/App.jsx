@@ -1,10 +1,11 @@
 import './App.css';
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginPage from './Components/LoginPage.jsx';
 import MainPage from './Components/MainPage.jsx';
 import NotFoundPage from './Components/NotFoundPage.jsx';
 
-function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
