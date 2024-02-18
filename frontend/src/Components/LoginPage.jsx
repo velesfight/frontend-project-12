@@ -9,6 +9,40 @@ const validationSchema = Yup.object().shape({
     password: Yup.string().required('Обязательное поле'),
   });
 
+  const auth = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+  const inputRef = useRef();
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  const formik =  useFormik({
+    initialValues: {
+      username: '',
+      password: '',
+    },
+    onSubmit: async ({ username, password }) => {
+      setAuthFailed(false);
+    try {
+      const res = await axios.post(routes.loginPath(),  { username, password }) 
+      localStorage.setItem('token', res.data);
+      auth.logIn();
+      const { from } = location.state || { from: { pathname: '/' } };
+      navigate(from);
+    } catch (err) {
+      formik.setSubmitting(false);
+      if (err.isAxiosError && err.response.status === 401) {
+        setAuthFailed(true);
+        inputRef.current.select();
+        return;
+      }
+      throw err;
+    }
+  },
+  });
+
 return (
 <Formik
   initialValues={{ username: "", password: "" }}
