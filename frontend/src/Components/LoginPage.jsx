@@ -1,7 +1,11 @@
+import axios from 'axios';
 import React from 'react';
-import { Formik, Field, ErrorMessage } from 'formik';
+import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
+import { useAuth, useRef, useState, useEffect } from 'react';
+import { useNavigate, useLocation, } from 'react-router-dom';
+import routes from './routes.js';
 
 const LoginPage = () => {
 const validationSchema = Yup.object().shape({
@@ -23,6 +27,7 @@ const validationSchema = Yup.object().shape({
       username: '',
       password: '',
     },
+    validationSchema,
     onSubmit: async ({ username, password }) => {
       setAuthFailed(false);
     try {
@@ -44,38 +49,47 @@ const validationSchema = Yup.object().shape({
   });
 
 return (
-<Formik
-  initialValues={{ username: "", password: "" }}
-  validationSchema={validationSchema}>
-  {() => (
-    <Form>
-        <h1>Войти</h1>
-      <div className="form-group">
-        <label htmlFor="username">Имя</label>
-        <Field
-          type="username"
-          name="username"
-          className="form-control"
-        />
-        <ErrorMessage component="div" name="username" className="invalid-feedback"/>
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Пароль</label>
-        <Field
-          type="password"
-          name="password"
-          className="form-control"
-        />
-        <ErrorMessage component="div" name="email" className="invalid-feedback"/>
-      </div>
-      <Button type="submit" >
-        Войти
-      </Button>
+<div className="container-fluid">
+<div className="row justify-content-center pt-5">
+  <div className="col-sm-4">
+  <Form onSubmit={formik.handleSubmit} className="p-3">
+            <fieldset disabled={formik.isSubmitting}>
+        <Form.Group>
+          <Form.Label htmlFor="username">Имя</Form.Label>
+          <Form.Control
+            onChange={formik.handleChange}
+            value={formik.values.username}
+            placeholder="username"
+            name="username"
+            id="username"
+            autoComplete="username"
+            isInvalid={authFailed}
+            required
+            ref={inputRef}
+          />
+        </Form.Group>
+        <Form.Group>
+          <Form.Label htmlFor="password">Пароль</Form.Label>
+          <Form.Control
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+            placeholder="password"
+            name="password"
+            id="password"
+            autoComplete="current-password"
+            isInvalid={authFailed}
+            required
+          />
+          <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+        </Form.Group>
+        <Button type="submit" variant="outline-primary">Войти</Button>
+      </fieldset>
     </Form>
-  )}
-</Formik>
-)
-}
-
+  </div>
+</div>
+</div>
+  )
+  };
 
 export default LoginPage;
