@@ -18,6 +18,7 @@ const validationSchema = Yup.object().shape({
   const inputRef = useRef();
   const navigate = useNavigate();
   const location = useLocation();
+  
   useEffect(() => {
     inputRef.current.focus();
   }, []);

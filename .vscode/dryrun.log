@@ -1,6 +1,5 @@
 make --dry-run --always-make --keep-going --print-directory
 make: Entering directory `/Users/ekaterina/Desktop/4 project/frontend-project-12'
 make -C frontend lint
- 
 make: Leaving directory `/Users/ekaterina/Desktop/4 project/frontend-project-12'
  
