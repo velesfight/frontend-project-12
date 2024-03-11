@@ -4,8 +4,8 @@ export const messagesSlice = createSlice({
   name: 'messages',
   initialState: [],
   reducers: {
-    setMessages: (state, action) => {
-      return action.payload;
+    setMessages: (state, actions) => {
+      return state = actions.payload;
     },
   },
 });
