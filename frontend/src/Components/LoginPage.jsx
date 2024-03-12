@@ -1,9 +1,9 @@
 import axios from 'axios';
-import React from 'react';
 import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
-import { useAuth, useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import useAuth from '../hooks/useAuth';
 import { useNavigate, useLocation, } from 'react-router-dom';
 import routes from './routes.js';
 
@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
+debugger
   const formik =  useFormik({
     initialValues: {
       username: '',
@@ -34,6 +34,7 @@ const validationSchema = Yup.object().shape({
     try {
       const res = await axios.post(routes.loginPath(),  { username, password }) 
       localStorage.setItem('token', res.data);
+      console.log(localStorage.token)
       auth.logIn();
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);

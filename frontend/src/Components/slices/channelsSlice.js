@@ -4,8 +4,8 @@ export const channelsSlice = createSlice({
   name: 'channels',
   initialState: [],
   reducers: {
-    setChannels: (state, actions) => {
-      state = actions.payload;
+    setChannels: (state, action) => {
+      return state = action.payload;
     },
   },
 });
