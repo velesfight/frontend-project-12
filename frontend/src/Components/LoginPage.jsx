@@ -22,6 +22,7 @@ const validationSchema = Yup.object().shape({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
   const formik =  useFormik({
     initialValues: {
       username: '',
@@ -32,12 +33,11 @@ const validationSchema = Yup.object().shape({
       setAuthFailed(false);
     try {
       const res = await axios.post(routes.loginPath(),  { username, password }) 
-      localStorage.setItem('token', res.data);
-      console.log(localStorage.token)
-      if (!res.data.token) {
+      localStorage.setItem('userId', res.data);
+      auth.logIn();
+      if (!res.data.userId) {
         return;
       }
-      auth(res.data);
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);
     } catch (err) {

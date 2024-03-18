@@ -1,15 +1,8 @@
 import axios from 'axios';
 import React from 'react';
+import { useState } from 'react';
 import { useEffect  } from 'react';
-import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-import { setChannels } from './slices/channelsSlice.js';
-import { setMessages } from './slices/messagesSlice.js';
-
-const MainPage = () => {
-  const dispatch = useDispatch();
-  const channels = useSelector((state) => state.channels) || [];
-  const messages = useSelector((state) => state.messages) || [];
 
   const getAuthHeader = () => {
     const userId = JSON.parse(localStorage.getItem('userId'));
@@ -21,13 +14,18 @@ const MainPage = () => {
     return {};
   };
 
+  const MainPage = () => {
+    const dispatch = useDispatch();
+    const [channels, setChannels] = useState([]);
+    const [messages, setMessages] = useState([]);
+
   useEffect(() => {
     const getData = async () => {
       try {
- const resChan = await axios.get('/api/v1/channels', { headers: getAuthHeader(), });
- dispatch(setChannels(resChan.data));
- const resMes = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
- dispatch(setMessages(resMes.data));
+ const { channels } = await axios.get('/api/v1/channels', { headers: getAuthHeader(), });
+ dispatch(setChannels(channels));
+ const { messages } = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
+ dispatch(setMessages(messages));
   } catch (error) {
  console.log(error)
   }
