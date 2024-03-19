@@ -22,7 +22,6 @@ const validationSchema = Yup.object().shape({
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-
   const formik =  useFormik({
     initialValues: {
       username: '',
@@ -41,6 +40,7 @@ const validationSchema = Yup.object().shape({
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);
     } catch (err) {
+      console.log(err)
       formik.setSubmitting(false);
       if (err.isAxiosError && err.response.status === 401) {
         setAuthFailed(true);
@@ -51,7 +51,7 @@ const validationSchema = Yup.object().shape({
     }
   },
   });
-
+  
 return (
 <div className="container-fluid">
 <div className="row justify-content-center pt-5">
