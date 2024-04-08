@@ -32,7 +32,7 @@ const validationSchema = Yup.object().shape({
       setAuthFailed(false);
     try {
       const res = await axios.post(routes.loginPath(),  { username, password }) 
-      localStorage.setItem('userId', res.data);
+      localStorage.setItem('userId', JSON.stringify(res.data));
       auth.logIn();
       if (!res.data.userId) {
         return;
@@ -40,7 +40,6 @@ const validationSchema = Yup.object().shape({
       const { from } = location.state || { from: { pathname: '/' } };
       navigate(from);
     } catch (err) {
-      console.log(err)
       formik.setSubmitting(false);
       if (err.isAxiosError && err.response.status === 401) {
         setAuthFailed(true);
