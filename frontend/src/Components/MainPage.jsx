@@ -35,7 +35,6 @@ const getAuthHeader = () => {
 }
 getData();
 }, [dispatch, auth]);
-debugger
 return (
   <div>
     <h1>Channels:</h1>

@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter  } from '@reduxjs/toolkit';
+
+const messagesAdapter = createEntityAdapter();
 
 export const messagesSlice = createSlice({
   name: 'messages',
-  initialState: [],
+  initialState: messagesAdapter.getInitialState(),
   reducers: {
-    setMessages: (state, action) => {
-      return state = action.payload;
+    setMessages: messagesAdapter.addMany,
     },
-  },
-});
+  });
 
 export const { setMessages } = messagesSlice.actions;
 
