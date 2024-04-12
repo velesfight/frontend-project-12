@@ -1,9 +1,10 @@
 import axios from 'axios';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect  } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect  }  from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
+import { setChannels } from './slices/channelsSlice';
+import { setMessages } from './slices/messagesSlice';
+
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -13,12 +14,12 @@ const getAuthHeader = () => {
   
     return {};
   };
-
+debugger
   const MainPage = () => {
     const dispatch = useDispatch();
-    const [channels, setChannels] = useState([]);
-    const [messages, setMessages] = useState([]);
     const auth = useAuth();
+    const channels = useSelector(state => state.channels);
+    const messages = useSelector(state => state.messages);
 
   useEffect(() => {
     const getData = async () => {
@@ -28,7 +29,7 @@ const getAuthHeader = () => {
  const messagesResponse = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
  dispatch(setMessages(messagesResponse.data));
   } catch (error) {
-    if (error.isAxiosError && error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       auth.logOut();
     }
   }
@@ -39,15 +40,15 @@ return (
   <div>
     <h1>Channels:</h1>
     <ul>
-      {channels.length > 0 && channels.map(({ channel }) => (
+      {channels.length > 0 && channels.map(channel => (
         <li key={channel.id}>{channel.name}</li>
       ))}
     </ul>
 
     <h1>Messages:</h1>
     <ul>
-      {messages.map(message => (
-        <li key={message.id}>{message.text}</li>
+      {messages.length > 0 && messages.map(message => (
+        <li key={message.id}>{message.name}</li>
       ))}
     </ul>
   </div>
