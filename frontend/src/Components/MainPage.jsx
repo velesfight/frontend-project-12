@@ -2,8 +2,8 @@ import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../hooks/useAuth';
-import { setChannels } from './slices/channelsSlice';
-import { setMessages } from './slices/messagesSlice';
+import { selectors, setChannels } from './slices/channelsSlice';
+import { selectors1, setMessages } from './slices/messagesSlice';
 
 
 const getAuthHeader = () => {
@@ -14,12 +14,12 @@ const getAuthHeader = () => {
   
     return {};
   };
-debugger
+
   const MainPage = () => {
     const dispatch = useDispatch();
     const auth = useAuth();
-    const channels = useSelector(state => state.channels);
-    const messages = useSelector(state => state.messages);
+    const channels = useSelector(selectors.selectAll);
+    const messages = useSelector(selectors1.selectAll);
 
   useEffect(() => {
     const getData = async () => {
