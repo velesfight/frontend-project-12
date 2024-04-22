@@ -29,6 +29,7 @@ const getAuthHeader = () => {
  const messagesResponse = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
  dispatch(setMessages(messagesResponse.data));
   } catch (error) {
+    console.log(error)
     if (error.response && error.response.status === 401) {
       auth.logOut();
     }
@@ -36,11 +37,13 @@ const getAuthHeader = () => {
 }
 getData();
 }, [dispatch, auth]);
+
+
 return (
   <div>
     <h1>Channels:</h1>
     <ul>
-      {channels.length > 0 && channels.map(channel => (
+      {channels.length > 0 && channels.map((channel) => (
         <li key={channel.id}>{channel.name}</li>
       ))}
     </ul>
@@ -48,7 +51,7 @@ return (
     <h1>Messages:</h1>
     <ul>
       {messages.length > 0 && messages.map(message => (
-        <li key={message.id}>{message.name}</li>
+        <li key={message.id}>{message.text}</li>
       ))}
     </ul>
   </div>

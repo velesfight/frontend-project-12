@@ -37,7 +37,7 @@ const validationSchema = Yup.object().shape({
       if (!res.data.userId) {
         return;
       }
-      const { from } = location.state || { from: { pathname: '/' } };
+      const { from } = location.state || { from: { pathname: "/" } };
       navigate(from);
     } catch (err) {
       formik.setSubmitting(false);
