@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../context/useAuth';
 import { useNavigate, useLocation, } from 'react-router-dom';
 import routes from './routes.js';
 
@@ -34,9 +34,6 @@ const validationSchema = Yup.object().shape({
       const res = await axios.post(routes.loginPath(),  { username, password }) 
       localStorage.setItem('userId', JSON.stringify(res.data));
       auth.logIn();
-      if (!res.data.userId) {
-        return;
-      }
       const { from } = location.state || { from: { pathname: "/" } };
       navigate(from);
     } catch (err) {

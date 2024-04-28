@@ -4,23 +4,14 @@ import AuthContext from '../Components/contexts/index.jsx';
 const AuthProvider = ({ children }) => {
 const [loggedIn, setLoggedIn] = useState(false);
 
-const logIn = (userData) => {
-  localStorage.setItem('userId', JSON.stringify(userData));
-  setLoggedIn(true);
-};
+const logIn = () => setLoggedIn(true);
 const logOut = () => {
   localStorage.removeItem('userId');
   setLoggedIn(false);
 };
 
-const getToken = () => {
-  if (loggedIn) {
-    return user.token;
-  }
-  return null;
-};
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut, getToken }}>
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );
