@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
 import { addMessage } from '../Components/slices/messagesSlice';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io.connect();
 
 const ApiContext = createContext();
 export const ApiProvider = ({ children }) => {
