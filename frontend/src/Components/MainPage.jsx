@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../context/useAuth';
 import { selectors, setChannels } from './slices/channelsSlice';
 import { selectors1, setMessages } from './slices/messagesSlice';
+import { setCurrentChannelId } from './slices/channelsSlice';
+import cn from 'classnames';
 
 
 const getAuthHeader = () => {
@@ -20,6 +22,7 @@ const getAuthHeader = () => {
     const auth = useAuth();
     const channels = useSelector(selectors.selectAll);
     const messages = useSelector(selectors1.selectAll);
+  const { currentChannelId } = useSelector((state) => state.channels);
 
   useEffect(() => {
     const getData = async () => {
@@ -38,13 +41,28 @@ const getAuthHeader = () => {
 getData();
 }, [dispatch, auth]);
 
+const changeChannel = (channelId) => {;
+  dispatch(setCurrentChannelId(channelId));
+};
+
 
 return (
-  <div>
-    <h1>Channels:</h1>
+  <div className="container h-100 my-4 overflow-hidden rounded shadow">
+  <div className="row h-100 bg-white flex-md-row">
     <ul>
       {channels.length > 0 && channels.map((channel) => (
-        <li key={channel.id}>{channel.name}</li>
+        <li key={channel.id} onClick={() => changeChannel(channel.id)}>
+       <button
+                  type="button"
+                  onClick={() => changeChannel(channel.id)}
+                  className={cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn', {
+                    'btn-secondary': channel.id === currentChannelId,
+                  })}
+                >
+                  <span className="me-1">#</span>
+                  {channel.name}
+                </button>
+      </li>
       ))}
     </ul>
 
@@ -54,6 +72,7 @@ return (
         <li key={message.id}>{message.text}</li>
       ))}
     </ul>
+    </div>
   </div>
 );
 };

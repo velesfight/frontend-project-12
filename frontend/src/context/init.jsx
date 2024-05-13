@@ -20,8 +20,17 @@ socket.on('newMessage', (response) => {
   });
 }
 
+const getNewChannel = (newChannel) => {
+  socket.emit('newChannel', newChannel, (response) => {
+console.log(response.status)
+  })
+  socket.on('newChannel', (response) => {
+    dispatch(addChannel(response))
+  })
+}
+
 return {
-    getNewMessage,
+    getNewMessage, getNewChannel,
   };
 }, [dispatch]);
 
