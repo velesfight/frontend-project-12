@@ -41,6 +41,3 @@ const Remove = () => {
           </Modal.Body>
         </Modal>
       );
-    };
-    
-}

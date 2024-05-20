@@ -3,9 +3,12 @@ import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useAuth from '../context/useAuth';
 import { selectors, setChannels } from './slices/channelsSlice';
-import { selectors1, setMessages } from './slices/messagesSlice';
+import { selectors1, addMessages } from './slices/messagesSlice';
 import { setCurrentChannelId } from './slices/channelsSlice';
 import cn from 'classnames';
+import SendMessageForm from '../SendMessageForm';
+import Add from '../Components/modals/Add'
+
 
 
 const getAuthHeader = () => {
@@ -23,6 +26,10 @@ const getAuthHeader = () => {
     const channels = useSelector(selectors.selectAll);
     const messages = useSelector(selectors1.selectAll);
   const { currentChannelId } = useSelector((state) => state.channels);
+  const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+  //const currentChannelMessages = messages
+    //.filter((message) => message.channelId === currentChannelId);
+
 
   useEffect(() => {
     const getData = async () => {
@@ -30,7 +37,7 @@ const getAuthHeader = () => {
  const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader(), });
  dispatch(setChannels(channelsResponse.data));
  const messagesResponse = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
- dispatch(setMessages(messagesResponse.data));
+ dispatch(addMessages(messagesResponse.data));
   } catch (error) {
     console.log(error)
     if (error.response && error.response.status === 401) {
@@ -45,35 +52,44 @@ const changeChannel = (channelId) => {;
   dispatch(setCurrentChannelId(channelId));
 };
 
-
 return (
   <div className="container h-100 my-4 overflow-hidden rounded shadow">
-  <div className="row h-100 bg-white flex-md-row">
-    <ul>
-      {channels.length > 0 && channels.map((channel) => (
-        <li key={channel.id} onClick={() => changeChannel(channel.id)}>
-       <button
-                  type="button"
-                  onClick={() => changeChannel(channel.id)}
-                  className={cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn', {
-                    'btn-secondary': channel.id === currentChannelId,
-                  })}
-                >
-                  <span className="me-1">#</span>
-                  {channel.name}
-                </button>
-      </li>
-      ))}
-    </ul>
-
-    <h1>Messages:</h1>
-    <ul>
-      {messages.length > 0 && messages.map(message => (
-        <li key={message.id}>{message.text}</li>
-      ))}
-    </ul>
+    <div className="row h-100 bg-white flex-md-row">
+      <div className="col-md-3">
+        <p className="m-0">
+          <b>
+            #{currentChannel ? currentChannel.name : ''}
+          </b>
+        </p>
+        <ul>
+          {channels.length > 0 && channels.map((channel) => (
+            <li key={channel.id} onClick={() => changeChannel(channel.id)}>
+              <button
+                type="button"
+                className={cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn', {
+                  'btn-secondary': channel.id === currentChannelId,
+                })}
+              >
+                <span className="me-1">#</span>
+                {channel.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="col-md-9">
+        <ul>
+          {messages.map((message) => (
+            <li key={message.id} className="mb-2" style={{ wordBreak: 'break-all' }}>
+              <b>{message.username}</b>: {message.body}
+            </li>
+          ))}
+        </ul>
+        <SendMessageForm />
+        <Add />
+      </div>
     </div>
   </div>
 );
-};
+          };
 export default MainPage;

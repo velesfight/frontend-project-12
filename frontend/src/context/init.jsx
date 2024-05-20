@@ -6,36 +6,23 @@ import { addMessage } from '../Components/slices/messagesSlice';
 const socket = io.connect();
 
 const ApiContext = createContext();
+
 export const ApiProvider = ({ children }) => {
     const dispatch = useDispatch();
-    
-useEffect(() => {
-
-const getNewMessage = (newMessage) => {
+const getNewMessage = (newMessage) =>
     socket.emit('newMessage', newMessage, (response) => {
+      if (response.status !== 'ok') {
         console.log(response.status);
+      }
     });
-socket.on('newMessage', (response) => {
-    dispatch(addMessage(response));
-  });
-}
+    socket.on('newMessage', (newMessage) => {
+      dispatch(addMessage(newMessage)); // Добавление сообщения в store с помощью dispatch
+    });
 
-const getNewChannel = (newChannel) => {
-  socket.emit('newChannel', newChannel, (response) => {
-console.log(response.status)
-  })
-  socket.on('newChannel', (response) => {
-    dispatch(addChannel(response))
-  })
-}
-
-return {
-    getNewMessage, getNewChannel,
-  };
-}, [dispatch]);
-
-const apiContextValue = {
+    console.log(response)
+  const apiContextValue = {
     socket,
+    getNewMessage,
   }; 
 
 return (
@@ -44,5 +31,4 @@ return (
   </ApiContext.Provider>
 );
 };
-
-export default SocketContext;
+export default ApiProvider;

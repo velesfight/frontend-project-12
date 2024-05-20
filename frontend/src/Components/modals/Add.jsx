@@ -1,22 +1,26 @@
 import React, { useEffect} from 'react';
-import { useContext } from 'react';
-import { hideModal, modalsSlice, showModal } from '../slices/uiSlisec';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { hideModal } from '../slices/uiSlisec';
 import { Modal, Form, Button } from 'react-bootstrap';
+import { selectors, addChannel } from '../slices/channelsSlice';
 
-const Add = ({ showModal, hideModal }) => {
+const Add = () => {
     const dispatch = useDispatch();
     const inputEl = useRef();
-    const { addChannel } = useContext();
-    const { hideModal, showModal } = modalsSlice;
-    const channels = useSelector(channelsSelectors.selectAll);
+    const channels = useSelector(selectors.selectAll);
 
 useEffect(() => {
+  if (inputEl.current) {
     inputEl.current.focus();
-  }, []);
+  }
+}, []);
 
 
-  const validationSchema = yup.object().shape({
-    name: yup
+  const validationSchema = Yup.object().shape({
+    name: Yup
       .string()
       .min(3)
       .max(20)
@@ -28,27 +32,44 @@ useEffect(() => {
     initialValues: {
       name: '',
     },
-
     validationSchema,
     onSubmit: (values) => {
-        dispatch(addChannel({ name: values.name }));
-        hideModal();
-      },
-    });
+      dispatch(addChannel({ name: values.name }));
+      dispatch(hideModal());
+    },
+  });
 
-return (
-  <Modal show onHide={onHide}>
-  <Modal.Header closeButton>
-    <Modal.Title>{('remove')}</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <div className="d-flex justify-content-end">
-      <button onClick={onHide} className="btn btn-secondary me-2" type="submit" value="remove">
-      </button>
-    </div>
-  </Modal.Body>
-</Modal>
+  return (
+    <Modal show onHide={() => dispatch(hideModal())}>
+      <Modal.Header closeButton>
+        <Modal.Title>Add Channel</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form onSubmit={formik.handleSubmit}>
+          <Form.Group controlId="channelName">
+            <Form.Label>Channel Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="name"
+              onChange={formik.handleChange}
+              value={formik.values.name}
+              isInvalid={formik.touched.name && formik.errors.name}
+            />
+            <Form.Control.Feedback type="invalid">
+              {formik.errors.name}
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Add
+          </Button>
+          <Button variant="secondary" onClick={() => dispatch(hideModal())} className="ms-2">
+            Cancel
+          </Button>
+        </Form>
+      </Modal.Body>
+    </Modal>
   );
 };
+
 
 export default Add;
