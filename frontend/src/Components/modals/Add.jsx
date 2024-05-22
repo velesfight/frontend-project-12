@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../slices/uiSlisec';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, addChannel } from '../slices/channelsSlice';
+import { ApiContext } from '../../context/init';
 
 const Add = () => {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ useEffect(() => {
   }
 }, []);
 
-
+const { socket } = useContext(ApiContext);
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
@@ -34,6 +35,12 @@ useEffect(() => {
     },
     validationSchema,
     onSubmit: (values) => {
+      socket.emit('newMessage', values.name, (response) => {
+        if (response.status !== 'ok') {
+          console.log(response.status);
+        }
+      });
+
       dispatch(addChannel({ name: values.name }));
       dispatch(hideModal());
     },

@@ -10,10 +10,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Sun Apr 14 11:04:50 2024
+# Make data base, printed on Mon May 20 19:45:59 2024
 
 # Variables
 
+ 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -31,7 +32,6 @@ CURDIR := /Users/ekaterina/Desktop/4 project/frontend-project-12
 # makefile
 SHELL = /bin/sh
 # environment
- 
 VSCODE_NLS_CONFIG = {"locale":"ru","availableLanguages":{"*":"ru"},"_languagePackId":"f1271d778ec77496b280bb178e5ed275.ru","_translationsConfigFile":"/Users/ekaterina/Library/Application Support/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/tcf.json","_cacheRoot":"/Users/ekaterina/Library/Application Support/Code/clp/f1271d778ec77496b280bb178e5ed275.ru","_resolvedLanguagePackCoreLocation":"/Users/ekaterina/Library/Application Support/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/4af164ea3a06f701fe3e89a2bcbb421d2026b68f","_corruptedFile":"/Users/ekaterina/Library/Application Support/Code/clp/f1271d778ec77496b280bb178e5ed275.ru/corrupted.info","_languagePackSupport":true}
 # environment
 _ = /usr/bin/make
@@ -44,7 +44,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/1d/mktswl8j6ld103dgpsv13qkr0000gn/T/vscode-ipc-afdc0c35-d0b9-457a-971d-71a7048536b3.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1d/mktswl8j6ld103dgpsv13qkr0000gn/T/vscode-ipc-1fb885fb-dce3-4fed-901e-65e0d0542c55.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -92,6 +92,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
+ 
 SHLVL = 1
 # default
 MAKE_VERSION := 3.81
@@ -169,6 +170,7 @@ VSCODE_PID = 885
 # Files
 
 lint-frontend:
+ 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -259,6 +261,6 @@ install:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Sun Apr 14 11:04:50 2024
+# Finished Make data base on Mon May 20 19:45:59 2024
 
  

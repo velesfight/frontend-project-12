@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import useAuth from '../context/useAuth';
+import { useAuth } from '../context/useAuth';
 import { selectors, setChannels } from './slices/channelsSlice';
 import { selectors1, addMessages } from './slices/messagesSlice';
 import { setCurrentChannelId } from './slices/channelsSlice';
