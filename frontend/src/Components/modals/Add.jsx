@@ -6,12 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../slices/uiSlisec';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, addChannel } from '../slices/channelsSlice';
-import { ApiContext } from '../../context/init';
+import ApiContext from '../../context/init';
 
 const Add = () => {
     const dispatch = useDispatch();
     const inputEl = useRef();
     const channels = useSelector(selectors.selectAll);
+    const { socket } = useContext(ApiContext);
 
 useEffect(() => {
   if (inputEl.current) {
@@ -19,7 +20,6 @@ useEffect(() => {
   }
 }, []);
 
-const { socket } = useContext(ApiContext);
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
@@ -58,6 +58,7 @@ const { socket } = useContext(ApiContext);
             <Form.Control
               type="text"
               name="name"
+              ref={inputEl}
               onChange={formik.handleChange}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}

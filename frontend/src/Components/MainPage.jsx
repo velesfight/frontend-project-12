@@ -8,6 +8,9 @@ import { setCurrentChannelId } from './slices/channelsSlice';
 import cn from 'classnames';
 import SendMessageForm from '../SendMessageForm';
 import Add from '../Components/modals/Add'
+import { ApiProvider } from '../context/init';
+
+
 
 
 
@@ -86,7 +89,9 @@ return (
           ))}
         </ul>
         <SendMessageForm />
+        <ApiProvider>
         <Add />
+        </ApiProvider>
       </div>
     </div>
   </div>
