@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { addChannel } from '../Components/slices/channelsSlice';
+import { addChannel, removeChannel } from '../Components/slices/channelsSlice';
 import { useEffect } from 'react';
 
 
@@ -13,14 +13,18 @@ export const ApiProvider = ({ children }) => {
     const dispatch = useDispatch();
 
     useEffect(()=> {
-    socket.on('newMessage', (newMessage) => {
-      dispatch(addChannel(newMessage)); // Добавление сообщения в store с помощью dispatch
+    socket.on('newChannel', (newChannel) => {
+      dispatch(addChannel(newChannel));
+    });
+    socket.on('removeChannel', (removeChannnel) => {
+      dispatch(removeChannel(removeChannnel))
     });
   }, [dispatch]);
 
   const apiContextValue = {
-    socket
+    socket, ApiProvider
   }; 
+  console.log(socket)
 
 return (
   <ApiContext.Provider value={apiContextValue}>
