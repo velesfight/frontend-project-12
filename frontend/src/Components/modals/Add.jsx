@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../slices/uiSlisec';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, addChannel } from '../slices/channelsSlice';
-import ApiContext from '../../context/init';
+import { useSocket } from '../contexts/useAuth';
 
 const Add = () => {
     const dispatch = useDispatch();
     const inputEl = useRef();
     const channels = useSelector(selectors.selectAll);
-    const { socket } = useContext(ApiContext);
+    const socket = useSocket();
 
 useEffect(() => {
   if (inputEl.current) {

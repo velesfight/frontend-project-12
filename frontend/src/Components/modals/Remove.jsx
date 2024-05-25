@@ -2,16 +2,15 @@ import React, { useEffect} from 'react';
 import { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal, modalsSlice, showModal } from '../slices/uiSlisec';
-import { ApiContext } from '../../context/init';
+import { hideModal, showModal } from '../slices/uiSlisec';
 import { removeChannel } from '../slices/channelsSlice';
+import { useSocket } from '../contexts/useAuth';
 
 const Remove = () => {
     const dispatch = useDispatch();
     const channels = useSelector(channelsSelectors.selectAll);
-    const { socket } = useContext(ApiContext);
-    const { hideModal, showModal } = modalsSlice;
-};
+    const socket = useSocket();
+
 const handleRemove = (channelId) => {
 socket.emit('removeChannel', { id: channelId }, (response) => {
   if (response.status === 'ok') {
@@ -41,4 +40,5 @@ socket.emit('removeChannel', { id: channelId }, (response) => {
     </Modal>
       );
     };
+  };
 export default Remove;

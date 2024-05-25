@@ -1,16 +1,13 @@
 import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../context/useAuth';
+import { useAuth } from './contexts/useAuth';
 import { selectors, setChannels } from './slices/channelsSlice';
 import { selectors1, addMessages } from './slices/messagesSlice';
 import { setCurrentChannelId } from './slices/channelsSlice';
 import cn from 'classnames';
 import SendMessageForm from '../SendMessageForm';
 import Add from '../Components/modals/Add'
-import { ApiProvider } from '../context/init';
-
-
 
 
 
@@ -89,9 +86,7 @@ return (
           ))}
         </ul>
         <SendMessageForm />
-        <ApiProvider>
         <Add />
-        </ApiProvider>
       </div>
     </div>
   </div>
