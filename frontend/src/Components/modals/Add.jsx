@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../slices/uiSlisec';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors, addChannel } from '../slices/channelsSlice';
-import { useSocket } from '../contexts/useAuth';
+import { useSocket } from '../contexts/useAuth'
+import _ from 'lodash';
 
 const Add = () => {
     const dispatch = useDispatch();
@@ -35,13 +36,14 @@ useEffect(() => {
     },
     validationSchema,
     onSubmit: (values) => {
-      socket.emit('newMessage', values.name, (response) => {
+      const newChannel = { id: _.uniqueId(), name: values.name }
+      socket.emit('newMessage', newChannel, (response) => {
         if (response.status !== 'ok') {
           console.log(response.status);
         }
       });
 
-      dispatch(addChannel({ name: values.name }));
+      dispatch(addChannel(newChannel));
       dispatch(hideModal());
     },
   });

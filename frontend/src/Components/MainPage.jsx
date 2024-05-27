@@ -8,7 +8,9 @@ import { setCurrentChannelId } from './slices/channelsSlice';
 import cn from 'classnames';
 import SendMessageForm from '../SendMessageForm';
 import Add from '../Components/modals/Add'
-
+import ApiProvider from '../init';
+import Remove from './modals/Remove';
+import Rename from './modals/Rename';
 
 
 const getAuthHeader = () => {
@@ -86,7 +88,11 @@ return (
           ))}
         </ul>
         <SendMessageForm />
+        <ApiProvider>
         <Add />
+        <Remove />
+        <Rename />
+        </ApiProvider>
       </div>
     </div>
   </div>

@@ -1,7 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+
+const modalAdapter = createEntityAdapter();
 
 const initialState = {
+  modal: {
     modalType: null,
+    channelId: null
+  }
   };
 
   export const modalsSlice = createSlice({
@@ -9,9 +14,8 @@ const initialState = {
     initialState,
     reducers: {
         showModal: (state, action) => {
-          const { modalType, channelId } = action.payload;
-          state.modalType = modalType;
-          state.channelId = channelId;
+          state.modalType = action.payload.modalType;
+          state.channelId = action.payload.channelId;
         },
         hideModal: (state) => {
           state.modalType = null;
@@ -20,6 +24,8 @@ const initialState = {
       },
     });
   
-    export const { showModal, hideModal } = modalsSlice.actions;
+    
+    export const selectors = modalAdapter.getSelectors((state) => state.modal);
+export const { showModal, hideModal } = modalsSlice.actions;
     export default modalsSlice.reducer;
     

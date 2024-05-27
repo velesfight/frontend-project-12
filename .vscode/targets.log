@@ -10,11 +10,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make: *** No rule to make target `all'.  Stop.
 
 
-# Make data base, printed on Mon May 20 19:45:59 2024
+# Make data base, printed on Sat May 25 09:25:43 2024
 
 # Variables
 
- 
 # automatic
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
@@ -44,7 +43,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/1d/mktswl8j6ld103dgpsv13qkr0000gn/T/vscode-ipc-1fb885fb-dce3-4fed-901e-65e0d0542c55.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/1d/mktswl8j6ld103dgpsv13qkr0000gn/T/vscode-ipc-1bb28ebc-3625-4a5c-a7e5-fc0a6bdf9657.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -92,7 +91,6 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
- 
 SHLVL = 1
 # default
 MAKE_VERSION := 3.81
@@ -170,7 +168,6 @@ VSCODE_PID = 885
 # Files
 
 lint-frontend:
- 
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -261,6 +258,6 @@ install:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4087 / max = 4087 / min = 4087 / avg = 4087
 
-# Finished Make data base on Mon May 20 19:45:59 2024
+# Finished Make data base on Sat May 25 09:25:43 2024
 
  
