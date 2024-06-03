@@ -13,13 +13,14 @@ const initialState = {
     name: 'modal',
     initialState,
     reducers: {
-        showModal: (state, action) => {
-          state.modalType = action.payload.modalType;
-          state.channelId = action.payload.channelId;
+        showModal: (state, { payload }) => {
+          console.log(payload);
+          state.modal.modalType = payload.modalType;
+          state.modal.channelId = payload.channelId;
         },
         hideModal: (state) => {
-          state.modalType = null;
-          state.channelId = null;
+          state.modal.modalType = null;
+          state.modal.channelId = null;
         },
       },
     });
@@ -27,5 +28,6 @@ const initialState = {
     
     export const selectors = modalAdapter.getSelectors((state) => state.modal);
 export const { showModal, hideModal } = modalsSlice.actions;
+export const { actions } = modalsSlice;
     export default modalsSlice.reducer;
     

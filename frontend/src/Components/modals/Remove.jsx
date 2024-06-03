@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { hideModal, showModal } from '../slices/uiSlisec';
-import { removeChannel } from '../slices/channelsSlice';
-import { useSocket } from '../contexts/useAuth';
+import { hideModal, showModal } from '../../slices/uiSlisec';
+import { removeChannel } from '../../slices/channelsSlice';
+import { useSocket } from '../../contexts/useAuth';
 
 const Remove = ({ channelId }) => {
     const dispatch = useDispatch();

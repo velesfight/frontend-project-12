@@ -3,10 +3,10 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal } from '../slices/uiSlisec';
+import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
-import { selectors, addChannel } from '../slices/channelsSlice';
-import { useSocket } from '../contexts/useAuth'
+import { selectors, addChannel } from '../../slices/channelsSlice';
+import { useSocket } from '../../contexts/useAuth'
 import _ from 'lodash';
 
 const Add = () => {
@@ -35,14 +35,13 @@ useEffect(() => {
       name: '',
     },
     validationSchema,
-    onSubmit: (values) => {
-      const newChannel = { id: _.uniqueId(), name: values.name }
-      socket.emit('newMessage', newChannel, (response) => {
+    onSubmit:(values) => {
+      const newChannel = { id: _.uniqueId(), name: values.name, removable: true };
+      socket.emit('newChannel', newChannel, (response) => {
         if (response.status !== 'ok') {
           console.log(response.status);
         }
       });
-
       dispatch(addChannel(newChannel));
       dispatch(hideModal());
     },
@@ -58,9 +57,11 @@ useEffect(() => {
           <Form.Group controlId="channelName">
             <Form.Label>Channel Name</Form.Label>
             <Form.Control
+            required
               type="text"
               name="name"
               ref={inputEl}
+              className="mb-2"
               onChange={formik.handleChange}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}

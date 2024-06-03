@@ -1,28 +1,45 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, InputGroup } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { addMessage } from './Components/slices/messagesSlice';
-import { useDispatch } from 'react-redux';
+import { addMessage } from '../slices/messagesSlice';
+import { useSocket } from '../contexts/useAuth'
 
 
 const SendMessageForm = () => {
-  const [message, setMessage] = useState('');
+  const [messageInput, setMessageInput] = useState('');
   const inputRef = useRef(null);
   const { currentChannelId } = useSelector((state) => state.channels);
   const dispatch = useDispatch();
+  const socket = useSocket();
+  const  username = JSON.parse(localStorage.getItem('userId')).username;
 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  const handleChange = (e) => {
+    setMessageInput(e.target.value);
+  };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
-    if (message.trim() !== '') {
-      const username = JSON.parse(localStorage.getItem('userId')).username;
-      dispatch(addMessage({ body: message, channelId: currentChannelId, username }));
-      setMessage('');
-    }
+    if(messageInput !== '') {
+    const message = {
+      body: messageInput,
+      username: username,
+      channelId: currentChannelId,
+    };
+    console.log(message)
+    socket.emit('addMessage', message, (response) => {
+      if (response.status !== 'ok') {
+        console.log(response.status);
+      dispatch(addMessage(message));
+      setMessageInput('');
+      } else {
+        console.log('error')
+      }
+    })
   };
+}
 
   return (
     <Form onSubmit={handleSendMessage}>
@@ -33,8 +50,8 @@ const SendMessageForm = () => {
             aria-label="Chat message"
             name="enterMessage"
             id="enterMessage"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            value={messageInput}
+            onChange={handleChange}
             ref={inputRef}
             required
           />

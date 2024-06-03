@@ -2,11 +2,11 @@
 import React, { useEffect, useRef} from 'react';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal } from '../slices/uiSlisec';
+import { hideModal } from '../../slices/uiSlisec';
 import { Modal, FormGroup, FormControl } from 'react-bootstrap';
-import updateChannel from '../slices/channelsSlice';
-import { useSocket } from '../contexts/useAuth';
-import { selectors } from '../slices/channelsSlice';
+import { updateChannel } from '../../slices/channelsSlice';
+import { useSocket } from '../../contexts/useAuth';
+import { selectors } from '../../slices/channelsSlice';
 import * as Yup from 'yup';
 
 
@@ -25,7 +25,7 @@ const channels = useSelector(selectors.selectAll);
 const { modal } = useSelector((state) => state.modal);
 const { channelId } = modal;
 const curChannel = channels.find((ch) => ch.id === channelId);
-console.log(modal)
+
 
     const validationSchema = Yup.object().shape({
       name: Yup
@@ -35,10 +35,10 @@ console.log(modal)
         .notOneOf(channels.map((channel) => channel.name), 'Add.unique')
         .required(),
     });
-   
+  debugger
     const formik = useFormik({
       initialValues: {
-        name: curChannel,
+        name: curChannel ? curChannel.name : '',
       },
       validationSchema,
       onSubmit: (values) => {
@@ -71,11 +71,21 @@ console.log(modal)
                     value={formik.values.name}
                     ref={inputEl}
                     data-testid="input-body"
+                    isInvalid={formik.errors.name && formik.touched.name}
                     required
                   />
+                   <Form.Control.Feedback type="invalid">
+              {(formik.errors.channelName)}
+            </Form.Control.Feedback>
                 </FormGroup>
-    
-                <input className="btn btn-primary" type="submit" value="submit" />
+                <div className="d-flex justify-content-end">
+            <Button className="me-2" variant="secondary" onClick={() => dispatch(hideModal())}>
+              {('Close')}
+            </Button>
+            <Button type="submit" disabled={formik.isSubmitting} variant="primary">
+              {('Submit')}
+            </Button>
+          </div>
               </form>
             </Modal.Body>
           </Modal.Dialog>

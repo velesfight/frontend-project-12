@@ -1,16 +1,13 @@
 import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from './contexts/useAuth';
-import { selectors, setChannels } from './slices/channelsSlice';
-import { selectors1, addMessages } from './slices/messagesSlice';
-import { setCurrentChannelId } from './slices/channelsSlice';
-import cn from 'classnames';
-import SendMessageForm from '../SendMessageForm';
-import Add from '../Components/modals/Add'
+import { useAuth } from '../contexts/useAuth';
+import { selectors, setChannels } from '../slices/channelsSlice';
+import { selectors1, addMessages } from '../slices/messagesSlice';
+import SendMessageForm from './SendMessageForm';
 import ApiProvider from '../init';
-import Remove from './modals/Remove';
-import Rename from './modals/Rename';
+import ChannelOptions from './channelHead';
+import Add from './modals/Add';
 
 
 const getAuthHeader = () => {
@@ -50,9 +47,6 @@ const getAuthHeader = () => {
 getData();
 }, [dispatch, auth]);
 
-const changeChannel = (channelId) => {;
-  dispatch(setCurrentChannelId(channelId));
-};
 
 return (
   <div className="container h-100 my-4 overflow-hidden rounded shadow">
@@ -63,35 +57,17 @@ return (
             #{currentChannel ? currentChannel.name : ''}
           </b>
         </p>
-        <ul>
-          {channels.length > 0 && channels.map((channel) => (
-            <li key={channel.id} onClick={() => changeChannel(channel.id)}>
-              <button
-                type="button"
-                className={cn('w-100', 'rounded-0', 'text-start', 'text-truncate', 'btn', {
-                  'btn-secondary': channel.id === currentChannelId,
-                })}
-              >
-                <span className="me-1">#</span>
-                {channel.name}
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
       <div className="col-md-9">
-        <ul>
           {messages.map((message) => (
             <li key={message.id} className="mb-2" style={{ wordBreak: 'break-all' }}>
               <b>{message.username}</b>: {message.body}
             </li>
           ))}
-        </ul>
-        <SendMessageForm />
         <ApiProvider>
-        <Add />
-        <Remove />
-        <Rename />
+          <ChannelOptions />
+          <SendMessageForm />
+          <Add />
         </ApiProvider>
       </div>
     </div>

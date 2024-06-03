@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 import { useDispatch } from 'react-redux';
-import { addChannel, removeChannel } from './Components/slices/channelsSlice';
+import { addChannel, removeChannel, updateChannel } from './slices/channelsSlice';
 import { useEffect } from 'react';
-import ApiContext  from './Components/contexts/ApiContext';
+import ApiContext  from './contexts/ApiContext';
+import { addMessage } from './slices/messagesSlice';
 
 export const ApiProvider = ({ children }) => {
     const dispatch = useDispatch();
@@ -16,8 +17,16 @@ export const ApiProvider = ({ children }) => {
     socket.on('removeChannel', (removeChannnel) => {
       dispatch(removeChannel(removeChannnel))
     });
-  }, [dispatch, socket]);
+    
+    socket.on('updateChannel', (updateChannels) => {
+      dispatch(updateChannel(updateChannels))
+    });
 
+    socket.on('addMessage', (newMessage) => {
+      dispatch(addMessage(newMessage))
+    })
+  }, [dispatch, socket]);
+  
 
 return (
   <ApiContext.Provider value={socket}>

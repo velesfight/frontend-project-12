@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import AuthContext from '../Components/contexts/index.jsx';
+import AuthContext from '../contexts/index';
 
 const AuthProvider = ({ children }) => {
 const [loggedIn, setLoggedIn] = useState(false);

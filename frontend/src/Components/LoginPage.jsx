@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
-import { useAuth }  from '../Components/contexts/useAuth';
+import { useAuth }  from '../contexts/useAuth';
 import { useNavigate, useLocation, } from 'react-router-dom';
 import routes from './routes.js';
 
