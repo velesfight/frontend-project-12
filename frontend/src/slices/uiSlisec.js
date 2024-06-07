@@ -4,6 +4,7 @@ const modalAdapter = createEntityAdapter();
 
 const initialState = {
   modal: {
+    isOpen: false,
     modalType: null,
     channelId: null
   }
@@ -13,14 +14,15 @@ const initialState = {
     name: 'modal',
     initialState,
     reducers: {
-        showModal: (state, { payload }) => {
-          console.log(payload);
-          state.modal.modalType = payload.modalType;
-          state.modal.channelId = payload.channelId;
+        showModal: (state, action) => {
+          state.modal.isOpen = action.payload.isOpen;
+          state.modal.channelId = action.payload.channelId;
+          state.modal.modalType = action.payload.modalType
         },
         hideModal: (state) => {
           state.modal.modalType = null;
           state.modal.channelId = null;
+          state.modal.isOpen = false;
         },
       },
     });

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrentChannelId } from '../slices/channelsSlice';
 import { selectors } from '../slices/channelsSlice';
 import { showModal } from '../slices/uiSlisec';
+import cn from 'classnames';
 
 
 const ChannelOptions = () => {
@@ -13,6 +14,15 @@ const ChannelOptions = () => {
  const changeChannel = (channelId) => {;
   dispatch(setCurrentChannelId(channelId));
 };
+
+
+const btnClass = cn(
+  'w-100',
+  'rounded-0',
+  'text-start',
+  'btn',
+  'text-truncate',
+);
 
   return (
     <Col>
@@ -40,7 +50,7 @@ const ChannelOptions = () => {
                   {channel.name}
                 </button>
   
-                <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : null} className={`flex-grow-0 dropdown-toggle-split`} id="dropdown-split-basic">
+                <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : 'light'} className="flex-grow-0 dropdown-toggle-split" id="dropdown-split-basic">
                   <span className="visually-hidden">{('variant')}</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu variant="dark">
@@ -61,7 +71,7 @@ const ChannelOptions = () => {
         )
         : (
           <Nav.Item key={channel.id}>
-            <button type="button" variant={channel.id === currentChannelId ? 'primary' : null} onClick={() => changeChannel(channel.id)} className={`w-100 rounded-0 text-start`}>
+            <button type="button" variant={channel.id === currentChannelId ? 'secondary' : 'light'} onClick={() => changeChannel(channel.id)} className={btnClass}>
               #
               {' '}
               {channel.name}

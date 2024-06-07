@@ -5,7 +5,7 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
-import { selectors, addChannel } from '../../slices/channelsSlice';
+import { selectors } from '../../slices/channelsSlice';
 import { useSocket } from '../../contexts/useAuth'
 import _ from 'lodash';
 
@@ -42,7 +42,6 @@ useEffect(() => {
           console.log(response.status);
         }
       });
-      dispatch(addChannel(newChannel));
       dispatch(hideModal());
     },
   });

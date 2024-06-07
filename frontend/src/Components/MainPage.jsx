@@ -5,10 +5,9 @@ import { useAuth } from '../contexts/useAuth';
 import { selectors, setChannels } from '../slices/channelsSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './SendMessageForm';
-import ApiProvider from '../init';
+import Provider from '../init';
+import ModalManager from '../Components/ModalRender';
 import ChannelOptions from './channelHead';
-import Add from './modals/Add';
-
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -64,11 +63,11 @@ return (
               <b>{message.username}</b>: {message.body}
             </li>
           ))}
-        <ApiProvider>
+        <Provider>
           <ChannelOptions />
           <SendMessageForm />
-          <Add />
-        </ApiProvider>
+          <ModalManager />
+        </Provider>
       </div>
     </div>
   </div>
