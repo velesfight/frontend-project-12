@@ -8,11 +8,8 @@ import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
 import ru from './locales/index.js';
-import channelsReducer from './slices/channelsSlice';
-import messagesReducer from './slices/messagesSlice'
-import modalSliceReducer from './slices/uiSlisec';
-import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
+import store from './Components/store';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -25,19 +22,13 @@ const init = async () => {
     });
   
 
-    const store = configureStore({
-      reducer: {
-        channels: channelsReducer,
-        messages: messagesReducer,
-        modal: modalSliceReducer,
-      },
-    });
-
     const socket = io.connect();
  
     socket.on('newChannel', (newChannel) => {
       store.dispatch(addChannel(newChannel));
+      console.log(newChannel)
     });
+    
   
     socket.on('removeChannel', (removeChannnel) => {
       store.dispatch(removeChannel(removeChannnel))
@@ -47,11 +38,10 @@ const init = async () => {
       store.dispatch(updateChannel(updateChannels))
     });
 
-    socket.on('addMessage', (newMessage) => {
-      store.dispatch(addMessage(newMessage))
-    });
+    socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
 
   return (
+    <div>
     <Provider store={store}>
           <ApiContext.Provider value={socket}>
             <I18nextProvider i18n={i18n}>
@@ -59,6 +49,7 @@ const init = async () => {
               </I18nextProvider>
               </ApiContext.Provider>
                 </Provider>
+                </div>
                  );
 };
 

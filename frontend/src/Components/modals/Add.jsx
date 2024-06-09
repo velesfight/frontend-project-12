@@ -45,9 +45,12 @@ useEffect(() => {
       dispatch(hideModal());
     },
   });
+  const handleClose = () => {
+    dispatch(hideModal());
+  }
 
   return (
-    <Modal show onHide={() => dispatch(hideModal())}>
+    <Modal show>
       <Modal.Header closeButton>
         <Modal.Title>Add Channel</Modal.Title>
       </Modal.Header>
@@ -69,10 +72,10 @@ useEffect(() => {
               {formik.errors.name}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
             Add
           </Button>
-          <Button variant="secondary" onClick={() => dispatch(hideModal())} className="ms-2">
+          <Button variant="secondary" onClick={handleClose} className="ms-2">
             Cancel
           </Button>
         </Form>

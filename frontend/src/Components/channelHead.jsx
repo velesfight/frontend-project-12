@@ -11,6 +11,7 @@ const ChannelOptions = () => {
     const dispatch = useDispatch();
     const channels = useSelector(selectors.selectAll);
     const { currentChannelId } = useSelector((state) => state.channels);
+    console.log(channels)
  const changeChannel = (channelId) => {;
   dispatch(setCurrentChannelId(channelId));
 };
@@ -28,9 +29,8 @@ const btnClass = cn(
     <Col>
       <div className="d-flex mt-1 justify-content-between mb-2 pe-2 p-4">
       <b>{('channels')}</b>
-      <Button type="button" text="+" className="p-0 text-primary"
-      onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null }))}
-    >
+      <Button type="button" text="+" className="p-0 text-primary btn btn-group-vertical"
+      onClick={() => dispatch(showModal({ isOpen: true, modalType: 'adding', channelId: null }))}>
        <span className="visually-hidden">+</span>
       </Button>
       </div>
@@ -44,13 +44,12 @@ const btnClass = cn(
           ? (
             <Nav.Item key={channel.id}>
             <div role="group" className="nav flex-column nav-pills nav-fill px-2 h-100 d-block">
-              <Dropdown as={ButtonGroup} className="w-100">
+              <Dropdown as={ButtonGroup} className="w-100 d-flex">
                 <button onClick={() => changeChannel(channel.id)} className={`w-100 rounded-0 text-start text-truncate`} type="button" variant={channel.id === currentChannelId ? 'secondary' : null}>
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
-  
-                <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : 'light'} className="flex-grow-0 dropdown-toggle-split" id="dropdown-split-basic">
+                <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : 'light'} className="flex-grow-0 dropdown-toggle-split shoe btn btn-secondary" id="dropdown-split-basic">
                   <span className="visually-hidden">{('variant')}</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu variant="dark">

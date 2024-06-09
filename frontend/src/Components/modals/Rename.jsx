@@ -3,8 +3,7 @@ import React, { useEffect, useRef} from 'react';
 import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec';
-import { Modal, FormGroup, FormControl } from 'react-bootstrap';
-import { updateChannel } from '../../slices/channelsSlice';
+import { Modal, FormGroup, FormControl, Form, Button } from 'react-bootstrap';
 import { useSocket } from '../../contexts/useAuth';
 import { selectors } from '../../slices/channelsSlice';
 import * as Yup from 'yup';
@@ -21,38 +20,37 @@ useEffect(() => {
     }
   }, []);
 
-const channels = useSelector(selectors.selectAll);
-const { modal } = useSelector((state) => state.modal);
-const { channelId } = modal;
-const curChannel = channels.find((ch) => ch.id === channelId);
+  const channels = useSelector(selectors.selectAll);
+  const { modal } = useSelector((state) => state.modal);
+  const { channelId } = modal;
+  const curChannel = channels.find((ch) => ch.id === channelId);
 
 
-    const validationSchema = Yup.object().shape({
-      name: Yup
-        .string()
-        .min(3)
-        .max(20)
-        .notOneOf(channels.map((channel) => channel.name), 'Add.unique')
-        .required(),
-    });
-  debugger
-    const formik = useFormik({
-      initialValues: {
-        name: curChannel ? curChannel.name : '',
+  const validationSchema = Yup.object().shape({
+    name: Yup
+      .string()
+      .min(3)
+      .max(20)
+      .notOneOf(channels.map((channel) => channel.name), 'Add.unique')
+      .required(),
+  });
+debugger
+  const formik = useFormik({
+    initialValues: {
+      name: curChannel ? curChannel.name : '',
+    },
+    validationSchema,
+    onSubmit: (values) => {
+      const updatedChannel = { id: curChannel.id, name: values.name };
+      socket.emit('renameChannel', updatedChannel, (response) => {
+          if (response.status !== 'ok') {
+            console.log(response.status);
+          }
+        });
+        dispatch(hideModal());
       },
-      validationSchema,
-      onSubmit: (values) => {
-        const updatedChannel = { id: curChannel.id, name: values.name };
-        socket.emit('renameChannel', updatedChannel, (response) => {
-            if (response.status !== 'ok') {
-              console.log(response.status);
-            }
-          });
-    
-          dispatch(updateChannel(updatedChannel));
-          dispatch(hideModal());
-        },
-      });
+    });
+  
     
       return (
         <Modal show onHide={() => dispatch(hideModal())}>

@@ -3,7 +3,6 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { hideModal, showModal } from '../../slices/uiSlisec';
-import { removeChannel } from '../../slices/channelsSlice';
 import { useSocket } from '../../contexts/useAuth';
 
 const Remove = ({ channelId }) => {
@@ -15,7 +14,6 @@ const handleRemove = (e) => {
   e.preventDefault();
 socket.emit('removeChannel', { id: channelId }, (response) => {
   if (response.status === 'ok') {
-    dispatch(removeChannel({id: channelId}));
     dispatch(hideModal());
   } else {
      console.log('error')

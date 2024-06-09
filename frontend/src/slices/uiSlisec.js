@@ -15,7 +15,7 @@ const initialState = {
     initialState,
     reducers: {
         showModal: (state, action) => {
-          state.modal.isOpen = action.payload.isOpen;
+          state.modal.isOpen = true;
           state.modal.channelId = action.payload.channelId;
           state.modal.modalType = action.payload.modalType
         },

@@ -19,14 +19,11 @@ export const channelsSlice = createSlice({
         state.activeChannel = payload;
       },
       setChannels: channelsAdapter.addMany,
-      addChannel: (state, action) => {
-        channelsAdapter.addOne(state, action);
-        state.currentChannelId = action.payload.id;
-      },
+      addChannel: channelsAdapter.addOne,
       updateChannel: channelsAdapter.updateOne,
-      removeChannel: (state, action) => {
-        channelsAdapter.removeOne(state, action);
-        if (state.currentChannelId === action.payload.id) {
+      removeChannel: (state, { payload }) => {
+        channelsAdapter.removeOne(state, payload);
+        if (state.currentChannelId === payload.id) {
           state.currentChannelId = 1; // Перемещение в дефолтный канал
         }
       },
@@ -35,4 +32,5 @@ export const channelsSlice = createSlice({
 
 export const { setChannels, setCurrentChannelId, setActiveChannel, removeChannel, addChannel, updateChannel } = channelsSlice.actions;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
+
 export default channelsSlice.reducer;

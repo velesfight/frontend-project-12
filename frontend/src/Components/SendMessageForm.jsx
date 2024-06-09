@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Form, Button, InputGroup } from 'react-bootstrap';
-import { addMessage } from '../slices/messagesSlice';
 import { useSocket } from '../contexts/useAuth'
 
 
@@ -9,8 +8,8 @@ const SendMessageForm = () => {
   const [messageInput, setMessageInput] = useState('');
   const inputRef = useRef(null);
   const { currentChannelId } = useSelector((state) => state.channels);
-  const dispatch = useDispatch();
   const socket = useSocket();
+  console.log(socket);
   const  username = JSON.parse(localStorage.getItem('userId')).username;
 
   useEffect(() => {
@@ -28,14 +27,12 @@ const SendMessageForm = () => {
       username: username,
       channelId: currentChannelId,
     };
-    console.log(message)
-    socket.emit('addMessage', message, (response) => {
-      if (response.status !== 'ok') {
-        console.log(response.status);
-      dispatch(addMessage(message));
+    
+    socket.emit('newMessage', message, (response) => {
+      if (response.status === 'ok') {
       setMessageInput('');
       } else {
-        console.log('error')
+        console.log(response.status);
       }
     })
   };

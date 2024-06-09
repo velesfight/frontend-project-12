@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
+import handleClose from './modals/Add';
 import Add from './modals/Add';
 import Remove from './modals/Remove';
 import Rename from './modals/Rename';
 
 const ModalManager = () => {
-  const { isOpen, type, channelId } = useSelector((state) => state.modal);
+  const { isOpen, modalType, channelId } = useSelector((state) => state.modal);
 
   if (!isOpen) {
     return null;
@@ -13,12 +15,12 @@ const ModalManager = () => {
 
 
   const renderModal = () => {
-    switch (type) {
-      case 'add':
+    switch (modalType) {
+      case 'adding':
         return <Add />;
-      case 'remove':
+      case 'removing':
         return <Remove channelId={channelId} />;
-      case 'rename':
+      case 'renaming':
         return <Rename />;
       default:
         return null;
@@ -26,9 +28,9 @@ const ModalManager = () => {
   };
 
   return (
-    <>
+    <Modal show={isOpen} onHide={handleClose} centered>
       {renderModal()}
-    </>
+      </Modal>
   );
 };
 
