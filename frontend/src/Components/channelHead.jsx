@@ -6,7 +6,6 @@ import { selectors } from '../slices/channelsSlice';
 import { showModal } from '../slices/uiSlisec';
 import cn from 'classnames';
 
-
 const ChannelOptions = () => {
     const dispatch = useDispatch();
     const channels = useSelector(selectors.selectAll);
@@ -30,7 +29,7 @@ const btnClass = cn(
       <div className="d-flex mt-1 justify-content-between mb-2 pe-2 p-4">
       <b>{('channels')}</b>
       <Button type="button" text="+" className="p-0 text-primary btn btn-group-vertical"
-      onClick={() => dispatch(showModal({ isOpen: true, modalType: 'adding', channelId: null }))}>
+      onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null }))}>
        <span className="visually-hidden">+</span>
       </Button>
       </div>

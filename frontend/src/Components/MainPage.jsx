@@ -5,8 +5,9 @@ import { useAuth } from '../contexts/useAuth';
 import { selectors, setChannels } from '../slices/channelsSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './SendMessageForm';
-import ModalRender from '../Components/ModalRender';
 import ChannelOptions from './channelHead';
+import getModalComponent from './modals/typeModals';
+import Add from './modals/Add';
 
 
 const getAuthHeader = () => {
@@ -23,6 +24,7 @@ const getAuthHeader = () => {
     const auth = useAuth();
     const channels = useSelector(selectors.selectAll);
     const messages = useSelector(selectors1.selectAll);
+    const modalType = useSelector((state) => state.modal.modalType);
   const { currentChannelId } = useSelector((state) => state.channels);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   //const currentChannelMessages = messages
@@ -64,8 +66,10 @@ return (
             </li>
           ))}
           <ChannelOptions />
+          <Add />
+          {getModalComponent(modalType)}
+    
           <SendMessageForm />
-          <ModalRender />
       </div>
     </div>
   </div>

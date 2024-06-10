@@ -38,6 +38,7 @@ useEffect(() => {
     onSubmit:(values) => {
       const newChannel = { id: _.uniqueId(), name: values.name, removable: true };
       socket.emit('newChannel', newChannel, (response) => {
+        console.log(newChannel)
         if (response.status !== 'ok') {
           console.log(response.status);
         }
@@ -56,13 +57,14 @@ useEffect(() => {
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
-          <Form.Group controlId="channelName">
+          <Form.Group>
             <Form.Label>Channel Name</Form.Label>
             <Form.Control
             required
               type="text"
               name="name"
               ref={inputEl}
+              id="name"
               className="mb-2"
               onChange={formik.handleChange}
               value={formik.values.name}
@@ -72,7 +74,7 @@ useEffect(() => {
               {formik.errors.name}
             </Form.Control.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit" disabled={formik.isSubmitting}>
+          <Button variant="primary" type="submit">
             Add
           </Button>
           <Button variant="secondary" onClick={handleClose} className="ms-2">

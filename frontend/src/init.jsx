@@ -1,6 +1,6 @@
 
 import React from 'react';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { addChannel, removeChannel, updateChannel } from './slices/channelsSlice'
 import ApiContext  from './contexts/ApiContext';
 import { addMessage } from './slices/messagesSlice';
@@ -22,7 +22,7 @@ const init = async () => {
     });
   
 
-    const socket = io.connect();
+    const socket = io();
  
     socket.on('newChannel', (newChannel) => {
       store.dispatch(addChannel(newChannel));
