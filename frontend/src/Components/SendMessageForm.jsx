@@ -1,63 +1,79 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { useSocket } from '../contexts/useAuth'
-
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Form, Button } from 'react-bootstrap';
+import axios from 'axios';
+import { useFormik } from 'formik';
+import { addMessage } from '../slices/messagesSlice';
 
 const SendMessageForm = () => {
-  const [messageInput, setMessageInput] = useState('');
   const inputRef = useRef(null);
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const socket = useSocket();
-  console.log(socket);
-  const  username = JSON.parse(localStorage.getItem('userId')).username;
+  const dispatch = useDispatch();
 
+  const { currentChannelId } = useSelector((state) => state.channels);
+  const { username } = JSON.parse(localStorage.getItem('userId'));
+ 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-  const handleChange = (e) => {
-    setMessageInput(e.target.value);
-  };
 
-  const handleSendMessage = (e) => {
-    e.preventDefault();
-    if(messageInput !== '') {
-    const message = {
-      body: messageInput,
-      username: username,
-      channelId: currentChannelId,
-    };
-    
-    socket.emit('newMessage', message, (response) => {
-      if (response.status === 'ok') {
-      setMessageInput('');
-      } else {
-        console.log(response.status);
+  const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
+  } 
+const formik = useFormik ({
+  initialValues: { messageInput: '' },
+  onSubmit: async (values,{ setSubmitting, resetForm } ) => {
+    if (values.messageInput !== '') {
+      const message = {
+        body: values.messageInput,
+        username: username,
+        channelId: currentChannelId,
+      };
+      try {
+        const response = await axios.post('/api/v1/messages', message, { headers: getAuthHeader() });
+        console.log(response);
+        if (response.status === 200) {
+          resetForm(); // Сбрасываем форму
+          dispatch(addMessage(response.data));
+         
+        } else {
+          console.log('Ошибка при отправке сообщения:', response.status);
+        }
+      } catch (error) {
+        console.log('Ошибка при выполнении запроса:', error);
+      } finally {
+        setSubmitting(false); // Завершаем отправку формы
       }
-    })
-  };
-}
+    }
+  },
+});
 
   return (
-    <Form onSubmit={handleSendMessage}>
+    <div className="mt-auto px-5 py-3">
+    <Form onSubmit={formik.handleSubmit} noValidate
+        className="py-1 border rounded-2">
       <div className="input-group has-validation">
-        <InputGroup>
+      <Form.Group className="input-group">
           <Form.Control
             placeholder="Message"
             aria-label="Chat message"
-            name="enterMessage"
+            name="messageInput"
             id="enterMessage"
-            value={messageInput}
-            onChange={handleChange}
+            value={formik.values.messageInput}
+            onChange={formik.handleChange}
             ref={inputRef}
             required
           />
-          <Button variant="outline-secondary" type="submit">
-            Send
+          <Button className="border-0" variant="light" type="submit">
+          <span className="visually-hidden">Send</span>
           </Button>
-        </InputGroup>
+          </Form.Group>
       </div>
     </Form>
+    </div>
   );
 };
 

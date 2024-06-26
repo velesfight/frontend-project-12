@@ -2,12 +2,10 @@ import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 const modalAdapter = createEntityAdapter();
 
-const initialState = {
-  modal: {
+const initialState =  {
     isOpen: false,
     modalType: null,
     channelId: null
-  }
   };
 
   export const modalsSlice = createSlice({
@@ -15,14 +13,14 @@ const initialState = {
     initialState,
     reducers: {
         showModal: (state, action) => {
-          state.modal.isOpen = true;
-          state.modal.channelId = action.payload.channelId;
-          state.modal.modalType = action.payload.modalType
+          state.isOpen = true;
+          state.channelId = action.payload.channelId;
+          state.modalType = action.payload.modalType
         },
         hideModal: (state) => {
-          state.modal.modalType = null;
-          state.modal.channelId = null;
-          state.modal.isOpen = false;
+          state.modalType = null;
+          state.channelId = null;
+          state.isOpen = false;
         },
       },
     });

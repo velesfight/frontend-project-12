@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
-import { useNavigate, useLocation, } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import routes from './routes.js';
 
 const LoginPage = () => {
@@ -17,8 +17,7 @@ const validationSchema = Yup.object().shape({
   const [authFailed, setAuthFailed] = useState(false);
   const inputRef = useRef();
   const navigate = useNavigate();
-  const location = useLocation();
-  
+ 
   useEffect(() => {
     inputRef.current.focus();
   }, []);
@@ -28,16 +27,16 @@ const validationSchema = Yup.object().shape({
       password: '',
     },
     validationSchema,
-    onSubmit: async ({ username, password }) => {
+    onSubmit: async (values) => {
       setAuthFailed(false);
     try {
-      const res = await axios.post(routes.loginPath(),  { username, password }) 
-      localStorage.setItem('userId', JSON.stringify(res.data));
+      const res = await axios.post(routes.loginPath(), values);
+      auth.saveToken(JSON.stringify(res.data));
+      console.log(res.data.token)
       auth.logIn();
-      const { from } = location.state || { from: { pathname: "/" } };
-      navigate(from);
+      navigate(routes.chatPage());
     } catch (err) {
-      formik.setSubmitting(false);
+    formik.setSubmitting(false);
       if (err.isAxiosError && err.response.status === 401) {
         setAuthFailed(true);
         inputRef.current.select();
@@ -53,7 +52,7 @@ return (
 <div className="row justify-content-center pt-5">
   <div className="col-sm-4">
   <Form onSubmit={formik.handleSubmit} className="p-3">
-            <fieldset disabled={formik.isSubmitting}>
+            <fieldset>
         <Form.Group>
           <Form.Label htmlFor="username">Имя</Form.Label>
           <Form.Control
@@ -63,7 +62,7 @@ return (
             name="username"
             id="username"
             autoComplete="username"
-            isInvalid={authFailed}
+            isInvalid={(formik.errors.username && formik.touched.username)}
             required
             ref={inputRef}
           />

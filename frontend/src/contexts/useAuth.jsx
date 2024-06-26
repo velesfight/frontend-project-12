@@ -1,9 +1,10 @@
 import { useContext } from 'react';
-import AuthContext from './index.jsx';
-import ApiContext from './ApiContext.jsx';
+import { createContext } from 'react';
 
 
-export const useSocket = () => useContext(ApiContext);
-
-
+export const AuthContext = createContext();
 export const useAuth = () => useContext(AuthContext);
+
+
+
+

@@ -1,15 +1,16 @@
 
 import React from 'react';
-import { io } from 'socket.io-client';
-import { addChannel, removeChannel, updateChannel } from './slices/channelsSlice'
+import axios from 'axios';
+import { addChannels, setCurrentChannel, updateChannel } from './slices/channelsSlice'
+import { addMessages } from './slices/messagesSlice'
 import ApiContext  from './contexts/ApiContext';
-import { addMessage } from './slices/messagesSlice';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
-import ru from './locales/index.js';
+import ru from './locales/index';
 import { Provider } from 'react-redux';
 import store from './Components/store';
+import currentChannelId from './slices/channelsSlice';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -20,37 +21,38 @@ const init = async () => {
       resources: { ru },
       fallbackLng: 'ru',
     });
-  
+   
 
-    const socket = io();
- 
-    socket.on('newChannel', (newChannel) => {
-      store.dispatch(addChannel(newChannel));
-      console.log(newChannel)
-    });
-    
+    const getAuthHeader = () => {
+      const userId = JSON.parse(localStorage.getItem('userId'));
+      if (userId && userId.token) {
+        return { Authorization: `Bearer ${userId.token}` };
+      }
+      return {};
+    };
   
-    socket.on('removeChannel', (removeChannnel) => {
-      store.dispatch(removeChannel(removeChannnel))
-    });
-    
-    socket.on('updateChannel', (updateChannels) => {
-      store.dispatch(updateChannel(updateChannels))
-    });
-
-    socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
+    try {
+      const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
+      store.dispatch(addChannels(channelsResponse.data));
+      store.dispatch(setCurrentChannel(channelsResponse.data));
+      store.dispatch(updateChannel(channelsResponse.data));
+      const messagesResponse = await axios.get(`/api/v1/channels/${currentChannelId}/messages`, { headers: getAuthHeader() });
+      store.dispatch(addMessages(messagesResponse.data));
+    } catch (error) {
+      console.error(error);
+    }
 
   return (
     <div>
     <Provider store={store}>
-          <ApiContext.Provider value={socket}>
+          <ApiContext.Provider value={null}>
             <I18nextProvider i18n={i18n}>
               <App />
-              </I18nextProvider>
-              </ApiContext.Provider>
-                </Provider>
-                </div>
-                 );
+            </I18nextProvider>
+          </ApiContext.Provider>
+        </Provider>
+      </div>
+    );
 };
 
 

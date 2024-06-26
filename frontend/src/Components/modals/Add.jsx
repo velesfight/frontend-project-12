@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import axios from 'axios';
+import { addChannel } from '../../slices/channelsSlice';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
@@ -6,14 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors } from '../../slices/channelsSlice';
-import { useSocket } from '../../contexts/useAuth'
-import _ from 'lodash';
+
+
 
 const Add = () => {
     const dispatch = useDispatch();
     const inputEl = useRef();
     const channels = useSelector(selectors.selectAll);
-    const socket = useSocket();
+
 
 useEffect(() => {
   if (inputEl.current) {
@@ -35,23 +37,32 @@ useEffect(() => {
       name: '',
     },
     validationSchema,
-    onSubmit:(values) => {
-      const newChannel = { id: _.uniqueId(), name: values.name, removable: true };
-      socket.emit('newChannel', newChannel, (response) => {
-        console.log(newChannel)
-        if (response.status !== 'ok') {
-          console.log(response.status);
-        }
-      });
+    onSubmit: async (values) => {
+      const newChannel = { name: values.name, removable: true };
+      try {
+        const response = await axios.post('/api/v1/channels', newChannel, { headers: getAuthHeader() });
+        dispatch(addChannel(response.data));
+      } catch (error) {
+        console.log(error.response.status);
+      }
       dispatch(hideModal());
     },
   });
-  const handleClose = () => {
-    dispatch(hideModal());
+
+  const getAuthHeader = () => {
+    const userId = JSON.parse(localStorage.getItem('userId'));
+    if (userId && userId.token) {
+      return { Authorization: `Bearer ${userId.token}` };
+    }
+    return {};
   }
 
+  const handleClose = () => {
+    dispatch(hideModal());
+  };
+
   return (
-    <Modal show>
+    <Modal show centered>
       <Modal.Header closeButton>
         <Modal.Title>Add Channel</Modal.Title>
       </Modal.Header>
@@ -74,12 +85,14 @@ useEffect(() => {
               {formik.errors.name}
             </Form.Control.Feedback>
           </Form.Group>
+          <Modal.Footer>
           <Button variant="primary" type="submit">
             Add
           </Button>
-          <Button variant="secondary" onClick={handleClose} className="ms-2">
+          <Button variant="secondary" onClick={handleClose} className="ms-2" disabled={formik.isSubmitting}>
             Cancel
           </Button>
+          </Modal.Footer>
         </Form>
       </Modal.Body>
     </Modal>

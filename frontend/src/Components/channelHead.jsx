@@ -39,17 +39,16 @@ const btnClass = cn(
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
         { channels.map((channel) => {
-          return channel.removable
-          ? (
+          return channel.removable ? (
             <Nav.Item key={channel.id}>
             <div role="group" className="nav flex-column nav-pills nav-fill px-2 h-100 d-block">
               <Dropdown as={ButtonGroup} className="w-100 d-flex">
-                <button onClick={() => changeChannel(channel.id)} className={`w-100 rounded-0 text-start text-truncate`} type="button" variant={channel.id === currentChannelId ? 'secondary' : null}>
+                <button id={channel.id} onClick={() => changeChannel(channel.id)} className={`w-100 rounded-0 text-start text-truncate`} type="button" variant={channel.id === currentChannelId ? 'secondary' : null}>
                   <span className="me-1">#</span>
                   {channel.name}
                 </button>
                 <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : 'light'} className="flex-grow-0 dropdown-toggle-split shoe btn btn-secondary" id="dropdown-split-basic">
-                  <span className="visually-hidden">{('variant')}</span>
+                  <span className="visually-hidden">{('menu')}</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu variant="dark">
                   <Dropdown.Item
@@ -69,7 +68,7 @@ const btnClass = cn(
         )
         : (
           <Nav.Item key={channel.id}>
-            <button type="button" variant={channel.id === currentChannelId ? 'secondary' : 'light'} onClick={() => changeChannel(channel.id)} className={btnClass}>
+            <button key={channel.id} type="button" variant={channel.id === currentChannelId ? 'secondary' : 'light'} onClick={() => changeChannel(channel.id)} className={btnClass}>
               #
               {' '}
               {channel.name}
