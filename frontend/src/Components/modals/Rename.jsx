@@ -49,13 +49,12 @@ useEffect(() => {
     validationSchema,
     onSubmit: async (values) =>{
       try {
-        const response = await axios.put(`/api/v1/channels/${curChannel.id}`,  { name: values.name }, { headers: getAuthHeader() });
-        dispatch(updateChannel({ id: curChannel.id, changes: { name: values.name } }));
-        console.log(response.data)
+        await axios.put(`/api/v1/channels/${channelId}`,  { name: values.name }, { headers: getAuthHeader() });
+        dispatch(updateChannel({ id: channelId, changes: { name: values.name } }));
+        dispatch(hideModal());
         } catch (error) {
         console.error(error.response.status);
         }
-        dispatch(hideModal());
         },
       });
 

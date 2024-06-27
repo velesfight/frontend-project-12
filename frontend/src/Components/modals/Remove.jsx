@@ -9,9 +9,7 @@ const Remove = () => {
     const dispatch = useDispatch();
     //const channelId = useSelector((state) => state.modal.channelId);
     const channelId = useSelector((state) => state.modal.channelId);
-console.log('c', channelId)
-console.log('c1', showModal)
-  
+
     const getAuthHeader = () => {
       const userId = JSON.parse(localStorage.getItem('userId'));
       if (userId && userId.token) {
@@ -20,24 +18,22 @@ console.log('c1', showModal)
       return {};
     }
 
+
   const handleRemove = async () => {
 try {
-const response = await axios.delete(`/api/v1/channels/${channelId}`, { headers: getAuthHeader() });
-if (response.status === 200) {
-dispatch(removeChannel({ channelId: channelId, removable: true }));
-dispatch(hideModal());
-} else {
-console.log('Ошибка удаления канала');
-}
+await axios.delete(`/api/v1/channels/${channelId}`, { headers: getAuthHeader() });
+dispatch(removeChannel({ channelId: channelId }));
+dispatch(hideModal())
 } catch (error) {
-console.error('Ошибка удаления канала', error);
-}
-}
+  console.error(error.response.status);
+  };
+};
+const handleClose = () => dispatch(hideModal());
 
 return (
-      <Modal show={showModal} onHide={() => dispatch(hideModal())} centered>
+      <Modal show={showModal} centered>
       <Modal.Dialog>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton onHide={handleClose}>
           <Modal.Title>RemoveChannel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -46,7 +42,7 @@ return (
             <Button variant="danger" type="submit" onClick={handleRemove}>
             Remove
           </Button>
-          <Button variant="secondary" onClick={() => dispatch(hideModal())} className="ms-2">
+          <Button variant="secondary" onClick={handleClose} className="ms-2">
             Cancel
           </Button>
           </div>

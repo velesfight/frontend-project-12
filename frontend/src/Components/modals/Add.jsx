@@ -42,10 +42,10 @@ useEffect(() => {
       try {
         const response = await axios.post('/api/v1/channels', newChannel, { headers: getAuthHeader() });
         dispatch(addChannel(response.data));
+        dispatch(hideModal());
       } catch (error) {
         console.log(error.response.status);
       }
-      dispatch(hideModal());
     },
   });
 
