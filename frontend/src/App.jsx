@@ -7,6 +7,7 @@ import MainPage from './Components/MainPage.jsx';
 import LoginPage from './Components/LoginPage.jsx';
 import NotFoundPage from './Components/NotFoundPage.jsx';
 import AuthProvider from './Components/AuthProvider.js'
+import SignUp from './Components/SignUp';
 import { Provider } from 'react-redux';
 import store from './Components/store.js'
 import routes from './Components/routes';
@@ -40,10 +41,14 @@ const App = () => {
           path={routes.loginPath()}
           element={<LoginPage />}
           />
+          <Route 
+          path={routes.signUpPath()} 
+          element={<SignUp />} 
+          />
         <Route
         path="*" element={<NotFoundPage />}
         />
-      </Routes>
+        </Routes>
     </BrowserRouter>
     </AuthProvider>
     </Provider>

@@ -1,7 +1,7 @@
 
 import React from 'react';
 import axios from 'axios';
-import { addChannels, setCurrentChannel, updateChannel, removeChannel } from './slices/channelsSlice'
+import { addChannels, setCurrentChannel, setCurrentChannelId, updateChannel, removeChannel } from './slices/channelsSlice'
 import { addMessages } from './slices/messagesSlice'
 import ApiContext  from './contexts/ApiContext';
 import i18next from 'i18next';
@@ -34,7 +34,8 @@ const init = async () => {
     try {
       const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
       store.dispatch(addChannels(channelsResponse.data));
-      store.dispatch(setCurrentChannel(channelsResponse));
+      store.dispatch(setCurrentChannel(channelsResponse.data));
+      store.dispatch(setCurrentChannelId(channelsResponse.data));
       store.dispatch(removeChannel(channelsResponse.data));
       store.dispatch(updateChannel(channelsResponse.data));
       const messagesResponse = await axios.get(`/api/v1/channels/${currentChannelId}/messages`, { headers: getAuthHeader() });

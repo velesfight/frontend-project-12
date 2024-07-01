@@ -4,7 +4,7 @@ import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import routes from './routes.js';
 
 const LoginPage = () => {
@@ -32,7 +32,6 @@ const validationSchema = Yup.object().shape({
     try {
       const res = await axios.post(routes.loginPath(), values);
       auth.saveToken(JSON.stringify(res.data));
-      console.log(res.data.token)
       auth.logIn();
       navigate(routes.chatPage());
     } catch (err) {
@@ -85,6 +84,13 @@ return (
         <Button type="submit" variant="outline-primary">Войти</Button>
       </fieldset>
     </Form>
+    <div className="card-footer p-4">
+              <div className="text-center">
+                <span>{'нет аккаунта?'}</span>
+                {' '}
+                <Link to={routes.signUpPage}>{('Зарегестрироваться')}</Link>
+              </div>
+            </div>
   </div>
 </div>
 </div>

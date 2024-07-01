@@ -2,11 +2,12 @@ import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../contexts/useAuth';
-import { selectors, addChannels, setCurrentChannel } from '../slices/channelsSlice';
+import { selectors, addChannels, setCurrentChannelId, setCurrentChannel } from '../slices/channelsSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './SendMessageForm';
 import ChannelOptions from './channelHead';
 import getModalComponent from './modals/typeModals';
+import HeaderChat from './Sign';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -16,9 +17,10 @@ const MainPage = () => {
   const modalType = useSelector((state) => state.modal.modalType);
 const { currentChannelId } = useSelector((state) => state.channels);
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+console.log(currentChannel)
 console.log(currentChannelId)
+console.log(channels)
 
-useEffect(() => {
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
   if (userId && userId.token) {
@@ -26,35 +28,44 @@ const getAuthHeader = () => {
   }
   return {};
   };
-    const getData = async () => {
-      try {
- const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
-dispatch(addChannels(channelsResponse.data));
-dispatch(setCurrentChannel(channelsResponse.data[0].id))
-console.log('rfyfk', channelsResponse.data)
- const messagesResponse = await axios.get('/api/v1/messages', { headers: getAuthHeader() });
- dispatch(addMessages(messagesResponse.data));
-  } catch (error) {
- if(error.isAxiosError) {
-  console.log(error.response.status);
- }
+
+useEffect(() => {
+
+  axios.get('/api/v1/channels', { headers: getAuthHeader() })
+  .then((channelsResponse) => {
+    dispatch(addChannels(channelsResponse.data));
+    dispatch(setCurrentChannelId( channelsResponse.data[0].id));
+    dispatch(setCurrentChannel( channelsResponse.data.id));
+    console.log('channls', channelsResponse.data)
+  })
+  .catch((error) => {
     if (error.response && error.response.status === 401) {
-auth.logOut();
+      auth.logOut();
     }
-  }
-}
-getData();
+  });
+
+axios.get('/api/v1/messages', { headers: getAuthHeader() })
+  .then((messagesResponse) => {
+    dispatch(addMessages(messagesResponse.data));
+  })
+  .catch((error) => {
+    if (error.response && error.response.status === 401) {
+      auth.logOut();
+    }
+  });
 }, [dispatch, auth]);
 
 
 return (
+
   <div className='col p-0 h-100'>
+    <HeaderChat />
   <div className="d-flex flex-column h-100">
     <div className=".bg-light.mb-4.p-3.shadow-sm.small">
       <div className="col-md-3">
         <p className="m-0">
           <b>
-           #{currentChannel ? currentChannel.name : ''}
+           #{ currentChannel  ? currentChannel.name : ''}
           </b>
         </p>
       </div>
@@ -68,7 +79,7 @@ return (
           <ChannelOptions />
           {getModalComponent(modalType)}
           <SendMessageForm />
-    </div>
+          </div>
   </div>
   </div>
 );

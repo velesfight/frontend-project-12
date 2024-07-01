@@ -10,8 +10,7 @@ const ChannelOptions = () => {
     const dispatch = useDispatch();
     const channels = useSelector(selectors.selectAll);
     const { currentChannelId } = useSelector((state) => state.channels);
-    console.log(channels)
- const changeChannel = (channelId) => {;
+ const changeChannel = (channelId) => {
   dispatch(setCurrentChannelId(channelId));
 };
 

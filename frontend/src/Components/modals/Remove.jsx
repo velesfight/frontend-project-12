@@ -2,13 +2,15 @@ import React from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideModal, showModal } from '../../slices/uiSlisec';
-import { removeChannel } from '../../slices/channelsSlice';
+import { hideModal } from '../../slices/uiSlisec';
+import { removeChannel, setCurrentChannelId } from '../../slices/channelsSlice';
 
 const Remove = () => {
     const dispatch = useDispatch();
-    //const channelId = useSelector((state) => state.modal.channelId);
     const channelId = useSelector((state) => state.modal.channelId);
+    const { currentChannelId } = useSelector((state) => state.channels);
+    const isOpened = useSelector((state) => state.modal.isOpen);
+    console.log(isOpened)
 
     const getAuthHeader = () => {
       const userId = JSON.parse(localStorage.getItem('userId'));
@@ -22,7 +24,10 @@ const Remove = () => {
   const handleRemove = async () => {
 try {
 await axios.delete(`/api/v1/channels/${channelId}`, { headers: getAuthHeader() });
-dispatch(removeChannel({ channelId: channelId }));
+if (channelId === currentChannelId) {
+  dispatch(setCurrentChannelId(1));
+}
+dispatch(removeChannel(channelId));
 dispatch(hideModal())
 } catch (error) {
   console.error(error.response.status);
@@ -31,9 +36,9 @@ dispatch(hideModal())
 const handleClose = () => dispatch(hideModal());
 
 return (
-      <Modal show={showModal} centered>
+      <Modal show={isOpened} onHide={handleClose} centered>
       <Modal.Dialog>
-        <Modal.Header closeButton onHide={handleClose}>
+        <Modal.Header closeButton>
           <Modal.Title>RemoveChannel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
