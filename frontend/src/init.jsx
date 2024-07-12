@@ -11,6 +11,8 @@ import resources from './locales/index.js';
 import { Provider } from 'react-redux';
 import store from './Components/store';
 import currentChannelId from './slices/channelsSlice';
+import filter from 'leo-profanity';
+import { ErrorBoundary } from '@rollbar/react';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -21,8 +23,13 @@ const init = async () => {
       resources,
       fallbackLng: 'ru',
     });
-   
 
+    filter.loadDictionary('ru');
+
+const rollbarConfig = {
+  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+  environment: 'production',
+};
     const getAuthHeader = () => {
       const userId = JSON.parse(localStorage.getItem('userId'));
       if (userId && userId.token) {
@@ -47,12 +54,16 @@ const init = async () => {
 
   return (
     <div>
+       <Provider config={rollbarConfig}>
+       <ErrorBoundary>
     <Provider store={store}>
           <ApiContext.Provider value={null}>
             <I18nextProvider i18n={i18n}>
               <App />
             </I18nextProvider>
           </ApiContext.Provider>
+        </Provider>
+        </ErrorBoundary>
         </Provider>
       </div>
     );
