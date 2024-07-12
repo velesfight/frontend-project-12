@@ -5,9 +5,11 @@ import { setCurrentChannelId } from '../slices/channelsSlice';
 import { selectors } from '../slices/channelsSlice';
 import { showModal } from '../slices/uiSlisec';
 import cn from 'classnames';
+import { useTranslation } from 'react-i18next';
 
 const ChannelOptions = () => {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const channels = useSelector(selectors.selectAll);
     const { currentChannelId } = useSelector((state) => state.channels);
  const changeChannel = (channelId) => {
@@ -26,7 +28,7 @@ const btnClass = cn(
   return (
     <Col>
       <div className="d-flex mt-1 justify-content-between mb-2 pe-2 p-4">
-      <b>{('channels')}</b>
+      <b>{t('chatPage.channels')}</b>
       <Button type="button" text="+" className="p-0 text-primary btn btn-group-vertical"
       onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null }))}>
        <span className="visually-hidden">+</span>
@@ -47,18 +49,18 @@ const btnClass = cn(
                   {channel.name}
                 </button>
                 <Dropdown.Toggle split variant={channel.id === currentChannelId ? 'secondary' : 'light'} className="flex-grow-0 dropdown-toggle-split shoe btn btn-secondary" id="dropdown-split-basic">
-                  <span className="visually-hidden">{('menu')}</span>
+                  <span className="visually-hidden">{t('chatPage.menu')}</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu variant="dark">
                   <Dropdown.Item
                     onClick={() => dispatch(showModal({ modalType: 'renaming', channelId: channel.id }))}
                   >
-                    {('channels.rename')}
+                    {t('modals.renameChannel')}
                   </Dropdown.Item>
                   <Dropdown.Item
                     onClick={() => dispatch(showModal({ modalType: 'removing', channelId: channel.id }))}
                   >
-                    {('channels.remove')}
+                    {t('modals.removeChannel')}
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>

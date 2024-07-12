@@ -11,6 +11,8 @@ import SignUp from './Components/SignUp';
 import { Provider } from 'react-redux';
 import store from './Components/store.js'
 import routes from './Components/routes';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const PrivateRoute = ({ children }) => {
   const auth = useAuth();
@@ -49,6 +51,7 @@ const App = () => {
         path="*" element={<NotFoundPage />}
         />
         </Routes>
+        <ToastContainer position='top-center' />
     </BrowserRouter>
     </AuthProvider>
     </Provider>

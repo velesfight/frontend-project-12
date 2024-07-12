@@ -6,7 +6,9 @@ import Add from './modals/Add';
 import Remove from './modals/Remove';
 import Rename from './modals/Rename';
 
+
 const ModalManager = () => {
+ 
   const { isOpen, modalType, channelId } = useSelector((state) => state.modal);
 
   if (!isOpen) {

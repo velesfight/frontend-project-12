@@ -1,8 +1,17 @@
+import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import Card from 'react-bootstrap/Card';
+import routes from './routes.js';
+
 const NotFoundPage = () => {
+  const { t } = useTranslation();
   return (
-    <div>
-      <h1>404 - Страница не найдена</h1>
-    </div>
+    <Card className="text-center h-100">
+      <Card.Body>
+        <Card.Text>{t('errors.notFound')}</Card.Text>
+        <Link to={routes.loginPage}>{t('errors.home')}</Link>
+      </Card.Body>
+    </Card>
   );
 };
 

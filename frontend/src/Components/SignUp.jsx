@@ -6,10 +6,12 @@ import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
 import { useNavigate } from 'react-router-dom';
 import routes from './routes.js';
+import { useTranslation } from 'react-i18next';
 
 
 
 const SignUp = () => {
+  const { t } = useTranslation();
       const auth = useAuth();
       const [authFailed, setAuthFailed] = useState(false);
       const inputRef = useRef();
@@ -20,9 +22,9 @@ const SignUp = () => {
       }, []);
 
       const validationSchema = Yup.object().shape({
-        username: Yup.string().required('Обязательное поле').min(3).max(20),
-        password: Yup.string().required('Обязательное поле').min(6),
-        passwordConfirmation: Yup.string().required('Обязательное поле').oneOf([Yup.ref('password')])
+        username: Yup.string().required(t('validation.lenght')).min(3).max(20),
+        password: Yup.string().required(t('validation.passwordLength')).min(6),
+        passwordConfirmation: Yup.string().required(t('validation.mustMatch')).oneOf([Yup.ref(t('validation.unique'))])
       });
     
       const formik =  useFormik({
@@ -39,19 +41,19 @@ const SignUp = () => {
           auth.saveToken(JSON.stringify(res.data));
           console.log('resdata', res.data)
           auth.logIn();
-          navigate(routes.chatPage(
-            
-          ));
+          navigate(routes.chatPage());
         } catch (error) {
           if (error.isAxiosError && error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
+            console.log(t('validation.409'))
             return;
           }
           if (error.isAxiosError && error.response.status === 401) {
             setAuthFailed(true);
-            console.log('error');
+            console.log(t('errors.unknown'));
           }
+          console.log(t('errors.network'))
           throw error;
         }
       },
@@ -64,7 +66,7 @@ const SignUp = () => {
       <Form onSubmit={formik.handleSubmit} className="p-3">
                 <fieldset>
             <Form.Group>
-              <Form.Label htmlFor="username">Имя</Form.Label>
+              <Form.Label htmlFor="username">{t('logIn.username')}</Form.Label>
               <Form.Control
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -79,7 +81,7 @@ const SignUp = () => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">Пароль</Form.Label>
+              <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -93,7 +95,7 @@ const SignUp = () => {
               />
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">Подтверждение пароля</Form.Label>
+              <Form.Label htmlFor="password">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -110,7 +112,7 @@ const SignUp = () => {
               />
               <Form.Control.Feedback type="invalid">{formik.errors.passwordConfirmation}</Form.Control.Feedback>
             </Form.Group>
-            <Button type="submit" variant="outline-primary" className="w-100 mb-3">{'Зарегистрироваться'}</Button>
+            <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('logIn.doRegister')}</Button>
           </fieldset>
         </Form>
       </div>

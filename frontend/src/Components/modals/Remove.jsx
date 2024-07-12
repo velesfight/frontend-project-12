@@ -3,14 +3,20 @@ import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec';
-import { removeChannel, setCurrentChannelId } from '../../slices/channelsSlice';
+import { selectors, removeChannel, setCurrentChannelId } from '../../slices/channelsSlice';
+import { removeMessagesByChannelId } from '../../slices/messagesSlice';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const Remove = () => {
+  const { t } = useTranslation();
     const dispatch = useDispatch();
     const channelId = useSelector((state) => state.modal.channelId);
     const { currentChannelId } = useSelector((state) => state.channels);
     const isOpened = useSelector((state) => state.modal.isOpen);
-    console.log(isOpened)
+    
+    const channels = useSelector(selectors.selectAll);
+    console.log(channelId, currentChannelId, channels)
 
     const getAuthHeader = () => {
       const userId = JSON.parse(localStorage.getItem('userId'));
@@ -24,31 +30,35 @@ const Remove = () => {
   const handleRemove = async () => {
 try {
 await axios.delete(`/api/v1/channels/${channelId}`, { headers: getAuthHeader() });
-if (channelId === currentChannelId) {
-  dispatch(setCurrentChannelId(1));
-}
 dispatch(removeChannel(channelId));
+dispatch(removeMessagesByChannelId(channelId));
+toast.success(t('modals.doneRemove'));
+if (channelId === currentChannelId) {
+  const generalChannel = channels.find((channel) => channel.name === 'general');
+  dispatch(setCurrentChannelId(generalChannel.id));
+}
 dispatch(hideModal())
 } catch (error) {
-  console.error(error.response.status);
+  toast.error(t('errors.unknown'));
   };
 };
+
 const handleClose = () => dispatch(hideModal());
 
 return (
       <Modal show={isOpened} onHide={handleClose} centered>
       <Modal.Dialog>
         <Modal.Header closeButton>
-          <Modal.Title>RemoveChannel</Modal.Title>
+          <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <p className="lead">are you sure?</p>
+        <p className="lead">{t('modals.sure')}</p>
         <div className="d-flex justify-content-end">
             <Button variant="danger" type="submit" onClick={handleRemove}>
-            Remove
+            {t('modals.remove')}
           </Button>
           <Button variant="secondary" onClick={handleClose} className="ms-2">
-            Cancel
+          {t('modals.cancel')}
           </Button>
           </div>
         </Modal.Body>

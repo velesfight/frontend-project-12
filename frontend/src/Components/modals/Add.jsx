@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors } from '../../slices/channelsSlice';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 
 
@@ -15,6 +17,7 @@ const Add = () => {
     const dispatch = useDispatch();
     const inputEl = useRef();
     const channels = useSelector(selectors.selectAll);
+    const { t } = useTranslation();
 
 
 useEffect(() => {
@@ -43,8 +46,9 @@ useEffect(() => {
         const response = await axios.post('/api/v1/channels', newChannel, { headers: getAuthHeader() });
         dispatch(addChannel(response.data));
         dispatch(hideModal());
+        toast.success(t('madals.doneChannel'));
       } catch (error) {
-        console.log(error.response.status);
+      toast.error(t('errors.unknown'));
       }
     },
   });
@@ -64,12 +68,12 @@ useEffect(() => {
   return (
     <Modal show centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add Channel</Modal.Title>
+        <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={formik.handleSubmit}>
           <Form.Group>
-            <Form.Label>Channel Name</Form.Label>
+            <Form.Label>{t('modals.channelName')}</Form.Label>
             <Form.Control
             required
               type="text"
@@ -86,11 +90,11 @@ useEffect(() => {
             </Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-          <Button variant="primary" type="submit">
-            Add
-          </Button>
           <Button variant="secondary" onClick={handleClose} className="ms-2" disabled={formik.isSubmitting}>
-            Cancel
+          {t('modals.cancel')}
+          </Button>
+          <Button variant="primary" type="submit">
+          {t('modals.send')}
           </Button>
           </Modal.Footer>
         </Form>

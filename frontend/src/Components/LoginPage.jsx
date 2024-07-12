@@ -6,11 +6,14 @@ import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
 import routes from './routes.js';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 const LoginPage = () => {
+  const { t } = useTranslation();
 const validationSchema = Yup.object().shape({
-    username: Yup.string().required('Обязательное поле'),
-    password: Yup.string().required('Обязательное поле'),
+    username: Yup.string().required(t('validation.required')),
+    password: Yup.string().required(t('validation.required')),
   });
 
   const auth = useAuth();
@@ -37,10 +40,12 @@ const validationSchema = Yup.object().shape({
     } catch (err) {
     formik.setSubmitting(false);
       if (err.isAxiosError && err.response.status === 401) {
+        toast.error(t('errors.unknown'))
         setAuthFailed(true);
         inputRef.current.select();
         return;
       }
+      toast.error(t('errors.network'))
       throw err;
     }
   },
@@ -53,7 +58,7 @@ return (
   <Form onSubmit={formik.handleSubmit} className="p-3">
             <fieldset>
         <Form.Group>
-          <Form.Label htmlFor="username">Имя</Form.Label>
+          <Form.Label htmlFor={t('logIn.username')}>Имя</Form.Label>
           <Form.Control
             onChange={formik.handleChange}
             value={formik.values.username}
@@ -67,7 +72,7 @@ return (
           />
         </Form.Group>
         <Form.Group>
-          <Form.Label htmlFor="password">Пароль</Form.Label>
+          <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
           <Form.Control
             type="password"
             onChange={formik.handleChange}
@@ -79,16 +84,16 @@ return (
             isInvalid={authFailed}
             required
           />
-          <Form.Control.Feedback type="invalid">Неверные имя пользователя или пароль</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid">{t('validation.loginFailed')}</Form.Control.Feedback>
         </Form.Group>
-        <Button type="submit" variant="outline-primary">Войти</Button>
+        <Button type="submit" variant="outline-primary">{t('logIn.submit')}</Button>
       </fieldset>
     </Form>
     <div className="card-footer p-4">
               <div className="text-center">
-                <span>{'нет аккаунта?'}</span>
+                <span>{t('logIn.noAccount')}</span>
                 {' '}
-                <Link to={routes.signUpPage}>{('Зарегестрироваться')}</Link>
+                <Link to={routes.signUpPath()}>{t('logIn.register')}</Link>
               </div>
             </div>
   </div>

@@ -8,8 +8,11 @@ import SendMessageForm from './SendMessageForm';
 import ChannelOptions from './channelHead';
 import getModalComponent from './modals/typeModals';
 import HeaderChat from './Sign';
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify';
 
 const MainPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const auth = useAuth();
   const channels = useSelector(selectors.selectAll);
@@ -17,9 +20,6 @@ const MainPage = () => {
   const modalType = useSelector((state) => state.modal.modalType);
 const { currentChannelId } = useSelector((state) => state.channels);
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
-console.log(currentChannel)
-console.log(currentChannelId)
-console.log(channels)
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('userId'));
@@ -35,11 +35,11 @@ useEffect(() => {
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
-    dispatch(setCurrentChannel( channelsResponse.data.id));
-    console.log('channls', channelsResponse.data)
+    dispatch(setCurrentChannel( channelsResponse.data));
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
+    toast.error(t('errors.network'));
       auth.logOut();
     }
   });
@@ -50,10 +50,11 @@ axios.get('/api/v1/messages', { headers: getAuthHeader() })
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
+      toast.error(t('errors.network'));
       auth.logOut();
     }
   });
-}, [dispatch, auth]);
+}, [dispatch, auth, t]);
 
 
 return (
@@ -68,6 +69,12 @@ return (
            #{ currentChannel  ? currentChannel.name : ''}
           </b>
         </p>
+        <span className="text-muted">
+        {`${t(('countMessage.messages'), {
+            count: messages.length, 
+          })}`}
+          {console.log(messages.length)}
+        </span>
       </div>
       <div id="messages-box" className="text-break mb-2">
           {messages.map((message) => (

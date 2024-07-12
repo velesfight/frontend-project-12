@@ -1,14 +1,16 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button } from 'react-bootstrap';
+import { Form, Button, Toast } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { addMessage } from '../slices/messagesSlice';
+import { useTranslation } from 'react-i18next';
+import filter from 'leo-profanity';
 
 const SendMessageForm = () => {
+  const { t } = useTranslation();
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-
   const { currentChannelId } = useSelector((state) => state.channels);
   const { username } = JSON.parse(localStorage.getItem('userId'));
  
@@ -28,24 +30,18 @@ const formik = useFormik ({
   onSubmit: async (values,{ setSubmitting, resetForm } ) => {
     if (values.messageInput !== '') {
       const message = {
-        body: values.messageInput,
+        body: filter.clean(values.messageInput),
         username: username,
-        channelId: currentChannelId,
+       channelId: currentChannelId,
       };
       try {
         const response = await axios.post('/api/v1/messages', message, { headers: getAuthHeader() });
-        console.log(response);
-        if (response.status === 200) {
-          resetForm(); // Сбрасываем форму
+          resetForm(); 
           dispatch(addMessage(response.data));
-         
-        } else {
-          console.log('Ошибка при отправке сообщения:', response.status);
-        }
       } catch (error) {
-        console.log('Ошибка при выполнении запроса:', error);
+        Toast.error((t('errors.unknown')));
       } finally {
-        setSubmitting(false); // Завершаем отправку формы
+        setSubmitting(false);
       }
     }
   },
@@ -68,7 +64,7 @@ const formik = useFormik ({
             required
           />
           <Button className="border-0" variant="light" type="submit">
-          <span className="visually-hidden">Send</span>
+          <span className="visually-hidden">{t('chatPage.sendMessage')}</span>
           </Button>
           </Form.Group>
       </div>

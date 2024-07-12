@@ -1,13 +1,13 @@
 
 import React from 'react';
 import axios from 'axios';
-import { addChannels, setCurrentChannel, setCurrentChannelId, updateChannel, removeChannel } from './slices/channelsSlice'
-import { addMessages } from './slices/messagesSlice'
+import { addChannels, setCurrentChannel, setCurrentChannelId, removeChannel, updateChannel } from './slices/channelsSlice'
+import { addMessages, removeMessagesByChannelId } from './slices/messagesSlice'
 import ApiContext  from './contexts/ApiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
-import ru from './locales/index';
+import resources from './locales/index.js';
 import { Provider } from 'react-redux';
 import store from './Components/store';
 import currentChannelId from './slices/channelsSlice';
@@ -18,7 +18,7 @@ const init = async () => {
   await i18n
     .use(initReactI18next)
     .init({
-      resources: { ru },
+      resources,
       fallbackLng: 'ru',
     });
    
@@ -35,11 +35,12 @@ const init = async () => {
       const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
       store.dispatch(addChannels(channelsResponse.data));
       store.dispatch(setCurrentChannel(channelsResponse.data));
-      store.dispatch(setCurrentChannelId(channelsResponse.data));
+      store.dispatch(setCurrentChannelId(channelsResponse.data.id));
       store.dispatch(removeChannel(channelsResponse.data));
       store.dispatch(updateChannel(channelsResponse.data));
       const messagesResponse = await axios.get(`/api/v1/channels/${currentChannelId}/messages`, { headers: getAuthHeader() });
       store.dispatch(addMessages(messagesResponse.data));
+      store.dispatch(removeMessagesByChannelId(messagesResponse.data.id))
     } catch (error) {
       console.error(error);
     }

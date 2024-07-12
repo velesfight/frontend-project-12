@@ -7,9 +7,12 @@ import { Modal, FormGroup, FormControl, Form, Button } from 'react-bootstrap';
 import { selectors, updateChannel } from '../../slices/channelsSlice';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 
 const Rename = () => {
+const { t } = useTranslation();
 const dispatch = useDispatch();
 const inputEl = useRef();
 
@@ -24,7 +27,7 @@ useEffect(() => {
   const channelId = useSelector((state) => state.modal.channelId);
   //const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const curChannel = channels.find((ch) => ch.id === channelId);
-
+  const isOpened = useSelector((state) => state.modal.isOpen);
 
   const validationSchema = Yup.object().shape({
     name: Yup
@@ -52,26 +55,23 @@ useEffect(() => {
         await axios.patch(`/api/v1/channels/${channelId}`,  { name: values.name }, { headers: getAuthHeader() });
         dispatch(updateChannel({ id: channelId, changes: { name: values.name } }));
         dispatch(hideModal());
+        toast.success(t('madals.doneRename'));
         } catch (error) {
-        console.error(error.response.status);
+          toast.error(t('errors.unknown'))
         }
-        },
-      });
-
-
-  
+      },
+    });
 
   const handleClose = () => {
     dispatch(hideModal());
   };
     
       return (
-        <Modal show centered onHide={handleClose}>
+        <Modal show={isOpened} centered onHide={handleClose}>
           <Modal.Dialog>
             <Modal.Header closeButton>
-              <Modal.Title>Rename</Modal.Title>
+              <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
             </Modal.Header>
-    
             <Modal.Body>
               <form onSubmit={formik.handleSubmit}>
                 <FormGroup className="form-group">
@@ -91,11 +91,11 @@ useEffect(() => {
             </Form.Control.Feedback>
                 </FormGroup>
                 <div className="d-flex justify-content-end">
-            <Button className="me-2" variant="secondary" onClick={handleClose}>
-              Cancel
-            </Button>
             <Button type="submit" disabled={formik.isSubmitting} variant="primary">
-              Send
+            {t('modals.send')}
+            </Button>
+            <Button className="me-2" variant="secondary" onClick={handleClose}>
+            {t('modals.cancel')}
             </Button>
           </div>
               </form>
