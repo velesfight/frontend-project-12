@@ -49,7 +49,7 @@ const rollbarConfig = {
       store.dispatch(addMessages(messagesResponse.data));
       store.dispatch(removeMessagesByChannelId(messagesResponse.data.id))
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
 
   return (
