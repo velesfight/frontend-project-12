@@ -46,7 +46,7 @@ useEffect(() => {
         const response = await axios.post('/api/v1/channels', newChannel, { headers: getAuthHeader() });
         dispatch(addChannel(response.data));
         dispatch(hideModal());
-        toast.success(t('madals.doneChannel'));
+        toast.success(t('modals.doneChannel'));
       } catch (error) {
       toast.error(t('errors.unknown'));
       }

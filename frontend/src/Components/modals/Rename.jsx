@@ -55,7 +55,7 @@ useEffect(() => {
         await axios.patch(`/api/v1/channels/${channelId}`,  { name: values.name }, { headers: getAuthHeader() });
         dispatch(updateChannel({ id: channelId, changes: { name: values.name } }));
         dispatch(hideModal());
-        toast.success(t('madals.doneRename'));
+        toast.success(t('modals.doneRename'));
         } catch (error) {
           toast.error(t('errors.unknown'))
         }

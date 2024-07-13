@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import store from './Components/store';
 import currentChannelId from './slices/channelsSlice';
 import filter from 'leo-profanity';
-import { ErrorBoundary } from '@rollbar/react';
+import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -27,7 +27,7 @@ const init = async () => {
     filter.loadDictionary('ru');
 
 const rollbarConfig = {
-  accessToken: 'POST_CLIENT_ITEM_ACCESS_TOKEN',
+  accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
   environment: 'production',
 };
     const getAuthHeader = () => {
@@ -54,7 +54,7 @@ const rollbarConfig = {
 
   return (
     <div>
-       <Provider config={rollbarConfig}>
+       <RollbarProvider config={rollbarConfig}>
        <ErrorBoundary>
     <Provider store={store}>
           <ApiContext.Provider value={null}>
@@ -64,7 +64,7 @@ const rollbarConfig = {
           </ApiContext.Provider>
         </Provider>
         </ErrorBoundary>
-        </Provider>
+        </RollbarProvider>
       </div>
     );
 };

@@ -84,7 +84,7 @@ return (
             isInvalid={authFailed}
             required
           />
-          <Form.Control.Feedback type="invalid">{t('validation.loginFailed')}</Form.Control.Feedback>
+          <Form.Control.Feedback type="invalid" tooltip>{t('validation.loginFailed')}</Form.Control.Feedback>
         </Form.Group>
         <Button type="submit" variant="outline-primary">{t('logIn.submit')}</Button>
       </fieldset>
