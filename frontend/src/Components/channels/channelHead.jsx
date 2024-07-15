@@ -1,9 +1,9 @@
 import { Dropdown, Button, ButtonGroup, Col, Nav } from 'react-bootstrap';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannelId } from '../slices/channelsSlice';
-import { selectors } from '../slices/channelsSlice';
-import { showModal } from '../slices/uiSlisec';
+import { setCurrentChannelId } from '../../slices/channelsSlice';
+import { selectors } from '../../slices/channelsSlice';
+import { showModal } from '../../slices/uiSlisec';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 
@@ -31,7 +31,7 @@ const btnClass = cn(
       <b>{t('chatPage.channels')}</b>
       <Button type="button" text="+" className="p-0 text-primary btn btn-group-vertical"
       onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null }))}>
-       <span className="visually-hidden">+</span>
+       <span className="visually-hidden">{t('modals.buttomAdd')}</span>
       </Button>
       </div>
   

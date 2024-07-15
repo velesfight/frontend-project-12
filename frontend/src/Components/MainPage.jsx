@@ -1,13 +1,13 @@
 import axios from 'axios';
 import React, { useEffect  }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAuth } from '../contexts/useAuth';
+import { useAuth } from './contexts/useAuth';
 import { selectors, addChannels, setCurrentChannelId, setCurrentChannel } from '../slices/channelsSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
-import SendMessageForm from './SendMessageForm';
-import ChannelOptions from './channelHead';
+import SendMessageForm from './messages/SendMessageForm';
+import ChannelOptions from './channels/channelHead';
 import getModalComponent from './modals/typeModals';
-import HeaderChat from './Sign';
+import HeaderChat from './SignUpPage/Sign';
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify';
 

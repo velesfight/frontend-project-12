@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import { addChannels, setCurrentChannel, setCurrentChannelId, removeChannel, updateChannel } from './slices/channelsSlice'
 import { addMessages, removeMessagesByChannelId } from './slices/messagesSlice'
-import ApiContext  from './contexts/ApiContext';
+import ApiContext  from './Components/contexts/ApiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
@@ -49,9 +49,8 @@ const rollbarConfig = {
       store.dispatch(addMessages(messagesResponse.data));
       store.dispatch(removeMessagesByChannelId(messagesResponse.data.id))
     } catch (error) {
-      console.log(error);
+      console.log(error, 'fff');
     }
-
   return (
     <div>
        <RollbarProvider config={rollbarConfig}>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button, Toast } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { addMessage } from '../slices/messagesSlice';
+import { addMessage } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 

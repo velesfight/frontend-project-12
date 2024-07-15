@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
-import routes from './routes.js';
+import routes from './routes/routes';
 
 const NotFoundPage = () => {
   const { t } = useTranslation();

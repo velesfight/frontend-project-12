@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
 import { useNavigate, Link } from 'react-router-dom';
-import routes from './routes.js';
+import routes from '../routes/routes';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 

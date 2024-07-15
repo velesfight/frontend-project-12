@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
 import { useAuth }  from '../contexts/useAuth';
 import { useNavigate } from 'react-router-dom';
-import routes from './routes.js';
+import routes from '../routes/routes';
 import { useTranslation } from 'react-i18next';
 
 
@@ -66,7 +66,7 @@ const SignUp = () => {
       <Form onSubmit={formik.handleSubmit} className="p-3">
                 <fieldset>
             <Form.Group>
-              <Form.Label htmlFor="username">{t('logIn.username')}</Form.Label>
+              <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
               <Form.Control
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

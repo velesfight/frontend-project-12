@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AuthContext } from '../contexts/useAuth'
+import { AuthContext } from './contexts/useAuth'
 
 const AuthProvider = ({ children }) => {
     const saveToken = (token) => {
