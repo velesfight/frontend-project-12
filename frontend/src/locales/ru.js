@@ -3,7 +3,7 @@ export default {
     logIn: {
   username: 'Ваш ник',
   password: 'Пароль',
-  confirmPass: 'Подтвердить пароль',
+  confirmPass: 'Подтвердите пароль',
   submit: 'Войти',
   hexletChat: 'Hexlet Chat',
   logOut: 'Выйти',
@@ -23,7 +23,8 @@ export default {
     },
   chatPage: {
       channels: 'Каналы',
-      sendMessage: 'Введите сообщение',
+      sendMessage: 'Введите сообщение...',
+      newMessage: 'Новое сообщение',
       remove: 'Удалить',
       rename: 'Переименовать',
        menu: 'Управление каналом',

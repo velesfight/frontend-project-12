@@ -10,9 +10,10 @@ const HeaderChat = () => {
   const { t } = useTranslation();
 
   return (
-    <BootstrapNavbar bg="white" expand="lg" className="shadow-sm">
+
+    <BootstrapNavbar className="shadow-sm navbar-expand-lg navbar-light bg-white">
       <div className="container">
-        <BootstrapNavbar.Brand as={Link} to={routes.chatPage}>
+        <BootstrapNavbar.Brand as={Link} to={routes.chatPage()}>
         {t('logIn.hexletChat')}
         </BootstrapNavbar.Brand>
         {user !== null ? <Button onClick={logOut}>{t('logIn.logOut')}</Button> : null}

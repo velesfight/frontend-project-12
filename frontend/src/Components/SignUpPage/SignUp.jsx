@@ -7,6 +7,7 @@ import { useAuth }  from '../contexts/useAuth';
 import { useNavigate } from 'react-router-dom';
 import routes from '../routes/routes';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 
 
@@ -22,9 +23,9 @@ const SignUp = () => {
       }, []);
 
       const validationSchema = Yup.object().shape({
-        username: Yup.string().required(t('validation.lenght')).min(3).max(20),
-        password: Yup.string().required(t('validation.passwordLength')).min(6),
-        passwordConfirmation: Yup.string().required(t('validation.mustMatch')).oneOf([Yup.ref(t('validation.unique'))])
+        username: Yup.string().required(t('validation.required')).min(3, 'validation.length').max(20, (t('validation.length'))),
+        password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
+        passwordConfirmation: Yup.string().required(t('validation.required')).oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
       });
     
       const formik =  useFormik({
@@ -39,68 +40,91 @@ const SignUp = () => {
         try {
           const res = await axios.post(routes.signUpPath(), { username: values.username, password: values.password });
           auth.saveToken(JSON.stringify(res.data));
-          console.log('resdata', res.data)
           auth.logIn();
           navigate(routes.chatPage());
         } catch (error) {
-          if (error.isAxiosError && error.response.status === 409) {
+          if (error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
-            console.log(t('validation.409'))
-            return;
+            toast.error(t('validation.409'))
           }
           if (error.isAxiosError && error.response.status === 401) {
             setAuthFailed(true);
-            console.log(t('errors.unknown'));
+            toast.error(t('errors.unknown'));
           }
           console.log(t('errors.network'))
           throw error;
         }
       },
       });
-      
+      console.log('1',formik.errors.password);
+      console.log('2',formik.errors);
+   console.log('3',formik.touched)
     return (
     <div className="container-fluid">
-    <div className="row justify-content-center pt-5">
-      <div className="col-sm-4">
-      <Form onSubmit={formik.handleSubmit} className="p-3">
-                <fieldset>
-            <Form.Group>
-              <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+            <div>
+                <img
+                  src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/main/frontend/src/assets/avatar_1.jpg?raw=true"
+                  className="rounded-circle"
+                  alt={t('signup.header')}
+                />
+              </div>
+      <Form onSubmit={formik.handleSubmit} className="w-50">
+      <h1 className="text-center mb-4">{t('logIn.register')}</h1>
+            <Form.Group className="form-floating mb-3">
               <Form.Control
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.username}
-                placeholder="username"
+                placeholder={t('validation.length')}
                 name="username"
                 id="username"
                 autoComplete="username"
-                isInvalid={(formik.errors.username && formik.touched.username) || authFailed}
+                isInvalid={(formik.errors.username && formik.touched.username)|| authFailed}
                 required
                 ref={inputRef}
               />
+               <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
+               <Form.Control.Feedback
+                   type="invalid"
+                   tooltip
+                  >
+                     {formik.errors.username}
+                  </Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
                 value={formik.values.password}
-                placeholder="password"
+                onBlur={formik.handleBlur}
+                placeholder={t('logIn.password')}
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
+                isInvalid={(formik.errors.password && formik.touched.password)|| authFailed}
                 required
+
               />
+               <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
+               <Form.Control.Feedback 
+               type="invalid"
+               tooltip
+               >
+                {formik.errors.password}
+               </Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
-              <Form.Label htmlFor="password">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirmation}
-                placeholder="confirmPassword"
+                placeholder={t('logIn.confirmPass')}
                 name="passwordConfirmation"
                 id="confirmPassword"
                 autoComplete="new-password"
@@ -110,11 +134,15 @@ const SignUp = () => {
                 }
                 required
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.passwordConfirmation}</Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid" tooltip>
+                {formik.errors.passwordConfirmation}
+                </Form.Control.Feedback>
+                <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
             </Form.Group>
-            <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('logIn.doRegister')}</Button>
-          </fieldset>
+            <Button type="submit" variant="outline-primary" className="w-100">{t('logIn.doRegister')}</Button>
         </Form>
+        </div>
+        </div>
       </div>
     </div>
     </div>

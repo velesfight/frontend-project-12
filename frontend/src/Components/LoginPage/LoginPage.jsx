@@ -9,6 +9,7 @@ import routes from '../routes/routes';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
+
 const LoginPage = () => {
   const { t } = useTranslation();
 const validationSchema = Yup.object().shape({
@@ -52,17 +53,22 @@ const validationSchema = Yup.object().shape({
   });
   
 return (
-<div className="container-fluid">
-<div className="row justify-content-center pt-5">
-  <div className="col-sm-4">
-  <Form onSubmit={formik.handleSubmit} className="p-3">
-            <fieldset>
-        <Form.Group>
-          <Form.Label htmlFor={t('logIn.username')}>Имя</Form.Label>
+
+  <div className="container-fluid h-100 ">
+<div className="row justify-content-center align-content-center h-100">
+  <div className="col-12 col-md-8 col-xxl-6">
+  <div className="card shadow-sm">
+     <div className="card-body row p-5">
+     <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
+     <img src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/063a378c056cf85ad42c97f5ad1465cfe5806731/frontend/src/assets/avatar.jpg?raw=true" className="rounded-circle" alt={t('logIn.alt')} />
+      </div>
+  <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
+  <h1 className="text-center mb-4">{t('logIn.submit')}</h1>
+        <Form.Group className="form-floating mb-3">
           <Form.Control
             onChange={formik.handleChange}
             value={formik.values.username}
-            placeholder="username"
+            placeholder={t('logIn.username')}
             name="username"
             id="username"
             autoComplete="username"
@@ -70,24 +76,26 @@ return (
             required
             ref={inputRef}
           />
+          <Form.Label htmlFor="username">{t('logIn.username')}</Form.Label>
         </Form.Group>
-        <Form.Group>
-          <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
+        <Form.Group className="form-floating mb-4">
           <Form.Control
             type="password"
             onChange={formik.handleChange}
             value={formik.values.password}
-            placeholder="password"
+            placeholder={t('logIn.password')}
             name="password"
             id="password"
             autoComplete="current-password"
             isInvalid={authFailed}
             required
           />
+               <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
+          {authFailed && (
           <Form.Control.Feedback type="invalid" tooltip>{t('validation.loginFailed')}</Form.Control.Feedback>
+          )}
         </Form.Group>
-        <Button type="submit" variant="outline-primary">{t('logIn.submit')}</Button>
-      </fieldset>
+        <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('logIn.submit')}</Button>
     </Form>
     <div className="card-footer p-4">
               <div className="text-center">
@@ -96,9 +104,11 @@ return (
                 <Link to={routes.signUpPath()}>{t('logIn.register')}</Link>
               </div>
             </div>
-  </div>
-</div>
-</div>
+            </div>
+          </div>
+        </div>
+        </div>
+        </div>
   )
   };
 

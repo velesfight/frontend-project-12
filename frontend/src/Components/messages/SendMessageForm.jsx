@@ -51,23 +51,22 @@ const formik = useFormik ({
     <div className="mt-auto px-5 py-3">
     <Form onSubmit={formik.handleSubmit} noValidate
         className="py-1 border rounded-2">
-      <div className="input-group has-validation">
       <Form.Group className="input-group">
           <Form.Control
-            placeholder="Message"
-            aria-label="Chat message"
+            placeholder={t('chatPage.sendMessage')}
+            aria-label={t('chatPage.newMessage')}
             name="messageInput"
             id="enterMessage"
             value={formik.values.messageInput}
             onChange={formik.handleChange}
             ref={inputRef}
+            className="border-0 p-0 ps-2 form-control"
             required
           />
-          <Button className="border-0" variant="light" type="submit">
+          <Button className="btn btn-group-vertical" variant="light" type="submit">
           <span className="visually-hidden">{t('chatPage.sendMessage')}</span>
           </Button>
           </Form.Group>
-      </div>
     </Form>
     </div>
   );

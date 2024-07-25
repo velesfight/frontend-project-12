@@ -41,8 +41,8 @@ const rollbarConfig = {
     try {
       const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
       store.dispatch(addChannels(channelsResponse.data));
-      store.dispatch(setCurrentChannel(channelsResponse.data));
       store.dispatch(setCurrentChannelId(channelsResponse.data.id));
+      store.dispatch(setCurrentChannel(channelsResponse.data));
       store.dispatch(removeChannel(channelsResponse.data));
       store.dispatch(updateChannel(channelsResponse.data));
       const messagesResponse = await axios.get(`/api/v1/channels/${currentChannelId}/messages`, { headers: getAuthHeader() });

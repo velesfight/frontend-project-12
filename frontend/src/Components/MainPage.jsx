@@ -7,7 +7,6 @@ import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './messages/SendMessageForm';
 import ChannelOptions from './channels/channelHead';
 import getModalComponent from './modals/typeModals';
-import HeaderChat from './SignUpPage/Sign';
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify';
 
@@ -58,37 +57,37 @@ axios.get('/api/v1/messages', { headers: getAuthHeader() })
 
 
 return (
-
-  <div className='col p-0 h-100'>
-    <HeaderChat />
-  <div className="d-flex flex-column h-100">
-    <div className=".bg-light.mb-4.p-3.shadow-sm.small">
-      <div className="col-md-3">
-        <p className="m-0">
-          <b>
-           #{ currentChannel  ? currentChannel.name : ''}
-          </b>
-        </p>
-        <span className="text-muted">
-        {`${t(('countMessage.messages'), {
-            count: messages.length, 
-          })}`}
-          {console.log(messages.length)}
-        </span>
-      </div>
-      <div id="messages-box" className="text-break mb-2">
+<div className="container h-100 my-4 overflow-hidden rounded shadow">
+  <div className='row h-100 bg-white flex-md-row'>
+  <ChannelOptions />
+  {getModalComponent(modalType)}
+      <div className="col p-0 h-100 ">
+        <div className="d-flex flex-column h-100">
+          <div className="bg-light mb-4 p-3 shadow-sm small">
+            <p className="m-0">
+              <b>
+                #{ currentChannel  ? currentChannel.name : ''}
+              </b>
+            </p>
+            <span className="text-muted">
+              {`${t(('countMessage.messages'), {
+                count: messages.length, 
+                })}`}
+                {console.log(messages.length)}
+            </span>
+          </div>
+        <div id="messages-box" className="chat-messages overflow-avto px-5">
           {messages.map((message) => (
-            <li key={message.id} className="mb-2" style={{ wordBreak: 'break-all' }}>
+            
+            <div key={message.id} className="text-break mb-2" >
               <b>{message.username}</b>: {message.body}
-            </li>
+            </div>
           ))}
-          </div>
-          <ChannelOptions />
-          {getModalComponent(modalType)}
-          <SendMessageForm />
-          </div>
+         </div>
+        <SendMessageForm />
+        </div>
+             </div> 
+</div>
   </div>
-  </div>
-);
-          };
+       )};
 export default MainPage;
