@@ -104,11 +104,11 @@ return (
                 <Link to={routes.signUpPath()}>{t('logIn.register')}</Link>
               </div>
             </div>
-            </div>
+           </div>
           </div>
         </div>
-        </div>
-        </div>
+       </div>
+     </div>
   )
   };
 

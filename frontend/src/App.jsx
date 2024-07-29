@@ -13,7 +13,7 @@ import store from './Components/store.js'
 import routes from './Components/routes/routes';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import HeaderChat from './Components/SignUpPage/Navbar';
+import HeaderChat from './Components/Navbar';
 
 const PrivateRoute = ({ children }) => {
   const auth = useAuth();
@@ -28,6 +28,7 @@ const PrivateRoute = ({ children }) => {
 
 const App = () => {
   return (
+    <div className="h-100" id="chat">
     <Provider store={store}>
     <AuthProvider>
     <BrowserRouter>
@@ -59,6 +60,7 @@ const App = () => {
     </BrowserRouter>
     </AuthProvider>
     </Provider>
+    </div>
   );
 }
 

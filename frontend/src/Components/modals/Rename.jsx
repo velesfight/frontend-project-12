@@ -32,10 +32,10 @@ useEffect(() => {
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
-      .min(3)
-      .max(20)
-      .notOneOf((channels), 'Add.unique')
-      .required(),
+      .min(3, (t('validation.length')))
+      .max(20, (t('validation.length')))
+      .notOneOf((channels), 'validation.unique')
+      .required(t('validation.required')),
   });
   const getAuthHeader = () => {
     const userId = JSON.parse(localStorage.getItem('userId'));
@@ -67,14 +67,13 @@ useEffect(() => {
   };
     
       return (
-        <Modal show={isOpened} centered onHide={handleClose}>
-          <Modal.Dialog>
-            <Modal.Header closeButton>
+        <Modal show={isOpened} centered>
+            <Modal.Header closeButton onHide={handleClose}>
               <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
             </Modal.Header>
+            <form onSubmit={formik.handleSubmit}>
             <Modal.Body>
-              <form onSubmit={formik.handleSubmit}>
-                <FormGroup className="form-group">
+                <FormGroup>
                   <FormControl
                     name="name"
                     type="text"
@@ -82,25 +81,25 @@ useEffect(() => {
                     onChange={formik.handleChange}
                     value={formik.values.name}
                     ref={inputEl}
-                    data-testid="input-body"
-                    isInvalid={formik.errors.name}
+                    className="mb-2"
+                    isInvalid={formik.errors.name && formik.touched.name}
                     required
                   />
+                  <Form.Label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</Form.Label>
                    <Form.Control.Feedback type="invalid">
               {(formik.errors.name)}
             </Form.Control.Feedback>
                 </FormGroup>
-                <div className="d-flex justify-content-end">
-            <Button type="submit" disabled={formik.isSubmitting} variant="primary">
-            {t('modals.send')}
-            </Button>
-            <Button className="me-2" variant="secondary" onClick={handleClose}>
+                </Modal.Body>
+                <Modal.Footer>
+                <Button className="pme-2 btn btn-secondary" onClick={handleClose}>
             {t('modals.cancel')}
             </Button>
-          </div>
+            <Button type="submit" disabled={formik.isSubmitting} className="btn btn-primary">
+            {t('modals.send')}
+            </Button>
+            </Modal.Footer>
               </form>
-            </Modal.Body>
-          </Modal.Dialog>
         </Modal>
       );
     }

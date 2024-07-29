@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { AuthContext } from './contexts/useAuth'
 
 const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState();
     const saveToken = (token) => {
       const userId = JSON.parse(token);
       localStorage.setItem('userId', JSON.stringify(userId));
-      console.log(userId.token)
+      setUser(userId);
     };
 
 const [loggedIn, setLoggedIn] = useState(() => {
@@ -14,6 +15,8 @@ const [loggedIn, setLoggedIn] = useState(() => {
   return !!token;  // Приводим значение к булевому типу
 });
 
+
+
 const logIn = () =>
 setLoggedIn(true);
 
@@ -21,11 +24,12 @@ setLoggedIn(true);
 const logOut = () => {
   localStorage.removeItem('userId');
   setLoggedIn(false);
+  setUser(null)
 };
 
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut, saveToken }}>
+    <AuthContext.Provider value={{ loggedIn, user, logIn, logOut, saveToken }}>
       {children}
     </AuthContext.Provider>
   );

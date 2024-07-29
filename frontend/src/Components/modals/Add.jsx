@@ -67,7 +67,7 @@ useEffect(() => {
 
   return (
     <Modal show centered>
-      <Modal.Header closeButton>
+      <Modal.Header closeButton onHide={handleClose}>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -90,10 +90,10 @@ useEffect(() => {
             </Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose} className="ms-2" disabled={formik.isSubmitting}>
+          <Button onClick={handleClose} className="ms-2 btn btn-secondary" disabled={formik.isSubmitting}>
           {t('modals.cancel')}
           </Button>
-          <Button variant="primary" type="submit">
+          <Button className="ms-2 btn btn-primary" type="submit">
           {t('modals.send')}
           </Button>
           </Modal.Footer>

@@ -46,23 +46,22 @@ dispatch(hideModal())
 const handleClose = () => dispatch(hideModal());
 
 return (
-      <Modal show={isOpened} onHide={handleClose} centered>
-      <Modal.Dialog>
-        <Modal.Header closeButton>
+      <Modal show={isOpened} centered>
+        <Modal.Header closeButton onHide={handleClose}>
           <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
         <p className="lead">{t('modals.sure')}</p>
-        <div className="d-flex justify-content-end">
-            <Button variant="danger" type="submit" onClick={handleRemove}>
-            {t('modals.remove')}
-          </Button>
-          <Button variant="secondary" onClick={handleClose} className="ms-2">
+        </Modal.Body>
+        <Modal.Footer>
+        <Button  onClick={handleClose} className="me-2 btn btn-secondary">
           {t('modals.cancel')}
           </Button>
-          </div>
-        </Modal.Body>
-      </Modal.Dialog>
+            <Button className="btn btn-danger" type="submit" onClick={handleRemove}>
+            {t('modals.remove')}
+          </Button>
+          </Modal.Footer>
+        
     </Modal>
       );
 }

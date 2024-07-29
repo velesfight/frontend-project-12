@@ -52,7 +52,6 @@ const rollbarConfig = {
       console.log(error, 'fff');
     }
   return (
-    <div>
        <RollbarProvider config={rollbarConfig}>
        <ErrorBoundary>
     <Provider store={store}>
@@ -64,7 +63,6 @@ const rollbarConfig = {
         </Provider>
         </ErrorBoundary>
         </RollbarProvider>
-      </div>
     );
 };
 

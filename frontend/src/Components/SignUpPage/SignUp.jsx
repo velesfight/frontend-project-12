@@ -23,7 +23,7 @@ const SignUp = () => {
       }, []);
 
       const validationSchema = Yup.object().shape({
-        username: Yup.string().required(t('validation.required')).min(3, 'validation.length').max(20, (t('validation.length'))),
+        username: Yup.string().required(t('validation.required')).min(3, (t('validation.length'))).max(20, (t('validation.length'))),
         password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
         passwordConfirmation: Yup.string().required(t('validation.required')).oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
       });
@@ -57,11 +57,10 @@ const SignUp = () => {
         }
       },
       });
-      console.log('1',formik.errors.password);
-      console.log('2',formik.errors);
-   console.log('3',formik.touched)
+
+
     return (
-    <div className="container-fluid">
+     <div className="container-fluid h-100">
       <div className="row justify-content-center align-content-center h-100">
         <div className="col-12 col-md-8 col-xxl-6">
           <div className="card shadow-sm">
@@ -88,15 +87,14 @@ const SignUp = () => {
                 required
                 ref={inputRef}
               />
-               <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
+               <Form.Label htmlFor="username">{t('logIn.nameRegistr')} </Form.Label>
                <Form.Control.Feedback
                    type="invalid"
-                   tooltip
-                  >
+                   tooltip>
                      {formik.errors.username}
                   </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="form-floating mb-3">
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
@@ -106,40 +104,39 @@ const SignUp = () => {
                 name="password"
                 id="password"
                 autoComplete="current-password"
-                isInvalid={(formik.errors.password && formik.touched.password)|| authFailed}
+                isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
                 required
-
               />
                <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
                <Form.Control.Feedback 
                type="invalid"
-               tooltip
-               >
+               tooltip>
                 {formik.errors.password}
                </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="form-floating mb-4">
               <Form.Control
                 type="password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirmation}
-                placeholder={t('logIn.confirmPass')}
+                placeholder={t('logIn.password')}
                 name="passwordConfirmation"
                 id="confirmPassword"
                 autoComplete="new-password"
                 isInvalid={
-                  (formik.errors.confirmPassword
-                  && formik.touched.confirmPassword) || authFailed
+                  (formik.errors.passwordConfirmation
+                  && formik.touched.passwordConfirmation) || authFailed
                 }
                 required
               />
+              <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
               <Form.Control.Feedback type="invalid" tooltip>
                 {formik.errors.passwordConfirmation}
                 </Form.Control.Feedback>
                 <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
             </Form.Group>
-            <Button type="submit" variant="outline-primary" className="w-100">{t('logIn.doRegister')}</Button>
+            <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
         </Form>
         </div>
         </div>
