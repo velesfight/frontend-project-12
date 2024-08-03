@@ -6,6 +6,7 @@ const routes = {
   loginPage: () => ['/', 'login'].join(''),
   signUpPage: () => ['/', 'signup'].join(''),
   chatPage: () => '/',
+  dataPath: () => [apiPath, 'data'].join('/'),
   
 };
 
