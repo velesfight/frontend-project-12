@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
-  "description": "[![Actions Status](https://github.com/velesfight/frontend-project-12/actions/workflows/hexlet-check.yml/badge.svg)](https://github.com/velesfight/frontend-project-12/actions)",
+  "description": "Chat_Slack is real-time messaging application",
   "main": "index.js",
   "scripts": {
     "build": "npm run build --prefix frontend",
@@ -12,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hexlet/chat-server": "^2.0.0",
-    "s": "^1.0.0"
+    "@hexlet/chat-server": "^2.0.0"
   }
 }

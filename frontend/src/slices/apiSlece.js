@@ -1,8 +1,7 @@
-import routes from '../../src/Components/routes';
-import {
-    createAsyncThunk
-  } from '@reduxjs/toolkit';
-  import axios from 'axios';
+import routes from '../Components/routes/routes';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
 
 const getAuthHeader = () => {
@@ -57,7 +56,7 @@ export const channelsSlice = createSlice({
       // Вызывается, если запрос успешно выполнился
       .addCase(fetchData.fulfilled, (state, action) => {
         // Добавляем пользователя
-        usersAdapter.addMany(state, action);
+        channelsAdapter.addMany(state, action);
         state.loadingStatus = 'idle';
         state.error = null;
       })
