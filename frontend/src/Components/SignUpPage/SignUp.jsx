@@ -120,7 +120,7 @@ const SignUp = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirmation}
-                placeholder={t('logIn.password')}
+                placeholder={t('logIn.confirmPass')}
                 name="passwordConfirmation"
                 id="confirmPassword"
                 autoComplete="new-password"
