@@ -7,6 +7,8 @@ const routes = {
   signUpPage: () => ['/', 'signup'].join(''),
   chatPage: () => '/',
   dataPath: () => [apiPath, 'data'].join('/'),
+  channelsPath: () => [apiPath, 'channels'].join('/'),
+  messagesPath: () => [apiPath, 'messages'].join('/'),
   
 };
 

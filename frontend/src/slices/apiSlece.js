@@ -16,7 +16,7 @@ const getAuthHeader = () => {
 const fetchData = createAsyncThunk(
     'channels/fetchData',
     async () => {
-        const response = await axios.get(routes.dataPath(), { headers: getAuthHeader() });
+        const response = await axios.get(routes.channelsPath(), { headers: getAuthHeader() });
       return response.data;
     }
   );

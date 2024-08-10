@@ -16,7 +16,7 @@ const getAuthHeader = () => {
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
     async (currentChannelId ) => {
-      const response = await axios.get(routes.dataPath(currentChannelId), { headers: getAuthHeader() });
+      const response = await axios.get(routes.messagesPath(currentChannelId), { headers: getAuthHeader() });
       return response.data;
     }
   );
