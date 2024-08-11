@@ -9,6 +9,7 @@ import ChannelList from './channels/ChannelsList';
 import getModalComponent from './modals/typeModals';
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify';
+import routes from './routes/routes';
 
 const MainPage1 = () => {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ const getAuthHeader = () => {
 
 useEffect(() => {
 
-  axios.get('/api/v1/channels', { headers: getAuthHeader() })
+  axios.get(routes.channelsPath(), { headers: getAuthHeader() })
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
@@ -43,7 +44,7 @@ useEffect(() => {
     }
   });
 
-axios.get('/api/v1/messages', { headers: getAuthHeader() })
+axios.get(routes.messagesPath(), { headers: getAuthHeader() })
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
   })

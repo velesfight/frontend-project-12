@@ -28,7 +28,7 @@ const btnClass = cn(
 return (
             <Nav.Item key={channel.id} className="nav-item w-100">
               {channel.removable ? (
-                          <Dropdown as={ButtonGroup} className="d-flex">
+                <div role="group" className="d-flex dropdown btn-group">
                               <Button
                                   type="button"
                                   className={btnClass}
@@ -38,6 +38,7 @@ return (
                                   <span className="me-1">#</span>
                                   {channel.name}
                               </Button>
+                              <Dropdown as={ButtonGroup} className="d-flex">
                               <Dropdown.Toggle split variant={variant} className="flex-grow-0">
                               <span className="visually-hidden">{t('chatPage.menu')}</span>
                               </Dropdown.Toggle>
@@ -50,6 +51,7 @@ return (
                                   </Dropdown.Item>
                               </Dropdown.Menu>
                           </Dropdown>
+                          </div>
                   ) : (
                           <Button
                               type="button"
