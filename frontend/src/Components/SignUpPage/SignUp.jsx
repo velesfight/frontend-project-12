@@ -132,7 +132,9 @@ const SignUp = () => {
               />
               <Form.Label htmlFor="password">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control.Feedback type="invalid" tooltip>
-                {formik.errors.passwordConfirmation}
+                {authFailed
+                ? t('validation.409')
+                : t(formik.errors.passwordConfirmation)}
                 </Form.Control.Feedback>
             </Form.Group>
             <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
