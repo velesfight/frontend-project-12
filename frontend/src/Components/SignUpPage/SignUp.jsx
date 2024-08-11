@@ -100,7 +100,7 @@ const SignUp = () => {
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
-                placeholder={t('logIn.password')}
+                placeholder={t('logIn.passwordLength')}
                 name="password"
                 id="password"
                 autoComplete="current-password"
@@ -120,7 +120,7 @@ const SignUp = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirmation}
-                placeholder={t('logIn.confirmPass')}
+                placeholder={t('logIn.mustMatch')}
                 name="passwordConfirmation"
                 id="confirmPassword"
                 autoComplete="new-password"
@@ -130,11 +130,10 @@ const SignUp = () => {
                 }
                 required
               />
-              <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
+              <Form.Label htmlFor="password">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control.Feedback type="invalid" tooltip>
                 {formik.errors.passwordConfirmation}
                 </Form.Control.Feedback>
-                <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
             </Form.Group>
             <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
         </Form>
