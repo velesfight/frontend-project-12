@@ -90,8 +90,9 @@ const SignUp = () => {
                <Form.Label htmlFor="username">{t('logIn.nameRegistr')} </Form.Label>
                <Form.Control.Feedback
                    type="invalid"
+                   placement="right"
                    tooltip>
-                     {formik.errors.username}
+                     {t(formik.errors.username)}
                   </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-3">
@@ -103,6 +104,7 @@ const SignUp = () => {
                 placeholder={t('logIn.passwordLength')}
                 name="password"
                 id="password"
+                aria-describedby="passwordHelpBlock"
                 autoComplete="current-password"
                 isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
                 required
@@ -111,7 +113,7 @@ const SignUp = () => {
                <Form.Control.Feedback 
                type="invalid"
                tooltip>
-                {formik.errors.password}
+                {t(formik.errors.password)}
                </Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="form-floating mb-4">
