@@ -46,7 +46,6 @@ const SignUp = () => {
           if (error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
-            toast.error(t('validation.409'))
           }
           if (error.isAxiosError && error.response.status === 401) {
             setAuthFailed(true);
