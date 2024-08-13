@@ -25,7 +25,7 @@ const SignUp = () => {
       const validationSchema = Yup.object().shape({
         username: Yup.string().required(t('validation.required')).min(3, (t('validation.length'))).max(20, (t('validation.length'))),
         password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
-        passwordConfirmation: Yup.string().required(t('validation.required')).oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
+        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
       });
     
       const formik =  useFormik({
