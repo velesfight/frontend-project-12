@@ -25,7 +25,7 @@ const SignUp = () => {
       const validationSchema = Yup.object().shape({
         username: Yup.string().required(t('validation.required')).min(3, (t('validation.length'))).max(20, (t('validation.length'))),
         password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
-        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
+        passwordConfirmation: Yup.string().required(t('validation.required')).oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
       });
     
       const formik =  useFormik({
@@ -108,12 +108,12 @@ const SignUp = () => {
                 isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
                 required
               />
-               <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
                <Form.Control.Feedback 
                type="invalid"
                tooltip>
                 {t(formik.errors.password)}
                </Form.Control.Feedback>
+               <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
             </Form.Group>
             <Form.Group className="form-floating mb-4">
               <Form.Control
@@ -131,12 +131,12 @@ const SignUp = () => {
                 }
                 required
               />
-              <Form.Label htmlFor="passwordConfirmation">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control.Feedback type="invalid" tooltip>
                 {authFailed
                 ? t('validation.409')
                 : t(formik.errors.passwordConfirmation)}
                 </Form.Control.Feedback>
+                <Form.Label htmlFor="passwordConfirmation">{t('logIn.confirmPass')}</Form.Label>
             </Form.Group>
             <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
         </Form>
