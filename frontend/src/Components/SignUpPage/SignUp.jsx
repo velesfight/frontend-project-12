@@ -51,16 +51,13 @@ const SignUp = () => {
           if (error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
-          }
-          if (error.isAxiosError && error.response.status === 401) {
+          } else {
             setAuthFailed(true);
             toast.error(t('errors.unknown'));
           }
-          toast.error(t('errors.network'))
-          throw error;
         }
       },
-      });
+    });
 
 
     return (
