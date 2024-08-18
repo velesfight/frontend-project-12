@@ -25,7 +25,7 @@ const SignUp = () => {
       const validationSchema = Yup.object().shape({
         username: Yup.string().required(t('validation.required')).min(3, (t('validation.length'))).max(20, (t('validation.length'))),
         password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
-        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], t('validation.mustMatch')).test(
+        passwordConfirmation: Yup.string().test(
           'passwordConfirmation',
           (t('validation.mustMatch')),
           (value, context) => value === context.parent.password,
@@ -55,7 +55,7 @@ const SignUp = () => {
             setAuthFailed(true);
             toast.error(t('errors.unknown'));
           }
-          console.log(t('errors.network'))
+          toast.error(t('errors.network'))
           throw error;
         }
       },
