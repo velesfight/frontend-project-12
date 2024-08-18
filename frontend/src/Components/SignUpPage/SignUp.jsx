@@ -25,7 +25,11 @@ const SignUp = () => {
       const validationSchema = Yup.object().shape({
         username: Yup.string().required(t('validation.required')).min(3, (t('validation.length'))).max(20, (t('validation.length'))),
         password: Yup.string().required(t('validation.required')).min(6, (t('validation.passwordLength'))),
-        passwordConfirmation: Yup.string().required(t('validation.required')).oneOf([Yup.ref('password'), null], t('validation.mustMatch')),
+        passwordConfirmation: Yup.string().oneOf([Yup.ref('password'), null], t('validation.mustMatch')).test(
+          'passwordConfirmation',
+          (t('validation.mustMatch')),
+          (value, context) => value === context.parent.password,
+        ),
       });
     
       const formik =  useFormik({
@@ -100,7 +104,7 @@ const SignUp = () => {
                 onChange={formik.handleChange}
                 value={formik.values.password}
                 onBlur={formik.handleBlur}
-                placeholder={t('logIn.passwordLength')}
+                placeholder={t('validation.passwordLength')}
                 name="password"
                 id="password"
                 aria-describedby="passwordHelpBlock"
@@ -121,7 +125,7 @@ const SignUp = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.passwordConfirmation}
-                placeholder={t('logIn.mustMatch')}
+                placeholder={t('validation.mustMatch')}
                 name="passwordConfirmation"
                 id="confirmPassword"
                 autoComplete="new-password"
@@ -132,11 +136,12 @@ const SignUp = () => {
                 required
               />
               <Form.Control.Feedback type="invalid" tooltip>
-                {authFailed
-                ? t('validation.409')
-                : t(formik.errors.passwordConfirmation)}
+              {authFailed
+              ? t('validation.409')  
+              : t(formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
                 </Form.Control.Feedback>
                 <Form.Label htmlFor="passwordConfirmation">{t('logIn.confirmPass')}</Form.Label>
+               
             </Form.Group>
             <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
         </Form>

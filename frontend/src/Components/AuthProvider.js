@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { AuthContext } from './contexts/useAuth'
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(() => {
+    const token = localStorage.getItem('userId');
+    return token ? JSON.parse(token) : null;
+  });
     const saveToken = (token) => {
       const userId = JSON.parse(token);
       localStorage.setItem('userId', JSON.stringify(userId));

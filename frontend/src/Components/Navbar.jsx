@@ -16,7 +16,7 @@ const HeaderChat = () => {
         <BootstrapNavbar.Brand as={Link} to={routes.chatPage()}>
         {t('logIn.hexletChat')}
         </BootstrapNavbar.Brand>
-        {user !== null ? <Button type="button" className="btn btn-primary" onClick={logOut}>{t('logIn.logOut')}</Button> : null}
+        {user !== null  ? <Button type="button" className="btn btn-primary" onClick={logOut}>{t('logIn.logOut')}</Button> : null}
       </div>
     </BootstrapNavbar>
   );
