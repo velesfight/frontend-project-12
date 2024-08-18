@@ -47,6 +47,7 @@ const SignUp = () => {
           auth.logIn();
           navigate(routes.chatPage());
         } catch (error) {
+          formik.setSubmitting(false);
           if (error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
