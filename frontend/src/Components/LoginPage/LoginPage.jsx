@@ -35,8 +35,8 @@ const validationSchema = Yup.object().shape({
       setAuthFailed(false);
     try {
       const res = await axios.post(routes.loginPath(), values);
-      auth.saveToken(JSON.stringify(res.data));
-      auth.logIn();
+      
+      auth.logIn(res.data);
       navigate(routes.chatPage());
     } catch (err) {
     formik.setSubmitting(false);

@@ -16,11 +16,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import HeaderChat from './Components/Navbar';
 
 const PrivateRoute = ({ children }) => {
-  const auth = useAuth();
+  const { user } = useAuth();
   const location = useLocation();
 
   return (
-    auth.loggedIn ? children : (
+    user ? children : (
     <Navigate to={routes.loginPath()} state={{ from: location }} />
     )
   );

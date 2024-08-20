@@ -1,43 +1,38 @@
-import { useState } from 'react';
-import { AuthContext } from './contexts/useAuth'
+import { createContext, useState } from 'react';
+
+export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(() => {
-    const token = localStorage.getItem('userId');
-    return token ? JSON.parse(token) : null;
-  });
-    const saveToken = (token) => {
-      const userId = JSON.parse(token);
-      localStorage.setItem('userId', JSON.stringify(userId));
-      setUser(userId);
-    };
+  const savedUser = JSON.parse(localStorage.getItem('userId'));
 
-const [loggedIn, setLoggedIn] = useState(() => {
-  const token = localStorage.getItem('userId');
-  console.log(!!token)//true
-  return !!token;  // Приводим значение к булевому типу
-});
+  const [user, setUser] = useState(
+    savedUser ? { username: savedUser.username } : null,
+  );
 
+  const getAuthToken = () => savedUser?.token || null;
 
+  const logIn = (userData) => {
+    localStorage.setItem('userId', JSON.stringify(userData));
+    setUser({ username: userData.username });
+  };
 
-const logIn = () =>
-setLoggedIn(true);
+  const logOut = () => {
+    localStorage.removeItem('userId');
+    setUser(null);
+  };
 
-
-const logOut = () => {
-  localStorage.removeItem('userId');
-  setLoggedIn(false);
-  setUser(null)
-};
-
+  const contextValue = {
+    logIn,
+    logOut,
+    user,
+    getAuthToken,
+  };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, user, logIn, logOut, saveToken }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
-
 };
-
 
 export default AuthProvider;

@@ -5,6 +5,8 @@ import { useAuth } from './contexts/useAuth';
 import routes from './routes/routes';
 import { useTranslation } from 'react-i18next';
 
+
+
 const HeaderChat = () => {
   const { logOut, user } = useAuth();
   const { t } = useTranslation();

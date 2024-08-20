@@ -43,8 +43,7 @@ const SignUp = () => {
           setAuthFailed(false);
         try {
           const res = await axios.post(routes.signUpPath(), { username: values.username, password: values.password });
-          auth.saveToken(JSON.stringify(res.data));
-          auth.logIn();
+          auth.logIn(res.data);
           navigate(routes.chatPage());
         } catch (error) {
           formik.setSubmitting(false);
