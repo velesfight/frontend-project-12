@@ -20,6 +20,7 @@ const fetchData = createAsyncThunk(
       return response.data;
     }
   );
+  console.log(fetchData)
 
   const channelsAdapter = createEntityAdapter();
 

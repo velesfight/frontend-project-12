@@ -44,7 +44,7 @@ useEffect(() => {
     }
   });
 
-axios.get(routes.messagesPath(), { headers: getAuthHeader() })
+axios.get(routes.messagesPath(), {headers: getAuthHeader()})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
   })

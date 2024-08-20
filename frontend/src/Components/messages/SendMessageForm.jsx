@@ -24,7 +24,7 @@ const SendMessageForm = () => {
       return { Authorization: `Bearer ${userId.token}` };
     }
     return {};
-  } 
+ } 
 const formik = useFormik ({
   initialValues: { messageInput: '' },
   onSubmit: async (values,{ setSubmitting, resetForm } ) => {
@@ -35,7 +35,7 @@ const formik = useFormik ({
        channelId: currentChannelId,
       };
       try {
-        const response = await axios.post('/api/v1/messages', message, { headers: getAuthHeader() });
+        const response = await axios.post('/api/v1/messages', message, { headers: getAuthHeader() } );
           resetForm(); 
           dispatch(addMessage(response.data));
       } catch (error) {
