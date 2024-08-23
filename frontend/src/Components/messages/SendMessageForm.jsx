@@ -6,9 +6,11 @@ import { useFormik } from 'formik';
 import { addMessage } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
+import { useAuth } from '../contexts/useAuth';
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
+  const { getAuthToken } = useAuth();
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   const { currentChannelId } = useSelector((state) => state.channels);
@@ -18,13 +20,13 @@ const SendMessageForm = () => {
     inputRef.current.focus();
   }, []);
 
-  const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
- } 
+  //const getAuthHeader = () => {
+    //const userId = JSON.parse(localStorage.getItem('userId'));
+    //if (userId && userId.token) {
+    //  return { Authorization: `Bearer ${userId.token}` };
+   // }
+    //return {};
+ //} 
 const formik = useFormik ({
   initialValues: { messageInput: '' },
   onSubmit: async (values,{ setSubmitting, resetForm } ) => {
@@ -35,7 +37,7 @@ const formik = useFormik ({
        channelId: currentChannelId,
       };
       try {
-        const response = await axios.post('/api/v1/messages', message, { headers: getAuthHeader() } );
+        const response = await axios.post('/api/v1/messages', message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
           resetForm(); 
           dispatch(addMessage(response.data));
       } catch (error) {

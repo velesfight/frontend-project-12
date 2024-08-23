@@ -23,8 +23,10 @@ const init = async () => {
       resources,
       fallbackLng: 'ru',
     });
-
-    filter.loadDictionary('ru');
+    
+    filter.add(filter.getDictionary('ru'));
+    filter.add(filter.getDictionary('en'));
+    //filter.loadDictionary('ru');
 
 const rollbarConfig = {
   accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
