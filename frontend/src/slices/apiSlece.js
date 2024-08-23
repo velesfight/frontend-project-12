@@ -2,25 +2,25 @@ import routes from '../Components/routes/routes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+import getAuthToken  from '../Components/AuthProvider';
 
-
-const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-  };
-
-
+//const getAuthHeader = () => {
+  //const userId = JSON.parse(localStorage.getItem('userId'));
+  //if (userId && userId.token) {
+  //return { Authorization: `Bearer ${userId.token}` };
+  //}
+  //return {};
+  //};
+  console.log(localStorage.getItem('userId'));
 const fetchData = createAsyncThunk(
     'channels/fetchData',
     async () => {
-        const response = await axios.get(routes.channelsPath(), { headers: getAuthHeader() });
+        const response = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+  
       return response.data;
     }
   );
-  console.log(fetchData)
+
 
   const channelsAdapter = createEntityAdapter();
 

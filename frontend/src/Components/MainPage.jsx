@@ -14,24 +14,23 @@ import routes from './routes/routes';
 const MainPage1 = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const auth = useAuth();
+  const { auth,  getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
   const modalType = useSelector((state) => state.modal.modalType);
 const { currentChannelId } = useSelector((state) => state.channels);
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 
-const getAuthHeader = () => {
-  const userId = JSON.parse(localStorage.getItem('userId'));
-  if (userId && userId.token) {
-  return { Authorization: `Bearer ${userId.token}` };
-  }
-  return {};
-  };
+//const getAuthHeader = () => {
+  //const userId = JSON.parse(localStorage.getItem('userId'));
+  //if (userId && userId.token) {
+  //return { Authorization: `Bearer ${userId.token}` };
+  //}
+  //return {};
+  //};
 
 useEffect(() => {
-
-  axios.get(routes.channelsPath(), { headers: getAuthHeader() })
+  axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
@@ -44,7 +43,7 @@ useEffect(() => {
     }
   });
 
-axios.get(routes.messagesPath(), {headers: getAuthHeader()})
+axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
   })
@@ -54,7 +53,7 @@ axios.get(routes.messagesPath(), {headers: getAuthHeader()})
       auth.logOut();
     }
   });
-}, [dispatch, auth, t]);
+}, [dispatch, auth, t, getAuthToken]);
 
 
 return (
