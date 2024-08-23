@@ -10,7 +10,7 @@ const AuthProvider = ({ children }) => {
   );
 
   const getAuthToken = () => savedUser?.token || null;
-
+console.log(getAuthToken())
   const logIn = (userData) => {
     localStorage.setItem('userId', JSON.stringify(userData));
     setUser({ username: userData.username });

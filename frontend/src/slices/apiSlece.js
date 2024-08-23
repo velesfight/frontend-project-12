@@ -11,11 +11,11 @@ import getAuthToken  from '../Components/AuthProvider';
   //}
   //return {};
   //};
-  console.log(localStorage.getItem('userId'));
+
 const fetchData = createAsyncThunk(
     'channels/fetchData',
     async () => {
-        const response = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+        const response = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000 });
   
       return response.data;
     }

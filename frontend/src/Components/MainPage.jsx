@@ -31,7 +31,7 @@ const currentChannel = channels.find((channel) => channel.id === currentChannelI
   //};
 console.log(getAuthToken())
 useEffect(() => {
-  axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
+  axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
@@ -43,7 +43,7 @@ useEffect(() => {
     }
   });
 
-axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
+axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
   })

@@ -17,7 +17,7 @@ import getAuthToken  from '../Components/AuthProvider';
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
     async (currentChannelId ) => {
-      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000});
       return response.data;
     }
   );
