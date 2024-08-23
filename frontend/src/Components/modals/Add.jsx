@@ -11,7 +11,7 @@ import { selectors } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/useAuth';
-
+import filter from 'leo-profanity';
 
 const Add = () => {
     const dispatch = useDispatch();
@@ -41,7 +41,7 @@ useEffect(() => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const newChannel = { name: values.name, removable: true };
+      const newChannel = { name: filter.clean(values.name), removable: true };
       try {
         console.log(getAuthToken())
         const response = await axios.post('/api/v1/channels', newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});

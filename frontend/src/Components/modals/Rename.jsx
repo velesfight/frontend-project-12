@@ -10,7 +10,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/useAuth';
-
+import filter from 'leo-profanity';
 const Rename = () => {
 const { t } = useTranslation();
 const dispatch = useDispatch();
@@ -54,7 +54,7 @@ useEffect(() => {
     onSubmit: async (values) =>{
       try {
         await axios.patch(`/api/v1/channels/${channelId}`,  { name: values.name }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
-        dispatch(updateChannel({ id: channelId, changes: { name: values.name } }));
+        dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
         dispatch(hideModal());
         toast.success(t('modals.doneRename'));
         } catch (error) {
