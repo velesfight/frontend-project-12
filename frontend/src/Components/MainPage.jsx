@@ -11,10 +11,11 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify';
 import routes from './routes/routes';
 
+
 const MainPage1 = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { auth,  getAuthToken } = useAuth();
+  const { getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
   const modalType = useSelector((state) => state.modal.modalType);
@@ -28,7 +29,7 @@ const currentChannel = channels.find((channel) => channel.id === currentChannelI
   //}
   //return {};
   //};
-
+console.log(getAuthToken())
 useEffect(() => {
   axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((channelsResponse) => {
@@ -38,8 +39,7 @@ useEffect(() => {
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
-    toast.error(t('errors.network'));
-      auth.logOut();
+
     }
   });
 
@@ -50,10 +50,10 @@ axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthT
   .catch((error) => {
     if (error.response && error.response.status === 401) {
       toast.error(t('errors.network'));
-      auth.logOut();
+
     }
   });
-}, [dispatch, auth, t, getAuthToken]);
+}, [dispatch, t, getAuthToken]);
 
 
 return (

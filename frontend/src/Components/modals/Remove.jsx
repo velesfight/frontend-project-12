@@ -7,6 +7,7 @@ import { selectors, removeChannel, setCurrentChannelId } from '../../slices/chan
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
+import { useAuth } from '../contexts/useAuth';
 
 const Remove = () => {
   const { t } = useTranslation();
@@ -14,22 +15,23 @@ const Remove = () => {
     const channelId = useSelector((state) => state.modal.channelId);
     const { currentChannelId } = useSelector((state) => state.channels);
     const isOpened = useSelector((state) => state.modal.isOpen);
+    const { getAuthToken } = useAuth();
     
     const channels = useSelector(selectors.selectAll);
     console.log(channelId, currentChannelId, channels)
 
-    const getAuthHeader = () => {
-      const userId = JSON.parse(localStorage.getItem('userId'));
-      if (userId && userId.token) {
-        return { Authorization: `Bearer ${userId.token}` };
-      }
-      return {};
-    }
+   // const getAuthHeader = () => {
+    //  const userId = JSON.parse(localStorage.getItem('userId'));
+    //  if (userId && userId.token) {
+     //   return { Authorization: `Bearer ${userId.token}` };
+    //  }
+    //  return {};
+   // }
 
 
   const handleRemove = async () => {
 try {
-await axios.delete(`/api/v1/channels/${channelId}`, { headers: getAuthHeader() });
+await axios.delete(`/api/v1/channels/${channelId}`,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
 dispatch(removeChannel(channelId));
 dispatch(removeMessagesByChannelId(channelId));
 toast.success(t('modals.doneRemove'));

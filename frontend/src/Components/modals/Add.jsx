@@ -10,7 +10,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { selectors } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-
+import { useAuth } from '../contexts/useAuth';
 
 
 const Add = () => {
@@ -18,7 +18,7 @@ const Add = () => {
     const inputEl = useRef();
     const channels = useSelector(selectors.selectAll);
     const { t } = useTranslation();
-
+    const { getAuthToken } = useAuth();
 
 useEffect(() => {
   if (inputEl.current) {
@@ -43,7 +43,7 @@ useEffect(() => {
     onSubmit: async (values) => {
       const newChannel = { name: values.name, removable: true };
       try {
-        const response = await axios.post('/api/v1/channels', newChannel, { headers: getAuthHeader() });
+        const response = await axios.post('/api/v1/channels', newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
         dispatch(hideModal());
         toast.success(t('modals.doneChannel'));
@@ -53,13 +53,13 @@ useEffect(() => {
     },
   });
 
-  const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-  }
+ // const getAuthHeader = () => {
+   // const userId = JSON.parse(localStorage.getItem('userId'));
+   // if (userId && userId.token) {
+    //  return { Authorization: `Bearer ${userId.token}` };
+   // }
+   // return {};
+  //}
 
   const handleClose = () => {
     dispatch(hideModal());

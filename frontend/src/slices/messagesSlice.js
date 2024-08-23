@@ -2,21 +2,22 @@ import { createSlice, createEntityAdapter  } from '@reduxjs/toolkit';
 import routes from '../Components/routes/routes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import getAuthToken  from '../Components/AuthProvider';
 //import  currentChannelId from './slices/channelsSlice';
 
-const getAuthHeader = () => {
-    const userId = JSON.parse(localStorage.getItem('userId'));
-    if (userId && userId.token) {
-      return { Authorization: `Bearer ${userId.token}` };
-    }
-    return {};
-  };
+//const getAuthHeader = () => {
+    //const userId = JSON.parse(localStorage.getItem('userId'));
+    //if (userId && userId.token) {
+    //  return { Authorization: `Bearer ${userId.token}` };
+    //}
+   // return {};
+  //};
 
 
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
     async (currentChannelId ) => {
-      const response = await axios.get(routes.messagesPath(currentChannelId), { headers: getAuthHeader() });
+      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
       return response.data;
     }
   );
