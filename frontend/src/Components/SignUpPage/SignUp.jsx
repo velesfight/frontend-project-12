@@ -132,7 +132,7 @@ const SignUp = () => {
                 }
                 required
               />
-              <Form.Label htmlFor="passwordConfirmation">{t('logIn.confirmPass')}</Form.Label>
+              <Form.Label htmlFor="confirmPassword">{t('logIn.confirmPass')}</Form.Label>
               <Form.Control.Feedback type="invalid" tooltip>
               {authFailed
               ? t('validation.409')  

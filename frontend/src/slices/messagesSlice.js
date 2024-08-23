@@ -18,7 +18,9 @@ import getAuthToken  from '../Components/AuthProvider';
     'messages/fetchMessages',
     async (currentChannelId ) => {
       const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000});
+      console.log(getAuthToken())
       return response.data;
+
     }
   );
 const messagesAdapter = createEntityAdapter();

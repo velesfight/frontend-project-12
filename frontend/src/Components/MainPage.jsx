@@ -29,12 +29,13 @@ const currentChannel = channels.find((channel) => channel.id === currentChannelI
   //}
   //return {};
   //};
-console.log(getAuthToken())
+
 useEffect(() => {
   axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
+console.log(channelsResponse.data[0].id)
     dispatch(setCurrentChannel( channelsResponse.data));
   })
   .catch((error) => {

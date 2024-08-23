@@ -16,7 +16,7 @@ const fetchData = createAsyncThunk(
     'channels/fetchData',
     async () => {
         const response = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000 });
-  
+        console.log(getAuthToken())
       return response.data;
     }
   );
