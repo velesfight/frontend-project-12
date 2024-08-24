@@ -54,16 +54,15 @@ return (
         </Modal.Header>
         <Modal.Body>
         <p className="lead">{t('modals.sure')}</p>
-        </Modal.Body>
-        <Modal.Footer>
+        <div className="d-flex justify-content-end">
         <Button  onClick={handleClose} className="me-2 btn btn-secondary">
           {t('modals.cancel')}
           </Button>
             <Button className="btn btn-danger" type="submit" onClick={handleRemove}>
             {t('modals.remove')}
           </Button>
-          </Modal.Footer>
-        
+          </div>
+          </Modal.Body>
     </Modal>
       );
 }
