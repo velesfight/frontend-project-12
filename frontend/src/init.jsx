@@ -8,7 +8,7 @@ import App from './App';
 import resources from './locales/index.js';
 import { Provider } from 'react-redux';
 import store from './Components/store';
-import currentChannelId from './slices/channelsSlice';
+//import currentChannelId from './slices/channelsSlice';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { fetchData } from './slices/apiSlece';
@@ -36,7 +36,7 @@ const rollbarConfig = {
   
     try {
       await store.dispatch(fetchData());
-      await store.dispatch(fetchMessages(currentChannelId));
+      await store.dispatch(fetchMessages());
      // const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
       //store.dispatch(addChannels(channelsResponse.data));
       //store.dispatch(setCurrentChannelId(channelsResponse.data.id));
