@@ -45,7 +45,7 @@ console.log(channelsResponse.data[0].id)
     }
   });
 
-axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
+axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
     

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { addMessage } from '../../slices/messagesSlice';
+import { addMessage, addMessages } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useAuth } from '../contexts/useAuth';
@@ -40,6 +40,7 @@ const formik = useFormik ({
       try {
         const response = await axios.post('/api/v1/messages', message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
         dispatch(addMessage(response.data));
+        dispatch(addMessages(response.data));
         resetForm(); 
       } catch (error) {
         toast.error((t('errors.unknown')));
