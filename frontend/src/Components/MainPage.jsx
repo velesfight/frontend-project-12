@@ -21,6 +21,7 @@ const MainPage1 = () => {
   const modalType = useSelector((state) => state.modal.modalType);
 const { currentChannelId } = useSelector((state) => state.channels);
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
+const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
 
 //const getAuthHeader = () => {
   //const userId = JSON.parse(localStorage.getItem('userId'));
@@ -47,6 +48,7 @@ console.log(channelsResponse.data[0].id)
 axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
+    
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
@@ -72,11 +74,11 @@ return (
                   <b>#{currentChannel ? currentChannel.name : ''}</b>
                 </p>
                 <span className="text-muted">
-                  {`${t('countMessage.messages', { count: messages.length })}`}
+                  {`${t('countMessage.messages', { count: filteredMessages.length })}`}
                 </span>
               </div>
               <div id="messages-box" className="chat-messages overflow-auto px-5">
-                {messages.map((message) => (
+                {filteredMessages.map((message) => (
                   <div key={message.id} className="text-break mb-2">
                     <b>{message.username}</b>: {message.body}
                   </div>
