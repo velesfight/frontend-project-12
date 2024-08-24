@@ -39,7 +39,7 @@ export default {
       addChannel: 'Добавить канал',
       doneChannel: 'Канал создан',
       removeChannel: 'Удалить канал',
-      doneRemove: 'Канал удален',
+      doneRemove: 'Канал удалён',
       renameChannel: 'Переименовать канал',
       doneRename: 'Канал Переименован',
       remove: 'Удалить',
