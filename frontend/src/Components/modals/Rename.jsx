@@ -72,13 +72,15 @@ useEffect(() => {
             <Modal.Header closeButton onHide={handleClose}>
               <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
             </Modal.Header>
-            <form onSubmit={formik.handleSubmit}>
             <Modal.Body>
+            <Form onSubmit={formik.handleSubmit} controlid="name">
                 <FormGroup>
                   <FormControl
                     name="name"
+                    id="name"
                     type="text"
                     disabled={formik.isSubmitting}
+                    onBlur={formik.handleBlur}
                     onChange={formik.handleChange}
                     value={formik.values.name}
                     ref={inputEl}
@@ -91,7 +93,6 @@ useEffect(() => {
               {(formik.errors.name)}
             </Form.Control.Feedback>
                 </FormGroup>
-                </Modal.Body>
                 <Modal.Footer>
                 <Button className="pme-2 btn btn-secondary" onClick={handleClose}>
             {t('modals.cancel')}
@@ -100,7 +101,8 @@ useEffect(() => {
             {t('modals.send')}
             </Button>
             </Modal.Footer>
-              </form>
+            </Form>
+            </Modal.Body>
         </Modal>
       );
     }

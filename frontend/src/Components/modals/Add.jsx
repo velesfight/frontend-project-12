@@ -29,8 +29,8 @@ useEffect(() => {
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
-      .min(3)
-      .max(20)
+      .min(3, (t('validation.length')))
+      .max(20, (t('validation.length')))
       .notOneOf(channels.map((channel) => channel.name), 'Add.unique')
       .required(),
   });
