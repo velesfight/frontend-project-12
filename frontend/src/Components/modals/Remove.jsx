@@ -18,7 +18,6 @@ const Remove = () => {
     const { getAuthToken } = useAuth();
     
     const channels = useSelector(selectors.selectAll);
-    console.log(channelId, currentChannelId, channels)
 
    // const getAuthHeader = () => {
     //  const userId = JSON.parse(localStorage.getItem('userId'));
@@ -31,7 +30,7 @@ const Remove = () => {
 
   const handleRemove = async () => {
 try {
-await axios.delete(`/api/v1/channels/${channelId}`,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+  await axios.delete(`/api/v1/channels/${channelId}`,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
 dispatch(removeChannel(channelId));
 dispatch(removeMessagesByChannelId(channelId));
 toast.success(t('modals.doneRemove'));
@@ -55,10 +54,10 @@ return (
         <Modal.Body>
         <p className="lead">{t('modals.sure')}</p>
         <div className="d-flex justify-content-end">
-        <Button  onClick={handleClose} className="me-2 btn btn-secondary">
+        <Button  onClick={handleClose} variant="secondary">
           {t('modals.cancel')}
           </Button>
-            <Button className="btn btn-danger" type="submit" onClick={handleRemove}>
+            <Button variant="danger" type="submit" onClick={handleRemove}>
             {t('modals.remove')}
           </Button>
           </div>
