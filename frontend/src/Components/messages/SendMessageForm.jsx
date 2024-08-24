@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Button, Toast } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
 import { addMessage } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useAuth } from '../contexts/useAuth';
+import { toast } from 'react-toastify';
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
@@ -38,10 +39,10 @@ const formik = useFormik ({
       };
       try {
         const response = await axios.post('/api/v1/messages', message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
-          resetForm(); 
-          dispatch(addMessage(response.data));
+        dispatch(addMessage(response.data));
+        resetForm(); 
       } catch (error) {
-        Toast.error((t('errors.unknown')));
+        toast.error((t('errors.unknown')));
       } finally {
         setSubmitting(false);
       }
@@ -62,7 +63,7 @@ const formik = useFormik ({
             value={formik.values.messageInput}
             onChange={formik.handleChange}
             ref={inputRef}
-            className="border-0 p-0 ps-2 form-control"
+            className="border-0 p-0 ps-2"
             required
           />
           <Button className="btn btn-group-vertical" variant="light" type="submit">
