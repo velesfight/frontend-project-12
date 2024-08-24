@@ -84,7 +84,7 @@ return (
                   </div>
                 ))}
               </div>
-              <SendMessageForm />
+              <SendMessageForm channel={currentChannel}/>
             </div>
           </div>
         </div>

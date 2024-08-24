@@ -3,11 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import { addMessage, addMessages } from '../../slices/messagesSlice';
+import { addMessage } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
 import { useAuth } from '../contexts/useAuth';
 import { toast } from 'react-toastify';
+import routes from '../routes/routes';
+
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
@@ -38,9 +40,8 @@ const formik = useFormik ({
        channelId: currentChannelId,
       };
       try {
-        const response = await axios.post('/api/v1/messages', message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
+        const response = await axios.post(routes.messagesPath(), message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
         dispatch(addMessage(response.data));
-        dispatch(addMessages(response.data));
         resetForm(); 
       } catch (error) {
         toast.error((t('errors.unknown')));
@@ -67,7 +68,7 @@ const formik = useFormik ({
             className="border-0 p-0 ps-2"
             required
           />
-          <Button className="btn btn-group-vertical" variant="light" type="submit">
+          <Button className="btn btn-group-vertical border-0" variant="light" type="submit" disabled={formik.isSubmitting}>
           <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 16 16"
