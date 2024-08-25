@@ -19,10 +19,7 @@ const SendMessageForm = () => {
   const { currentChannelId } = useSelector((state) => state.channels);
   const { username } = JSON.parse(localStorage.getItem('userId'));
  
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
+  
   //const getAuthHeader = () => {
     //const userId = JSON.parse(localStorage.getItem('userId'));
     //if (userId && userId.token) {
@@ -51,6 +48,9 @@ const formik = useFormik ({
     }
   },
 });
+useEffect(() => {
+  inputRef.current.focus();
+}, [currentChannelId]);
 
   return (
     <div className="mt-auto px-5 py-3">
