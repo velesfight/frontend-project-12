@@ -2,8 +2,9 @@ import { createSlice, createEntityAdapter  } from '@reduxjs/toolkit';
 import routes from '../Components/routes/routes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import getAuthToken  from '../Components/AuthProvider';
-//import  currentChannelId from './slices/channelsSlice';
+
+import  getAuthToken  from '../Components/AuthProvider';
+//import  currentChannelId from './channelsSlice';
 
 //const getAuthHeader = () => {
     //const userId = JSON.parse(localStorage.getItem('userId'));
@@ -16,9 +17,9 @@ import getAuthToken  from '../Components/AuthProvider';
 
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
-    async (currentChannelId ) => {
-      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000});
-      console.log(getAuthToken())
+    async (currentChannelId) => {
+      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}`, timeout: 10000  }});
+      console.log('res', response.data)
       return response.data;
 
     }
@@ -44,8 +45,8 @@ export const messagesSlice = createSlice({
         state.loadingStatus = 'loading';
         state.error = null;
       })
-        .addCase(fetchMessages.fulfilled, (state, action) => {
-          messagesAdapter.addMany(state, action);
+        .addCase(fetchMessages.fulfilled, (state, payload) => {
+          messagesAdapter.addMany(state, payload.messages);
           state.loadingStatus = 'idle';
           state.error = null;
         })

@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/useAuth';
 import filter from 'leo-profanity';
+import routes from '../routes/routes';
 
 const Add = () => {
     const dispatch = useDispatch();
@@ -44,7 +45,7 @@ useEffect(() => {
       const newChannel = { name: filter.clean(values.name), removable: true };
       try {
         console.log(getAuthToken())
-        const response = await axios.post('/api/v1/channels', newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+        const response = await axios.post(routes.channelsPath(), newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
         dispatch(hideModal());
         toast.success(t('modals.doneChannel'));

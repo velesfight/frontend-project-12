@@ -2,8 +2,8 @@ import axios from 'axios';
 import React, { useEffect }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from './contexts/useAuth';
-import { selectors, addChannels, setCurrentChannelId, setCurrentChannel } from '../slices/channelsSlice';
-import { selectors1, addMessages } from '../slices/messagesSlice';
+import { selectors, addChannels, setCurrentChannelId,setCurrentChannel } from '../slices/channelsSlice';
+import { selectors1, addMessages, addMessage } from '../slices/messagesSlice';
 import SendMessageForm from './messages/SendMessageForm';
 import ChannelList from './channels/ChannelsList';
 import getModalComponent from './modals/typeModals';
@@ -36,7 +36,7 @@ useEffect(() => {
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
-console.log(channelsResponse.data[0].id)
+console.log('chan', channelsResponse.data)
     dispatch(setCurrentChannel( channelsResponse.data));
   })
   .catch((error) => {
@@ -48,6 +48,7 @@ console.log(channelsResponse.data[0].id)
 axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
+    dispatch(addMessage(messagesResponse.data));
     
   })
   .catch((error) => {
@@ -84,7 +85,7 @@ return (
                   </div>
                 ))}
               </div>
-              <SendMessageForm channel={currentChannel}/>
+              <SendMessageForm />
             </div>
           </div>
         </div>

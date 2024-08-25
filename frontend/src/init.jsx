@@ -32,7 +32,7 @@ const rollbarConfig = {
   accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
   environment: 'production',
 };
-
+console.log(fetchData())
   
     try {
       await store.dispatch(fetchData());

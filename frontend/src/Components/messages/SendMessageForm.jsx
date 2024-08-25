@@ -36,9 +36,14 @@ const formik = useFormik ({
         username: username,
        channelId: currentChannelId,
       };
+      
       try {
         const response = await axios.post(routes.messagesPath(), message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
+
+        console.log('Auth Token:', response.data);
+  
         dispatch(addMessage(response.data));
+
         resetForm(); 
       } catch (error) {
         toast.error((t('errors.unknown')));
@@ -50,7 +55,7 @@ const formik = useFormik ({
 });
 useEffect(() => {
   inputRef.current.focus();
-}, [currentChannelId]);
+}, [currentChannelId, dispatch]);
 
   return (
     <div className="mt-auto px-5 py-3">
