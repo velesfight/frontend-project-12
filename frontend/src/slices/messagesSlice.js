@@ -15,6 +15,7 @@ import  getAuthToken  from '../Components/AuthProvider';
   //};
 
 
+
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
     async (currentChannelId) => {
@@ -25,7 +26,6 @@ import  getAuthToken  from '../Components/AuthProvider';
     }
   );
 const messagesAdapter = createEntityAdapter();
-
 export const messagesSlice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState(),
@@ -47,6 +47,7 @@ export const messagesSlice = createSlice({
       })
         .addCase(fetchMessages.fulfilled, (state, payload) => {
           messagesAdapter.addMany(state, payload.messages);
+          console.log(payload.message)
           state.loadingStatus = 'idle';
           state.error = null;
         })

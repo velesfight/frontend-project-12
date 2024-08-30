@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { addChannel } from '../../slices/channelsSlice';
+import { addChannel } from '../../slices/apiSlece';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
-import { selectors } from '../../slices/channelsSlice';
+import { selectors } from '../../slices/apiSlece';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/useAuth';

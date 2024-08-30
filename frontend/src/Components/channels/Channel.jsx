@@ -1,7 +1,7 @@
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannelId } from '../../slices/channelsSlice';
+import { setCurrentChannelId } from '../../slices/apiSlece';
 import { showModal } from '../../slices/uiSlisec';
 import { Dropdown, Button, ButtonGroup, Nav } from 'react-bootstrap';
 import React from 'react';

@@ -1,7 +1,7 @@
 
 import React from 'react';
-//import { addChannels, setCurrentChannel, setCurrentChannelId, removeChannel, updateChannel } from './slices/channelsSlice'
-import ApiContext  from './Components/contexts/ApiContext';
+ import { addChannel, removeChannel, updateChannel } from './slices/apiSlece'
+import ApiContext  from './Components/contexts/apiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
@@ -12,7 +12,9 @@ import store from './Components/store';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { fetchData } from './slices/apiSlece';
-import { fetchMessages } from './slices/messagesSlice';
+import { addMessage, fetchMessages } from './slices/messagesSlice';
+import io from 'socket.io-client';
+import SocketContext from './Components/contexts/socket';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -28,11 +30,20 @@ const init = async () => {
     filter.add(filter.getDictionary('en'));
     //filter.loadDictionary('ru');
 
+    const socket = io();
+    socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
+    socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
+    socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
+    socket.on('addMessage', ({payload}) => store.dispatch(addMessage(payload)));
+    socket.on('updateChannel', (payload) => 
+      store.dispatch(updateChannel(payload))
+    );
+
 const rollbarConfig = {
   accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
   environment: 'production',
 };
-console.log(fetchData())
+
   
     try {
       await store.dispatch(fetchData());
@@ -53,11 +64,13 @@ console.log(fetchData())
        <RollbarProvider config={rollbarConfig}>
        <ErrorBoundary>
     <Provider store={store}>
-          <ApiContext.Provider value={null}>
+    <SocketContext.Provider value={updateChannel}>
+    <ApiContext.Provider value={null}>
             <I18nextProvider i18n={i18n}>
               <App />
             </I18nextProvider>
-          </ApiContext.Provider>
+            </ApiContext.Provider>
+            </SocketContext.Provider>
         </Provider>
         </ErrorBoundary>
         </RollbarProvider>

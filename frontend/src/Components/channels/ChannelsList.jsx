@@ -1,8 +1,8 @@
 import {  Button } from 'react-bootstrap';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentChannelId } from '../../slices/channelsSlice';
-import { selectors } from '../../slices/channelsSlice';
+import { setCurrentChannelId } from '../../slices/apiSlece';
+import { selectors } from '../../slices/apiSlece';
 import { showModal } from '../../slices/uiSlisec';
 import { useTranslation } from 'react-i18next';
 import Channel  from '../channels/Channel';

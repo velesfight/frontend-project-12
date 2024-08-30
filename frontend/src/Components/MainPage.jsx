@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from './contexts/useAuth';
-import { selectors, addChannels, setCurrentChannelId,setCurrentChannel } from '../slices/channelsSlice';
+import { selectors, addChannels, setCurrentChannelId,setCurrentChannel } from '../slices/apiSlece';
 import { selectors1, addMessages, addMessage } from '../slices/messagesSlice';
 import SendMessageForm from './messages/SendMessageForm';
 import ChannelList from './channels/ChannelsList';

@@ -4,7 +4,7 @@ import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec';
 import { Modal, FormGroup, FormControl, Form, Button } from 'react-bootstrap';
-import { selectors, updateChannel } from '../../slices/channelsSlice';
+import { selectors, updateChannel } from '../../slices/apiSlece'
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -46,22 +46,22 @@ useEffect(() => {
    // return {};
  // }
 
-  const formik = useFormik({
-    initialValues: {
-      name: curChannel ? curChannel.name : '',
+ const formik = useFormik({
+  initialValues: {
+    name: curChannel ? curChannel.name : '',
+  },
+  validationSchema,
+  onSubmit: async (values) =>{
+    try {
+      await axios.patch(`/api/v1/channels/${channelId}`,  { name: filter.clean(values.name) }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+      dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
+      dispatch(hideModal());
+      toast.success(t('modals.doneRename'));
+      } catch (error) {
+        toast.error(t('errors.unknown'))
+      }
     },
-    validationSchema,
-    onSubmit: async (values) =>{
-      try {
-        await axios.patch(`/api/v1/channels/${channelId}`,  { name: values.name }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
-        dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
-        dispatch(hideModal());
-        toast.success(t('modals.doneRename'));
-        } catch (error) {
-          toast.error(t('errors.unknown'))
-        }
-      },
-    });
+  });
 
   const handleClose = () => {
     dispatch(hideModal());
