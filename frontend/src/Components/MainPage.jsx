@@ -3,7 +3,7 @@ import React, { useEffect }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from './contexts/useAuth';
 import { selectors, addChannels, setCurrentChannelId,setCurrentChannel } from '../slices/apiSlece';
-import { selectors1, addMessages, addMessage } from '../slices/messagesSlice';
+import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './messages/SendMessageForm';
 import ChannelList from './channels/ChannelsList';
 import getModalComponent from './modals/typeModals';
@@ -19,42 +19,32 @@ const MainPage1 = () => {
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
   const modalType = useSelector((state) => state.modal.modalType);
-const { currentChannelId } = useSelector((state) => state.channels);
+  const currentChannelId = useSelector(
+    (state) => state.channels.currentChannelId,
+  );
+
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
-
-//const getAuthHeader = () => {
-  //const userId = JSON.parse(localStorage.getItem('userId'));
-  //if (userId && userId.token) {
-  //return { Authorization: `Bearer ${userId.token}` };
-  //}
-  //return {};
-  //};
 
 useEffect(() => {
   axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
   .then((channelsResponse) => {
     dispatch(addChannels(channelsResponse.data));
     dispatch(setCurrentChannelId( channelsResponse.data[0].id));
-console.log('chan', channelsResponse.data)
     dispatch(setCurrentChannel( channelsResponse.data));
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
-
-    }
+ }
   });
 
 axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
   .then((messagesResponse) => {
     dispatch(addMessages(messagesResponse.data));
-    dispatch(addMessage(messagesResponse.data));
-    
   })
   .catch((error) => {
     if (error.response && error.response.status === 401) {
       toast.error(t('errors.network'));
-
     }
   });
 }, [dispatch, t, getAuthToken]);

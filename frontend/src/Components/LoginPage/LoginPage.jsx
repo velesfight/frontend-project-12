@@ -12,15 +12,16 @@ import { toast } from 'react-toastify';
 
 const LoginPage = () => {
   const { t } = useTranslation();
+  const auth = useAuth();
+  const [authFailed, setAuthFailed] = useState(false);
+  const inputRef = useRef();
+  const navigate = useNavigate();
+
 const validationSchema = Yup.object().shape({
     username: Yup.string().required(t('validation.required')),
     password: Yup.string().required(t('validation.required')),
   });
 
-  const auth = useAuth();
-  const [authFailed, setAuthFailed] = useState(false);
-  const inputRef = useRef();
-  const navigate = useNavigate();
  
   useEffect(() => {
     inputRef.current.focus();
@@ -35,7 +36,6 @@ const validationSchema = Yup.object().shape({
       setAuthFailed(false);
     try {
       const res = await axios.post(routes.loginPath(), values);
-      
       auth.logIn(res.data);
       navigate(routes.chatPage());
     } catch (err) {

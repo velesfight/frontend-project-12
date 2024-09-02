@@ -1,6 +1,6 @@
 
 import React from 'react';
- import { addChannel, removeChannel, updateChannel } from './slices/apiSlece'
+ import  { addChannel, removeChannel, updateChannel } from './slices/apiSlece'
 import ApiContext  from './Components/contexts/apiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -30,14 +30,8 @@ const init = async () => {
     filter.add(filter.getDictionary('en'));
     //filter.loadDictionary('ru');
 
-    const socket = io();
-    socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
-    socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
-    socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
-    socket.on('addMessage', ({payload}) => store.dispatch(addMessage(payload)));
-    socket.on('updateChannel', (payload) => 
-      store.dispatch(updateChannel(payload))
-    );
+   
+
 
 const rollbarConfig = {
   accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
@@ -60,11 +54,18 @@ const rollbarConfig = {
     } catch (error) {
       console.error(error);
     }
+    const socket = io();
+    socket.on('addMessage', (payload) => store.dispatch(addMessage(payload)));
+    socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
+    socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
+    socket.on('updateChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } }))
+    );
+
   return (
        <RollbarProvider config={rollbarConfig}>
        <ErrorBoundary>
     <Provider store={store}>
-    <SocketContext.Provider value={updateChannel}>
+    <SocketContext.Provider value={socket}>
     <ApiContext.Provider value={null}>
             <I18nextProvider i18n={i18n}>
               <App />

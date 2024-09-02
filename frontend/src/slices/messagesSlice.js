@@ -2,19 +2,7 @@ import { createSlice, createEntityAdapter  } from '@reduxjs/toolkit';
 import routes from '../Components/routes/routes';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
 import  getAuthToken  from '../Components/AuthProvider';
-//import  currentChannelId from './channelsSlice';
-
-//const getAuthHeader = () => {
-    //const userId = JSON.parse(localStorage.getItem('userId'));
-    //if (userId && userId.token) {
-    //  return { Authorization: `Bearer ${userId.token}` };
-    //}
-   // return {};
-  //};
-
-
 
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
@@ -22,9 +10,9 @@ import  getAuthToken  from '../Components/AuthProvider';
       const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}`, timeout: 10000  }});
       console.log('res', response.data)
       return response.data;
-
     }
   );
+
 const messagesAdapter = createEntityAdapter();
 export const messagesSlice = createSlice({
   name: 'messages',
@@ -40,7 +28,6 @@ export const messagesSlice = createSlice({
     },
     extraReducers: (builder) => {
       builder
-      // Вызывается прямо перед выполнением запроса
       .addCase(fetchMessages.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
@@ -53,7 +40,6 @@ export const messagesSlice = createSlice({
         })
         .addCase(fetchMessages.rejected, (state, action) => {
           state.loadingStatus = 'failed';
-        // https://redux-toolkit.js.org/api/createAsyncThunk#handling-thunk-errors
         state.error = action.error;
         });
     },

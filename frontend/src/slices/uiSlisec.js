@@ -26,8 +26,8 @@ const initialState =  {
     });
   
     
-    export const selectors = modalAdapter.getSelectors((state) => state.modal);
+export const selectors = modalAdapter.getSelectors((state) => state.modal);
 export const { showModal, hideModal } = modalsSlice.actions;
 export const { actions } = modalsSlice;
-    export default modalsSlice.reducer;
+export default modalsSlice.reducer;
     

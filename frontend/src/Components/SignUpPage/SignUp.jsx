@@ -138,8 +138,6 @@ const SignUp = () => {
               ? t('validation.409')  
               : t(formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
                 </Form.Control.Feedback>
-                
-               
             </Form.Group>
             <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('logIn.doRegister')}</Button>
         </Form>
@@ -148,8 +146,8 @@ const SignUp = () => {
       </div>
     </div>
     </div>
-      )
-      };
+    )
+  };
     
     export default SignUp;
     

@@ -30,7 +30,6 @@ const App = () => {
   return (
     <div className="h-100" id="chat">
     <Provider store={store}>
-
     <AuthProvider>
     <BrowserRouter>
     <div className="d-flex flex-column h-100">

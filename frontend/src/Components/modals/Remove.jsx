@@ -8,6 +8,7 @@ import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../contexts/useAuth';
+import routes from '../routes/routes';
 
 const Remove = () => {
   const { t } = useTranslation();
@@ -30,7 +31,7 @@ const Remove = () => {
 
   const handleRemove = async () => {
 try {
-  await axios.delete(`/api/v1/channels/${channelId}`,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+  await axios.delete(routes.channelsPath(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
 dispatch(removeChannel(channelId));
 dispatch(removeMessagesByChannelId(channelId));
 toast.success(t('modals.doneRemove'));

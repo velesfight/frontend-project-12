@@ -12,10 +12,14 @@ const ChannelList = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const channels = useSelector(selectors.selectAll);
-    const { currentChannelId } = useSelector((state) => state.channels);
- const changeChannel = (channelId) => {
-  dispatch(setCurrentChannelId(channelId));
+    const currentChannelId = useSelector(
+      (state) => state.channels.currentChannelId,
+    );
+
+const changeChannel = (id) => {
+  dispatch(setCurrentChannelId(id));
 };
+
 const handleRemoveChannel = (id) => dispatch(showModal({ modalType: 'removing', channelId: id }))
 const handleRenameChannel = (id) => dispatch(showModal({ modalType: 'renaming', channelId: id }))
 

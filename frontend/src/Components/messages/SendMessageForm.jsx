@@ -16,17 +16,11 @@ const SendMessageForm = () => {
   const { getAuthToken } = useAuth();
   const inputRef = useRef(null);
   const dispatch = useDispatch();
-  const { currentChannelId } = useSelector((state) => state.channels);
+  const currentChannelId = useSelector(
+    (state) => state.channels.currentChannelId,
+  );
   const { username } = JSON.parse(localStorage.getItem('userId'));
  
-  
-  //const getAuthHeader = () => {
-    //const userId = JSON.parse(localStorage.getItem('userId'));
-    //if (userId && userId.token) {
-    //  return { Authorization: `Bearer ${userId.token}` };
-   // }
-    //return {};
- //} 
 const formik = useFormik ({
   initialValues: { messageInput: '' },
   onSubmit: async (values,{ setSubmitting, resetForm } ) => {
@@ -39,11 +33,7 @@ const formik = useFormik ({
       
       try {
         const response = await axios.post(routes.messagesPath(), message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
-
-        console.log('Auth Token:', response.data);
-  
         dispatch(addMessage(response.data));
-
         resetForm(); 
       } catch (error) {
         toast.error((t('errors.unknown')));
@@ -53,6 +43,7 @@ const formik = useFormik ({
     }
   },
 });
+
 useEffect(() => {
   inputRef.current.focus();
 }, [currentChannelId, dispatch]);

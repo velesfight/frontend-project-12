@@ -12,7 +12,6 @@ const HeaderChat = () => {
   const { t } = useTranslation();
 
   return (
-
     <BootstrapNavbar className="shadow-sm navbar-expand-lg navbar-light bg-white navbar navbar-expand navbar-light">
       <div className="container">
         <BootstrapNavbar.Brand as={Link} to={routes.chatPage()}>

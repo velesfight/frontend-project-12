@@ -9,13 +9,14 @@ import cn from 'classnames';
 
 const Channel = ({channel}) => {
  const { t } = useTranslation();
- const { currentChannelId } = useSelector((state) => state.channels);
+ const currentChannelId = useSelector(
+    (state) => state.channels.currentChannelId,
+  );
  const variant = channel.id === currentChannelId ? 'secondary' : null;
  const dispatch = useDispatch();
- //const channels = useSelector(selectors.selectAll);
 
-const changeChannel = (channelId) => {
-dispatch(setCurrentChannelId(channelId));
+const changeChannel = (id) => {
+dispatch(setCurrentChannelId(id));
 };
 const btnClass = cn(
     'w-100',

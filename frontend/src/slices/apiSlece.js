@@ -42,29 +42,26 @@ export const channelsSlice = createSlice({
       },
       addChannels: channelsAdapter.addMany,
       addChannel: channelsAdapter.addOne,
-      updateChannel: channelsAdapter.updateOne,
+      updateChannel: (state, action) => {
+        channelsAdapter.updateOne(state, action.payload);
+      },
       removeChannel:(state, action) => {
         channelsAdapter.removeOne(state, action.payload);
       },
   },
   extraReducers: (builder) => {
     builder
-      // Вызывается прямо перед выполнением запроса
       .addCase(fetchData.pending, (state) => {
         state.loadingStatus = 'loading';
         state.error = null;
       })
-      // Вызывается, если запрос успешно выполнился
       .addCase(fetchData.fulfilled, (state, action) => {
-        // Добавляем пользователя
         channelsAdapter.addMany(state, action);
         state.loadingStatus = 'idle';
         state.error = null;
       })
-      // Вызывается в случае ошибки
       .addCase(fetchData.rejected, (state, action) => {
         state.loadingStatus = 'failed';
-        // https://redux-toolkit.js.org/api/createAsyncThunk#handling-thunk-errors
         state.error = action.error;
       });
   },
