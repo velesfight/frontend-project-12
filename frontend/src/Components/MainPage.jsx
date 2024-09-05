@@ -12,44 +12,44 @@ import { toast } from 'react-toastify';
 import routes from './routes/routes';
 
 
+
 const MainPage1 = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
   const { getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
   const modalType = useSelector((state) => state.modal.modalType);
-  const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId,
-  );
+  const { currentChannelId } = useSelector((state) => state.channels);
 
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
 
+console.log(getAuthToken())
 useEffect(() => {
-  axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }, timeout: 10000})
-  .then((channelsResponse) => {
-    dispatch(addChannels(channelsResponse.data));
-    dispatch(setCurrentChannelId( channelsResponse.data[0].id));
-    dispatch(setCurrentChannel( channelsResponse.data));
-  })
-  .catch((error) => {
-    if (error.response && error.response.status === 401) {
- }
-  });
+  const fetchData = async () => {
+    try {
+      const authHeader = { Authorization: `Bearer ${getAuthToken()}` };
+      
+      const channelsResponse = await axios.get('/api/v1/channels', { headers: authHeader });
+      dispatch(addChannels(channelsResponse.data));
+      dispatch(setCurrentChannelId(channelsResponse.data[0].id));
+      dispatch(setCurrentChannel(channelsResponse.data));
+      console.log('Channels:', channelsResponse);
 
-axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }})
-  .then((messagesResponse) => {
-    dispatch(addMessages(messagesResponse.data));
-  })
-  .catch((error) => {
-    if (error.response && error.response.status === 401) {
-      toast.error(t('errors.network'));
+      const messagesResponse = await axios.get(routes.messagesPath(), { headers: authHeader });
+      dispatch(addMessages(messagesResponse.data));
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        toast.error(t('errors.network'));
+      }
+      console.error('Fetch error:', error);
     }
-  });
+  };
+
+  fetchData();
 }, [dispatch, t, getAuthToken]);
-
-
 return (
     <>
       {getModalComponent(modalType)}

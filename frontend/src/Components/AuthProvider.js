@@ -9,7 +9,9 @@ console.log(savedUser)
     savedUser ? { username: savedUser.username } : null,
   );
 
-  const getAuthToken = () => savedUser?.token || null;
+  const getAuthToken = () => savedUser ? savedUser.token : null;
+  console.log(getAuthToken())
+
   const logIn = (userData) => {
     localStorage.setItem('userId', JSON.stringify(userData));
     setUser({ username: userData.username });
