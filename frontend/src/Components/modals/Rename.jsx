@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useAuth } from '../contexts/useAuth';
+import { useAuth } from '../../contexts/useAuth';
 import filter from 'leo-profanity';
 import routes from '../routes/routes';
 

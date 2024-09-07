@@ -7,7 +7,7 @@ import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiS
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useAuth } from '../contexts/useAuth';
+import { useAuth } from '../../contexts/useAuth';
 import routes from '../routes/routes';
 
 const Remove = () => {

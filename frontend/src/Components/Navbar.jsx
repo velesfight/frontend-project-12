@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useAuth } from './contexts/useAuth';
+import { useAuth } from '../contexts/useAuth';
 import routes from './routes/routes';
 import { useTranslation } from 'react-i18next';
 

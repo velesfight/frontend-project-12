@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import { addMessage } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import filter from 'leo-profanity';
-import { useAuth } from '../contexts/useAuth';
+import { useAuth } from '../../contexts/useAuth';
 import { toast } from 'react-toastify';
 import routes from '../routes/routes';
 

@@ -2,7 +2,7 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate,
   useLocation } from 'react-router-dom';
-import  { useAuth }  from './Components/contexts/useAuth'
+import  { useAuth }  from './contexts/useAuth'
 import MainPage from './Components/MainPage.jsx';
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundPage from './Components/NotFoundPage.jsx';

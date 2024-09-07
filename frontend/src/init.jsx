@@ -1,7 +1,7 @@
 
 import React from 'react';
- import  { addChannel, removeChannel, updateChannel, addChannels } from './slices/apiSlece'
-import ApiContext  from './Components/contexts/apiContext';
+ import  { addChannel, removeChannel, updateChannel } from './slices/apiSlece'
+import ApiContext  from './contexts/apiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import App from './App';
@@ -12,9 +12,9 @@ import store from './Components/store';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import { fetchData } from './slices/apiSlece';
-import { addMessage, fetchMessages, addMessages } from './slices/messagesSlice';
+import { addMessage, fetchMessages } from './slices/messagesSlice';
 import io from 'socket.io-client';
-import SocketContext from './Components/contexts/socket';
+import SocketContext from './contexts/socket';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -55,8 +55,6 @@ const rollbarConfig = {
       console.error(error);
     }
     const socket = io();
-    socket.on('addMessages', (payload) => store.dispatch(addMessages(payload)));
-    socket.on('addChannels', (payload) => store.dispatch(addChannels(payload)));
     socket.on('addMessage', (payload) => store.dispatch(addMessage(payload)));
     socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
     socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
