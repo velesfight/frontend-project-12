@@ -41,9 +41,9 @@ const validationSchema = Yup.object().shape({
     } catch (err) {
     formik.setSubmitting(false);
       if (err.isAxiosError && err.response.status === 401) {
-        toast.error(t('errors.unknown'))
         setAuthFailed(true);
         inputRef.current.select();
+        toast.error(t('errors.unknown'))
         return;
       }
       toast.error(t('errors.network'))

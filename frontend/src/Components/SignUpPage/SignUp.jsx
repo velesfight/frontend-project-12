@@ -50,6 +50,7 @@ const SignUp = () => {
           if (error.response.status === 409) {
             setAuthFailed(true);
             inputRef.current.select();
+            toast.error(t('validation.409'))
           } else {
             setAuthFailed(true);
             toast.error(t('errors.unknown'));
