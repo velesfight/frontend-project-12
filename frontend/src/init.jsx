@@ -35,7 +35,7 @@ const rollbarConfig = {
   environment: 'production',
 };
 
- debugger
+
   
     const socket = io('http://localhost:3000/');
     socket.on('addMessage', (payload) => store.dispatch(addMessage(payload)));
