@@ -12,7 +12,7 @@ const Channel = ({channel}) => {
  const currentChannelId = useSelector(
     (state) => state.channels.currentChannelId,
   );
- const variant = channel.id === currentChannelId ? 'secondary' : 'light';
+ const variant = channel.id === currentChannelId ? 'secondary' : null;
  const dispatch = useDispatch();
 
 const changeChannel = (id) => {

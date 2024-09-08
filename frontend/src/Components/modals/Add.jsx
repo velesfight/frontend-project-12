@@ -73,7 +73,6 @@ useEffect(() => {
               name="name"
               ref={inputEl}
               id="name"
-              className="mb-2"
               onChange={formik.handleChange}
               value={formik.values.name}
               isInvalid={formik.touched.name && formik.errors.name}
@@ -83,10 +82,10 @@ useEffect(() => {
             </Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-          <Button onClick={handleClose} className="ms-2 btn btn-secondary" disabled={formik.isSubmitting}>
+          <Button onClick={handleClose} variant='secondary' disabled={formik.isSubmitting}>
           {t('modals.cancel')}
           </Button>
-          <Button className="ms-2 btn btn-primary" type="submit">
+          <Button variant='primary' type="submit">
           {t('modals.send')}
           </Button>
           </Modal.Footer>
