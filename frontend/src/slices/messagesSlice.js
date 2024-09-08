@@ -7,8 +7,7 @@ import  getAuthToken  from '../Components/AuthProvider';
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
     async (currentChannelId) => {
-      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}`, timeout: 10000  }});
-      console.log('res', response.data)
+      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}`}});
       return response.data;
     }
   );
@@ -17,6 +16,8 @@ const messagesAdapter = createEntityAdapter();
 export const messagesSlice = createSlice({
   name: 'messages',
   initialState: messagesAdapter.getInitialState(),
+  loadingStatus: 'idle',
+  error: null,
   reducers: {
     addMessages: messagesAdapter.addMany,
     addMessage: messagesAdapter.addOne,
@@ -32,9 +33,8 @@ export const messagesSlice = createSlice({
         state.loadingStatus = 'loading';
         state.error = null;
       })
-        .addCase(fetchMessages.fulfilled, (state, payload) => {
-          messagesAdapter.addMany(state, payload.messages);
-          console.log(payload.message)
+        .addCase(fetchMessages.fulfilled, (state, action) => {
+          messagesAdapter.addMany(state, action.payload);
           state.loadingStatus = 'idle';
           state.error = null;
         })

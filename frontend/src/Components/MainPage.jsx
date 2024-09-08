@@ -10,13 +10,13 @@ import getModalComponent from './modals/typeModals';
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify';
 import routes from './routes/routes';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const MainPage1 = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const { getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
@@ -26,30 +26,30 @@ const MainPage1 = () => {
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
 
-console.log(getAuthToken())
+
 useEffect(() => {
   const fetchData = async () => {
     try {
       const authHeader = { Authorization: `Bearer ${getAuthToken()}` };
-      
       const channelsResponse = await axios.get(routes.channelsPath(), { headers: authHeader });
       dispatch(addChannels(channelsResponse.data));
       dispatch(setCurrentChannelId(channelsResponse.data[0].id));
       dispatch(setCurrentChannel(channelsResponse.data));
-      console.log('Channels:', channelsResponse);
 
       const messagesResponse = await axios.get(routes.messagesPath(), { headers: authHeader });
       dispatch(addMessages(messagesResponse.data));
+     
     } catch (error) {
       if (error.response && error.response.status === 401) {
         toast.error(t('errors.network'));
+        navigate(routes.loginPage());
       }
       console.error('Fetch error:', error);
     }
   };
 
   fetchData();
-}, [dispatch, t, getAuthToken]);
+}, [dispatch, t, getAuthToken, navigate]);
 return (
     <>
       {getModalComponent(modalType)}

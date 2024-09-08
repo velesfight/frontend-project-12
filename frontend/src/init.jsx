@@ -8,13 +8,12 @@ import App from './App';
 import resources from './locales/index.js';
 import { Provider } from 'react-redux';
 import store from './Components/store';
-//import currentChannelId from './slices/channelsSlice';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
-import { fetchData } from './slices/apiSlece';
-import { addMessage, fetchMessages } from './slices/messagesSlice';
-import io from 'socket.io-client';
-import SocketContext from './contexts/socket';
+//import { fetchData } from './slices/apiSlece';
+import { addMessage } from './slices/messagesSlice';
+import { io } from 'socket.io-client';
+import SocketContext from './contexts/useSocket';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -28,33 +27,17 @@ const init = async () => {
     
     filter.add(filter.getDictionary('ru'));
     filter.add(filter.getDictionary('en'));
-    //filter.loadDictionary('ru');
-
-   
 
 
+  
 const rollbarConfig = {
   accessToken: process.env.POST_CLIENT_ITEM_ACCESS_TOKEN,
   environment: 'production',
 };
 
+ debugger
   
-    try {
-      await store.dispatch(fetchData());
-      await store.dispatch(fetchMessages());
-     // const channelsResponse = await axios.get('/api/v1/channels', { headers: getAuthHeader() });
-      //store.dispatch(addChannels(channelsResponse.data));
-      //store.dispatch(setCurrentChannelId(channelsResponse.data.id));
-      //store.dispatch(setCurrentChannel(channelsResponse.data));
-      //store.dispatch(removeChannel(channelsResponse.data));
-      //store.dispatch(updateChannel(channelsResponse.data));
-      //const messagesResponse = await axios.get(`/api/v1/channels/${currentChannelId}/messages`, { headers: getAuthHeader() });
-      //store.dispatch(addMessages(messagesResponse.data));
-      //store.dispatch(removeMessagesByChannelId(messagesResponse.data.id))
-    } catch (error) {
-      console.error(error);
-    }
-    const socket = io();
+    const socket = io('http://localhost:3000/');
     socket.on('addMessage', (payload) => store.dispatch(addMessage(payload)));
     socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
     socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
