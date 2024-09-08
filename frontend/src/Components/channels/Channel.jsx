@@ -5,7 +5,7 @@ import { setCurrentChannelId } from '../../slices/apiSlece';
 import { showModal } from '../../slices/uiSlisec';
 import { Dropdown, Button, ButtonGroup, Nav } from 'react-bootstrap';
 import React from 'react';
-import cn from 'classnames';
+
 
 const Channel = ({channel}) => {
  const { t } = useTranslation();
@@ -18,13 +18,7 @@ const Channel = ({channel}) => {
 const changeChannel = (id) => {
 dispatch(setCurrentChannelId(id));
 };
-const btnClass = cn(
-    'w-100',
-    'rounded-0',
-    'text-start',
-    'btn',
-    'text-truncate',
-  );
+
 
 return (
             <Nav.Item key={channel.id} className="nav-item w-100">
@@ -32,7 +26,7 @@ return (
                 <div role="group" className="d-flex dropdown btn-group">
                               <Button
                                   type="button"
-                                  className={btnClass}
+                                  className="w-100 rounded-0 text-start text-truncate"
                                   onClick={() => changeChannel(channel.id)}
                                   variant={variant}
                               >
@@ -56,7 +50,7 @@ return (
                   ) : (
                           <Button
                               type="button"
-                              className={btnClass}
+                              className="w-100 rounded-0 text-start"
                               key={channel.id}
                               onClick={() => changeChannel(channel.id)}
                               variant={variant}
