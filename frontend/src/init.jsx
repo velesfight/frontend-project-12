@@ -37,8 +37,8 @@ const rollbarConfig = {
 
 
   
-    const socket = io('http://localhost:3000/');
-    socket.on('addMessage', (payload) => store.dispatch(addMessage(payload)));
+    const socket = io();
+    socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
     socket.on('addChannel', (payload) => store.dispatch(addChannel(payload)));
     socket.on('removeChannel', ({ id }) => store.dispatch(removeChannel(id)));
     socket.on('updateChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } }))
