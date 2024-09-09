@@ -34,7 +34,6 @@ const formik = useFormik ({
       try {
        const response = await axios.post(routes.messagesPath(), message,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }} );
        dispatch(addMessage(response.data));
-       console.log('mes:', response.data);
         resetForm(); 
       } catch (error) {
         toast.error((t('errors.unknown')));
