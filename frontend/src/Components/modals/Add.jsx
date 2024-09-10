@@ -47,6 +47,7 @@ useEffect(() => {
         const response = await axios.post(routes.channelsPath(), newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
         dispatch(setCurrentChannelId(response.data.id))
+        console.log(response.data.id)
         dispatch(hideModal());
 
         toast.success(t('modals.doneChannel'));

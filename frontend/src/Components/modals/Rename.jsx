@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../contexts/useAuth';
+//import { useAuth } from '../../contexts/useAuth';
 import filter from 'leo-profanity';
 import routes from '../routes/routes';
 
@@ -17,7 +17,7 @@ const Rename = () => {
 const { t } = useTranslation();
 const dispatch = useDispatch();
 const inputEl = useRef();
-const { getAuthToken } = useAuth();
+//const { getAuthToken } = useAuth();
     
 
 useEffect(() => {
@@ -55,7 +55,7 @@ useEffect(() => {
   validationSchema,
   onSubmit: async (values) =>{
     try {
- await axios.patch(routes.channelsPath(channelId),  { name: (values.name) }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+ await axios.patch(routes.channelsPath(channelId),  { name: (values.name) }); //{ headers:  { Authorization: `Bearer ${getAuthToken()}` }});
  dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
       dispatch(hideModal());
       toast.success(t('modals.doneRename'));
