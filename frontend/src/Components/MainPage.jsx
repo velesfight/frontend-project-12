@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect }  from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '../contexts/useAuth';
-import { selectors, addChannels, setCurrentChannelId,setCurrentChannel } from '../slices/apiSlece';
+import { selectors, addChannels } from '../slices/apiSlece';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from './messages/SendMessageForm';
 import ChannelList from './channels/ChannelsList';
@@ -33,8 +33,8 @@ useEffect(() => {
       const authHeader = { Authorization: `Bearer ${getAuthToken()}` };
       const channelsResponse = await axios.get(routes.channelsPath(), { headers: authHeader });
       dispatch(addChannels(channelsResponse.data));
-      dispatch(setCurrentChannelId(channelsResponse.data[0].id));
-      dispatch(setCurrentChannel(channelsResponse.data.id));
+      //dispatch(setCurrentChannelId(channelsResponse.data[0].id));
+      //dispatch(setCurrentChannel(channelsResponse.data.id));
 
       const messagesResponse = await axios.get(routes.messagesPath(), { headers: authHeader });
       dispatch(addMessages(messagesResponse.data));
