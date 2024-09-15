@@ -19,7 +19,7 @@ const fetchData = createAsyncThunk(
 
 const initialState = channelsAdapter.getInitialState({
   channels: [],
-  currentChannelId: null,
+  currentChannelId: 1,
   activeChannel: 1,
 });
 
