@@ -85,10 +85,10 @@ useEffect(() => {
             </Form.Control.Feedback>
           </Form.Group>
           <Modal.Footer>
-          <Button onClick={handleClose}  disabled={formik.isSubmitting}>
+          <Button onClick={handleClose} variant='secondary' disabled={formik.isSubmitting}>
           {t('modals.cancel')}
           </Button>
-          <Button  type="submit">
+          <Button variant='primary' type="submit">
           {t('modals.send')}
           </Button>
           </Modal.Footer>

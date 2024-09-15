@@ -35,7 +35,7 @@ return (
                                   {channel.name}
                               </Button>
                               <Dropdown as={ButtonGroup} className="d-flex">
-                              <Dropdown.Toggle split variant={variant} className="flex-grow-0">
+                              <Dropdown.Toggle split className={`flex-grow-0 ${channel.id === currentChannelId ? 'btn-secondary' : 'btn-primary'}`}>
                               <span className="visually-hidden">{t('chatPage.menu')}</span>
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
