@@ -51,10 +51,10 @@ return (
                   ) : (
                           <Button
                               type="button"
-                              className="w-100 rounded-0 text-start"
+                              className={buttonClass}
                               key={channel.id}
                               onClick={() => changeChannel(channel.id)}
-                              variant={variant}
+                            
                           >
                               <span className="me-1">#</span>
                               {channel.name}
