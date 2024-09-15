@@ -4,13 +4,6 @@ import axios from 'axios';
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 import getAuthToken  from '../Components/AuthProvider';
 
-//const getAuthHeader = () => {
-  //const userId = JSON.parse(localStorage.getItem('userId'));
-  //if (userId && userId.token) {
-  //return { Authorization: `Bearer ${userId.token}` };
-  //}
-  //return {};
-  //};
 
 const fetchData = createAsyncThunk(
     'channels/fetchData',
@@ -26,7 +19,7 @@ const fetchData = createAsyncThunk(
 
 const initialState = channelsAdapter.getInitialState({
   channels: [],
-  currentChannelId: 1,
+  currentChannelId: null,
   activeChannel: 1,
 });
 
@@ -34,14 +27,17 @@ export const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    setCurrentChannelId: (state, { payload }) => {
-        state.currentChannelId = payload;
+    setCurrentChannelId: (state, action) => {
+        state.currentChannelId = action.payload;
       },
       setCurrentChannel: (state, { payload }) => {
         state.activeChannel = payload;
       },
       addChannels: channelsAdapter.addMany,
-      addChannel: channelsAdapter.addOne,
+      addChannel: (state, { payload }) => {
+        channelsAdapter.addOne(state, payload);
+        state.currentChannelId = payload.id;
+      },
       updateChannel: (state, action) => {
         channelsAdapter.updateOne(state, action.payload);
       },

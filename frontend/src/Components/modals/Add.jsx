@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
-import { addChannel, setCurrentChannelId } from '../../slices/apiSlece';
+import { addChannel } from '../../slices/apiSlece';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useRef } from 'react';
@@ -46,6 +46,7 @@ useEffect(() => {
       try {
         const response = await axios.post(routes.channelsPath(), newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
+      //  dispatch(setCurrentChannelId(response.data.id));
         dispatch(hideModal());
 
         toast.success(t('modals.doneChannel'));
