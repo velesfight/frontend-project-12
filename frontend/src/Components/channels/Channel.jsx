@@ -18,6 +18,7 @@ const Channel = ({channel}) => {
 const changeChannel = (id) => {
 dispatch(setCurrentChannelId(id));
 };
+const buttonClass = `w-100 rounded-0 text-start text-truncate btn ${channel.id === currentChannelId ? 'btn-secondary' : 'btn-primary'}`;
 
 
 return (
@@ -26,9 +27,9 @@ return (
                 <div role="group" className="d-flex dropdown btn-group">
                               <Button
                                   type="button"
-                                  className="w-100 rounded-0 text-start text-truncate"
+                                  className={buttonClass}
                                   onClick={() => changeChannel(channel.id)}
-                                  variant={variant}
+                                  
                               >
                                   <span className="me-1">#</span>
                                   {channel.name}
