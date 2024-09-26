@@ -30,9 +30,7 @@ export const channelsSlice = createSlice({
     setCurrentChannelId: (state, action) => {
         state.currentChannelId = action.payload;
       },
-      setCurrentChannel: (state, { payload }) => {
-        state.currentChannelId = payload;
-      },
+     
       addChannels: channelsAdapter.addMany,
       addChannel: (state, { payload }) => {
         channelsAdapter.addOne(state, payload);
@@ -65,7 +63,7 @@ export const channelsSlice = createSlice({
   
   });
 
-export const { addChannels, setCurrentChannelId, setCurrentChannel, removeChannel, addChannel, updateChannel } = channelsSlice.actions;
+export const { addChannels, setCurrentChannelId, removeChannel, addChannel, updateChannel } = channelsSlice.actions;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 export { fetchData };
 export default channelsSlice.reducer;

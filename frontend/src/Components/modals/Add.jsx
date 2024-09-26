@@ -7,7 +7,7 @@ import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec'
 import { Modal, Form, Button } from 'react-bootstrap';
-import { selectors, setCurrentChannel } from '../../slices/apiSlece';
+import { selectors, setCurrentChannelId} from '../../slices/apiSlece';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/useAuth';
@@ -46,8 +46,8 @@ useEffect(() => {
       try {
         const response = await axios.post(routes.channelsPath(), newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
-        dispatch(setCurrentChannel(response.data.id));
-        //dispatch(setCurrentChannelId(response.data.id));
+        dispatch(setCurrentChannelId(response.data.id));
+        console.log('f', response.data.id)
         dispatch(hideModal());
 
         toast.success(t('modals.doneChannel'));

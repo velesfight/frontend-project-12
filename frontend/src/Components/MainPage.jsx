@@ -34,7 +34,6 @@ useEffect(() => {
       const channelsResponse = await axios.get(routes.channelsPath(), { headers: authHeader });
       dispatch(addChannels(channelsResponse.data));
       dispatch(setCurrentChannelId(channelsResponse.data[0].id));
-    // dispatch(setCurrentChannel(channelsResponse.data.id));
 
       const messagesResponse = await axios.get(routes.messagesPath(), { headers: authHeader });
       dispatch(addMessages(messagesResponse.data));
