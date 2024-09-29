@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec';
-import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlece';
+import { selectors, deleteChannel, setCurrentChannelId, fetchData } from '../../slices/apiSlece';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -17,28 +17,20 @@ const Remove = () => {
     const { currentChannelId } = useSelector((state) => state.channels);
     const isOpened = useSelector((state) => state.modal.isOpen);
     const { getAuthToken } = useAuth();
-    
     const channels = useSelector(selectors.selectAll);
-
-   // const getAuthHeader = () => {
-    //  const userId = JSON.parse(localStorage.getItem('userId'));
-    //  if (userId && userId.token) {
-     //   return { Authorization: `Bearer ${userId.token}` };
-    //  }
-    //  return {};
-   // }
 
 
   const handleRemove = async () => {
 try {
   await axios.delete(routes.channelsPath(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
-dispatch(removeChannel(channelId));
+dispatch(deleteChannel(channelId));
 dispatch(removeMessagesByChannelId(channelId));
 toast.success(t('modals.doneRemove'));
 if (channelId === currentChannelId) {
   const generalChannel = channels.find((channel) => channel.name === 'general');
   dispatch(setCurrentChannelId(generalChannel.id));
 }
+dispatch(fetchData());
 dispatch(hideModal())
 } catch (error) {
   toast.error(t('errors.unknown'));

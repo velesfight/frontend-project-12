@@ -31,13 +31,13 @@ useEffect(() => {
  // const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const curChannel = channels.find((ch) => ch.id === channelId);
   const isOpened = useSelector((state) => state.modal.isOpen);
-
+  
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
       .min(3, (t('validation.length')))
       .max(20, (t('validation.length')))
-      .notOneOf((channels), 'validation.unique')
+      .notOneOf((channels), (t('validation.unique')))
       .required(t('validation.required')),
   });
   //const getAuthHeader = () => {
@@ -55,10 +55,11 @@ useEffect(() => {
   validationSchema,
   onSubmit: async (values) =>{
     try {
- await axios.patch(routes.channelsPath(channelId),  { name: (values.name) }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
- dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
-      dispatch(hideModal());
-      toast.success(t('modals.doneRename'));
+ await axios.patch(routes.channelsPath(channelId),  {  name: filter.clean(values.name)  }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+  dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
+  dispatch(hideModal());
+
+  toast.success(t('modals.doneRename'));
       } catch (error) {
         toast.error(t('errors.unknown'))
       }

@@ -9,7 +9,6 @@ const fetchData = createAsyncThunk(
     'channels/fetchData',
     async () => {
         const response = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` } });
-        console.log(response)
       return response.data;
     }
   );
@@ -39,7 +38,7 @@ export const channelsSlice = createSlice({
       updateChannel: (state, action) => {
         channelsAdapter.updateOne(state, action.payload);
       },
-      removeChannel:(state, action) => {
+      deleteChannel:(state, action) => {
         channelsAdapter.removeOne(state, action.payload);
       },
   },
@@ -63,7 +62,7 @@ export const channelsSlice = createSlice({
   
   });
 
-export const { addChannels, setCurrentChannelId, removeChannel, addChannel, updateChannel } = channelsSlice.actions;
+export const { addChannels, setCurrentChannelId, deleteChannel, addChannel, updateChannel } = channelsSlice.actions;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 export { fetchData };
 export default channelsSlice.reducer;
