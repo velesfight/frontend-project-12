@@ -35,7 +35,7 @@ useEffect(() => {
       .notOneOf(channels.map((channel) => channel.name), 'Add.unique')
       .required(),
   });
-  console.log(getAuthToken())
+ 
   const formik = useFormik({
     initialValues: {
       name: '',
@@ -47,7 +47,6 @@ useEffect(() => {
         const response = await axios.post(routes.channelsPath(), newChannel,  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
         dispatch(addChannel(response.data));
         dispatch(setCurrentChannelId(response.data.id));
-        console.log('f', response.data.id)
         dispatch(hideModal());
 
         toast.success(t('modals.doneChannel'));

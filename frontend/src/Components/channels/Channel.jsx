@@ -37,7 +37,7 @@ return (
                               <span className="visually-hidden">{t('chatPage.menu')}</span>
                               </Dropdown.Toggle>
                               <Dropdown.Menu>
-                                  <Dropdown.Item onClick={() => dispatch(showModal({ modalType: 'removing', channelId: channel.id }))}>
+                                  <Dropdown.Item onClick={(id) => dispatch(showModal({ modalType: 'removing', channelId: id }))}>
                                       {t('modals.removeChannel')}
                                   </Dropdown.Item>
                                   <Dropdown.Item onClick={() => dispatch(showModal({ modalType: 'renaming', channelId: channel.id }))}>

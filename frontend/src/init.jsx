@@ -1,6 +1,6 @@
 
 import React from 'react';
- import  { addChannel, deleteChannel, updateChannel } from './slices/apiSlece'
+ import  { addChannel, removeChannel, updateChannel } from './slices/apiSlece'
 import ApiContext  from './contexts/apiContext';
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
@@ -35,14 +35,12 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-
   
     const socket = io();
     socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
     socket.on('newChannel', (payload) => store.dispatch(addChannel(payload)));
-    socket.on('removeChannel', ({ id }) => store.dispatch(deleteChannel(id)));
-    socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } }))
-    );
+    socket.on('removeChannel', (payload) => store.dispatch(removeChannel(payload.id)));
+    socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } })))
 
   return (
        <RollbarProvider config={rollbarConfig}>
