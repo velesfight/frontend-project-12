@@ -8,6 +8,7 @@ const routes = {
   chatPage: () => '/',
   dataPath: () => [apiPath, 'data'].join('/'),
   channelsPath: () => [apiPath, 'channels'].join('/'),
+  channelsPath1: (id) => [apiPath, 'channels', id].join('/'),
   messagesPath: () => [apiPath, 'messages'].join('/'),
   
 };

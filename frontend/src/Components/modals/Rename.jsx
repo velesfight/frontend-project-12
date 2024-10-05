@@ -55,7 +55,7 @@ useEffect(() => {
   validationSchema,
   onSubmit: async (values) =>{
     try {
- await axios.patch(routes.channelsPath(channelId),  {  name: filter.clean(values.name)  }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+ await axios.patch(routes.channelsPath1(channelId),  {  name: filter.clean(values.name)  }, { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
   dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
   dispatch(hideModal());
 

@@ -25,7 +25,7 @@ const Remove = () => {
   const handleRemove = async () => {
 
 try {
-await axios.delete(routes.channelsPath(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+await axios.delete(routes.channelsPath1(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
 console.log(channelId); 
 dispatch(removeChannel(channelId));
 dispatch(fetchData());
