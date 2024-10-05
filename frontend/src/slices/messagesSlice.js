@@ -4,10 +4,11 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import  getAuthToken  from '../Components/AuthProvider';
 
+
   const fetchMessages = createAsyncThunk(
     'messages/fetchMessages',
-    async (currentChannelId) => {
-      const response = await axios.get(routes.messagesPath(currentChannelId), { headers:  { Authorization: `Bearer ${getAuthToken()}`}});
+    async () => {
+      const response = await axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}`}});
       return response.data;
     }
   );
@@ -25,7 +26,7 @@ export const messagesSlice = createSlice({
       const channelId = action.payload;
       const remainingMessages = Object.values(state.entities).filter(message => message.channelId !== channelId);
       messagesAdapter.setAll(state, remainingMessages);
-    },
+  },
     },
     extraReducers: (builder) => {
       builder
@@ -41,9 +42,10 @@ export const messagesSlice = createSlice({
         .addCase(fetchMessages.rejected, (state, action) => {
           state.loadingStatus = 'failed';
         state.error = action.error;
-        });
+        })
     },
-  });
+    });
+
 
 export const { addMessages, addMessage, removeMessagesByChannelId } = messagesSlice.actions;
 export const selectors1 = messagesAdapter.getSelectors((state) => state.messages);

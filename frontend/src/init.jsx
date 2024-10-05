@@ -11,7 +11,7 @@ import store from './Components/store';
 import filter from 'leo-profanity';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 //import { fetchData } from './slices/apiSlece';
-import { addMessage } from './slices/messagesSlice';
+import { addMessage, removeMessagesByChannelId } from './slices/messagesSlice';
 import { io } from 'socket.io-client';
 import SocketContext from './contexts/useSocket';
 
@@ -39,9 +39,12 @@ const rollbarConfig = {
     const socket = io();
     socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
     socket.on('newChannel', (payload) => store.dispatch(addChannel(payload)));
-    socket.on('removeChannel', (payload) => store.dispatch(removeChannel(payload.id)));
-    socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } })))
-
+    socket.on('removeChannel', (payload) => {
+      store.dispatch(removeChannel(payload.id));
+      store.dispatch(removeMessagesByChannelId(payload.id));
+    });
+    socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } })));
+   
   return (
        <RollbarProvider config={rollbarConfig}>
        <ErrorBoundary>

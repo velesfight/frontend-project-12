@@ -10,7 +10,7 @@ const routes = {
   channelsPath: () => [apiPath, 'channels'].join('/'),
   channelsPath1: (id) => [apiPath, 'channels', id].join('/'),
   messagesPath: () => [apiPath, 'messages'].join('/'),
-  
+  messagesPath1: (id) => [apiPath, 'messages', id].join('/'),
 };
 
 export default routes;

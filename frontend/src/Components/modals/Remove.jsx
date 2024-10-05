@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { hideModal } from '../../slices/uiSlisec';
-import { selectors, removeChannel, setCurrentChannelId, fetchData } from '../../slices/apiSlece';
+import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlece';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -26,9 +26,10 @@ const Remove = () => {
 
 try {
 await axios.delete(routes.channelsPath1(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
+await axios.delete(routes.messagesPath1(channelId),  { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
 console.log(channelId); 
 dispatch(removeChannel(channelId));
-dispatch(fetchData());
+
 dispatch(removeMessagesByChannelId(channelId));
 toast.success(t('modals.doneRemove'));
 if (channelId === currentChannelId) {
