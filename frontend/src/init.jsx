@@ -38,7 +38,9 @@ const rollbarConfig = {
   
     const socket = io();
     socket.on('newMessage', (payload) => store.dispatch(addMessage(payload)));
-    socket.on('newChannel', (payload) => store.dispatch(addChannel(payload)));
+    socket.on('newChannel', (channel) => {
+      store.dispatch(addChannel(channel));
+    });
     socket.on('removeChannel', (payload) => {
       store.dispatch(removeChannel(payload.id));
       store.dispatch(removeMessagesByChannelId(payload.id));

@@ -19,7 +19,6 @@ const fetchData = createAsyncThunk(
 const initialState = channelsAdapter.getInitialState({
   channels: [],
   currentChannelId: 1,
-  activeChannel: 1,
 });
 
 export const channelsSlice = createSlice({
@@ -49,7 +48,7 @@ export const channelsSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchData.fulfilled, (state, action) => {
-        channelsAdapter.addMany(state, action);
+        channelsAdapter.addMany(state, action.payload);
         state.loadingStatus = 'idle';
         state.error = null;
       })

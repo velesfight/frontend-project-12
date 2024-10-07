@@ -8,10 +8,9 @@ import React from 'react';
 
 const Channel = ({channel}) => {
  const { t } = useTranslation();
- const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId,
-  );
+ const { currentChannelId } = useSelector((state) => state.channels);
  const variant = channel.id === currentChannelId ? 'secondary' : null;
+ console.log('hhh', currentChannelId)
  const dispatch = useDispatch();
 
 const changeChannel = (id) => {
@@ -26,7 +25,7 @@ return (
                               <Button
                                   type="button"
                                   className="w-100 rounded-0 text-start text-truncate"
-                                  onClick={() => changeChannel(channel.id)}
+                                  onClick={() => dispatch(changeChannel(channel.id))}
                                   variant={variant}
                               >
                                   <span className="me-1">#</span>
@@ -51,7 +50,7 @@ return (
                               type="button"
                               className="w-100 rounded-0 text-start"
                               key={channel.id}
-                              onClick={() => changeChannel(channel.id)}
+                              onClick={() => dispatch(changeChannel(channel.id))}
                               variant={variant}
                           >
                               <span className="me-1">#</span>

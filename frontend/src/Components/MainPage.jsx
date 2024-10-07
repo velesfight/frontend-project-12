@@ -26,15 +26,13 @@ const MainPage1 = () => {
 const currentChannel = channels.find((channel) => channel.id === currentChannelId);
 const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
 
-console.log('Channels:', channels);
-console.log('Current Channel ID:', currentChannelId);
 useEffect(() => {
   const fetchData = async () => {
     try {
       const channelsResponse = await axios.get(routes.channelsPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
-      console.log(channelsResponse.data)
+
       dispatch(addChannels(channelsResponse.data));
-      dispatch(setCurrentChannelId(channelsResponse.data[0].id));
+     dispatch(setCurrentChannelId(channelsResponse.data[0].id));
 
       const messagesResponse = await axios.get(routes.messagesPath(), { headers:  { Authorization: `Bearer ${getAuthToken()}` }});
       dispatch(addMessages(messagesResponse.data));
