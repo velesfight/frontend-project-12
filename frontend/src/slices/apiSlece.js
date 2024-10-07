@@ -32,7 +32,6 @@ export const channelsSlice = createSlice({
       addChannels: channelsAdapter.addMany,
       addChannel: (state, { payload }) => {
         channelsAdapter.addOne(state, payload);
-        state.currentChannelId = payload.id;
       },
       updateChannel: (state, action) => {
         channelsAdapter.updateOne(state, action.payload);
