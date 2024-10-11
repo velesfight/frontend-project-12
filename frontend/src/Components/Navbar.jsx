@@ -1,11 +1,9 @@
 import React from 'react';
 import { Button, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../contexts/useAuth';
 import routes from './routes/routes';
-import { useTranslation } from 'react-i18next';
-
-
 
 const HeaderChat = () => {
   const { logOut, user } = useAuth();
@@ -15,9 +13,9 @@ const HeaderChat = () => {
     <BootstrapNavbar className="shadow-sm navbar-expand-lg navbar-light bg-white navbar navbar-expand navbar-light">
       <div className="container">
         <BootstrapNavbar.Brand as={Link} to={routes.chatPage()}>
-        {t('logIn.hexletChat')}
+          {t('logIn.hexletChat')}
         </BootstrapNavbar.Brand>
-        {user !== null  ? <Button type="button" className="btn btn-primary" onClick={logOut}>{t('logIn.logOut')}</Button> : null}
+        {user !== null ? <Button type="button" className="btn btn-primary" onClick={logOut}>{t('logIn.logOut')}</Button> : null}
       </div>
     </BootstrapNavbar>
   );

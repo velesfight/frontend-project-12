@@ -1,16 +1,16 @@
 export default {
   translation: {
     logIn: {
-  username: 'Ваш ник',
-  password: 'Пароль',
-  confirmPass: 'Подтвердите пароль',
-  submit: 'Войти',
-  hexletChat: 'Hexlet Chat',
-  logOut: 'Выйти',
-  noAccount: 'Нет Аккаунта?',
-  register: 'Регистрация',
-  doRegister: 'Зарегистрироваться',
-  nameRegistr: 'Имя пользователя',
+      username: 'Ваш ник',
+      password: 'Пароль',
+      confirmPass: 'Подтвердите пароль',
+      submit: 'Войти',
+      hexletChat: 'Hexlet Chat',
+      logOut: 'Выйти',
+      noAccount: 'Нет Аккаунта?',
+      register: 'Регистрация',
+      doRegister: 'Зарегистрироваться',
+      nameRegistr: 'Имя пользователя',
     },
     validation: {
       required: 'Обязательное поле',
@@ -21,21 +21,21 @@ export default {
       passwordLength: 'Не менее 6 символов',
       409: 'Такой пользователь уже существует',
     },
-  chatPage: {
+    chatPage: {
       channels: 'Каналы',
       sendMessage: 'Введите сообщение...',
       newMessage: 'Новое сообщение',
       remove: 'Удалить',
       rename: 'Переименовать',
        menu: 'Управление каналом',
-  },
-  countMessage: {
+    },
+    countMessage: {
       messages_zero: '{{count}} сообщений',
-    messages_one: '{{count}} сообщение',
-    messages_few: '{{count}} сообщения',
-    messages_many: '{{count}} сообщений',
-  },
-  modals: {
+      messages_one: '{{count}} сообщение',
+      messages_few: '{{count}} сообщения',
+      messages_many: '{{count}} сообщений',
+    },
+    modals: {
       addChannel: 'Добавить канал',
       doneChannel: 'Канал создан',
       removeChannel: 'Удалить канал',

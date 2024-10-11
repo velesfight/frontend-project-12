@@ -9,13 +9,14 @@ const modals = {
 };
 
 const getModal = (modalType) => modals[modalType];
+
 const getModalComponent = (modalType) => {
   if (!modalType) {
     return null;
   }
 
   const ModalComponent = getModal(modalType);
-  return <ModalComponent />
-}
+  return <ModalComponent />;
+};
 
 export default getModalComponent;

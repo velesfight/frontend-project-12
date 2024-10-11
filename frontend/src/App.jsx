@@ -1,19 +1,19 @@
 import './App.css';
 import React from 'react';
-import { 
+import {
   BrowserRouter, Routes, Route, Navigate,
-  useLocation 
+  useLocation,
 } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
 import { useAuth } from './contexts/useAuth';
 import MainPage from './Components/MainPage.jsx';
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundPage from './Components/NotFoundPage.jsx';
 import AuthProvider from './Components/AuthProvider.js';
 import SignUp from './Components/SignUpPage/SignUp';
-import { Provider } from 'react-redux';
 import store from './Components/store.js';
 import routes from './Components/routes/routes';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import HeaderChat from './Components/Navbar';
 
@@ -27,7 +27,7 @@ const PrivateRoute = ({ children }) => {
     )
   );
 };
-
+// eslint-disable-next-line arrow-body-style
 const App = () => {
   return (
     <div className="h-100" id="chat">
@@ -49,9 +49,9 @@ const App = () => {
                   path={routes.loginPath()}
                   element={<LoginPage />}
                 />
-                <Route 
-                  path={routes.signUpPath()} 
-                  element={<SignUp />} 
+                <Route
+                  path={routes.signUpPath()}
+                  element={<SignUp />}
                 />
                 <Route
                   path="*"
@@ -65,7 +65,6 @@ const App = () => {
       </Provider>
     </div>
   );
-}
+};
 
 export default App;
-
