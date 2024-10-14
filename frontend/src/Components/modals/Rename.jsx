@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { Modal, FormGroup, FormControl, Form, Button } from 'react-bootstrap';
+import {
+  Modal, FormGroup, FormControl, Form, Button,
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import filter from 'leo-profanity';

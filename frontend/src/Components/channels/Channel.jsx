@@ -1,9 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+  Dropdown, Button, ButtonGroup, Nav,
+} from 'react-bootstrap';
 import { setCurrentChannelId } from '../../slices/apiSlece';
 import { showModal } from '../../slices/uiSlisec';
-import { Dropdown, Button, ButtonGroup, Nav } from 'react-bootstrap';
 
 const Channel = ({ channel }) => {
   const { t } = useTranslation();

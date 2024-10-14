@@ -27,35 +27,35 @@ const SignUp = () => {
       (t('validation.mustMatch')),
       (value, context) => value === context.parent.password,
     ),
-  });   
+  });
   const formik = useFormik({
     initialValues: {
-    username: '',
-    password: '',
-    passwordConfirmation: '',
-  },
+      username: '',
+      password: '',
+      passwordConfirmation: '',
+    },
     validationSchema,
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-    const res = await axios.post(routes.signUpPath(), { username: values.username, password: values.password });
-    auth.logIn(res.data);
-    navigate(routes.chatPage());
-  } catch (error) {
+        const res = await axios.post(routes.signUpPath(), { username: values.username, password: values.password });
+        auth.logIn(res.data);
+        navigate(routes.chatPage());
+      } catch (error) {
     formik.setSubmitting(false);
-    if (error.response.status === 409) {
-      setAuthFailed(true);
-      inputRef.current.select();
-      toast.error(t('validation.409'))
-    } else {
-      setAuthFailed(true);
-      toast.error(t('errors.unknown'));
-    }
-  }
-},
-});
+        if (error.response.status === 409) {
+          setAuthFailed(true);
+          inputRef.current.select();
+          toast.error(t('validation.409'));
+        } else {
+          setAuthFailed(true);
+          toast.error(t('errors.unknown'));
+        }
+      }
+    },
+  });
 
-return (
+  return (
   <div className="container-fluid h-100">
     <div className="row justify-content-center align-content-center h-100">
       <div className="col-12 col-md-8 col-xxl-6">
@@ -135,7 +135,7 @@ return (
       </div>
     </div>
   </div>
-);
+  );
 };
 
 export default SignUp;

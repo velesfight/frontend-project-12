@@ -2,11 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { hideModal } from '../../slices/uiSlisec';
 import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlece';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
 import { useAuth } from '../../contexts/useAuth';
 import routes from '../routes/routes';
 
