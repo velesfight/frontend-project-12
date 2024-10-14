@@ -1,4 +1,5 @@
 import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
 
 const modalAdapter = createEntityAdapter();
 
@@ -24,9 +25,7 @@ export const modalsSlice = createSlice({
     },
   },
 });
-  
 export const selectors = modalAdapter.getSelectors((state) => state.modal);
 export const { showModal, hideModal } = modalsSlice.actions;
 export const { actions } = modalsSlice;
 export default modalsSlice.reducer;
-    

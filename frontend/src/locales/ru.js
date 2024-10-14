@@ -27,7 +27,7 @@ export default {
       newMessage: 'Новое сообщение',
       remove: 'Удалить',
       rename: 'Переименовать',
-       menu: 'Управление каналом',
+      menu: 'Управление каналом',
     },
     countMessage: {
       messages_zero: '{{count}} сообщений',
@@ -54,7 +54,5 @@ export default {
       network: 'Ошибка соединения',
       notFound: 'Страница не найдена',
     },
-  }
+  },
 };
-
-
