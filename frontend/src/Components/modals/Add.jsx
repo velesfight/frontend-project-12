@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import filter from 'leo-profanity';
 import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlece';
 import { hideModal } from '../../slices/uiSlisec';
-import { useAuth } from '../../contexts/useAuth';
+import useAuth from '../../contexts/useAuth';
 import routes from '../routes/routes';
 
 const Add = () => {

@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../contexts/useAuth';
+import useAuth from '../../contexts/useAuth';
 import routes from '../routes/routes';
 
 const LoginPage = () => {

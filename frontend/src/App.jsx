@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import { useAuth } from './contexts/useAuth';
+import useAuth from './contexts/useAuth';
 import MainPage from './Components/MainPage.jsx';
 import LoginPage from './Components/LoginPage/LoginPage';
 import NotFoundPage from './Components/NotFoundPage.jsx';

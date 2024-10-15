@@ -12,7 +12,7 @@ import filter from 'leo-profanity';
 
 import { hideModal } from '../../slices/uiSlisec';
 import { selectors, updateChannel } from '../../slices/apiSlece';
-import { useAuth } from '../../contexts/useAuth';
+import useAuth from '../../contexts/useAuth';
 import routes from '../routes/routes';
 
 const Rename = () => {
