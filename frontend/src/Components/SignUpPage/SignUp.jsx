@@ -38,11 +38,14 @@ const SignUp = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const res = await axios.post(routes.signUpPath(), { username: values.username, password: values.password });
+        const res = await axios.post(
+          routes.signUpPath(),
+          { username: values.username, password: values.password },
+          );
         auth.logIn(res.data);
         navigate(routes.chatPage());
       } catch (error) {
-    formik.setSubmitting(false);
+        formik.setSubmitting(false);
         if (error.response.status === 409) {
           setAuthFailed(true);
           inputRef.current.select();
@@ -56,7 +59,7 @@ const SignUp = () => {
   });
 
   return (
-  <div className="container-fluid h-100">
+    <div className="container-fluid h-100">
     <div className="row justify-content-center align-content-center h-100">
       <div className="col-12 col-md-8 col-xxl-6">
         <div className="card shadow-sm">
