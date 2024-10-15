@@ -18,8 +18,8 @@ const ChannelList = () => {
     dispatch(setCurrentChannelId(id));
   };
 
-  const handleRemoveChannel = (id) => dispatch(showModal({ modalType: 'removing', channelId: id })),
-  const handleRenameChannel = (id) => dispatch(showModal({ modalType: 'renaming', channelId: id })),
+  const handleRemoveChannel = (id) => dispatch(showModal({ modalType: 'removing', channelId: id }));
+  const handleRenameChannel = (id) => dispatch(showModal({ modalType: 'renaming', channelId: id }));
 
   return (
   <>
