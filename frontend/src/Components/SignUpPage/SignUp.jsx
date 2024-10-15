@@ -41,7 +41,7 @@ const SignUp = () => {
         const res = await axios.post(
           routes.signUpPath(),
           { username: values.username, password: values.password },
-          );
+        );
         auth.logIn(res.data);
         navigate(routes.chatPage());
       } catch (error) {
@@ -60,84 +60,84 @@ const SignUp = () => {
 
   return (
     <div className="container-fluid h-100">
-    <div className="row justify-content-center align-content-center h-100">
-      <div className="col-12 col-md-8 col-xxl-6">
-        <div className="card shadow-sm">
-          <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
-            <div>
-              <img
-                src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/main/frontend/src/assets/avatar_1.jpg?raw=true"
-                className="rounded-circle"
-                alt={t('signup.header')}
-              />
+      <div className="row justify-content-center align-content-center h-100">
+        <div className="col-12 col-md-8 col-xxl-6">
+          <div className="card shadow-sm">
+            <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
+              <div>
+                <img
+                  src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/main/frontend/src/assets/avatar_1.jpg?raw=true"
+                  className="rounded-circle"
+                  alt={t('signup.header')}
+                />
+              </div>
+              <Form onSubmit={formik.handleSubmit} className="w-50">
+                <h1 className="text-center mb-4">{t('logIn.register')}</h1>
+                <Form.Group className="form-floating mb-3">
+                  <Form.Control
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.username}
+                    placeholder={t('validation.length')}
+                    name="username"
+                    id="username"
+                    autoComplete="username"
+                    isInvalid={(formik.errors.username && formik.touched.username) || authFailed}
+                    required
+                    ref={inputRef}
+                  />
+                  <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
+                  <Form.Control.Feedback type="invalid" placement="right" tooltip>
+                    {t(formik.errors.username)}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group className="form-floating mb-3">
+                  <Form.Control
+                    type="password"
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    onBlur={formik.handleBlur}
+                    placeholder={t('validation.passwordLength')}
+                    name="password"
+                    id="password"
+                    autoComplete="current-password"
+                    isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {t(formik.errors.password)}
+                  </Form.Control.Feedback>
+                  <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
+                </Form.Group>
+                <Form.Group className="form-floating mb-4">
+                  <Form.Control
+                    type="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.passwordConfirmation}
+                    placeholder={t('validation.mustMatch')}
+                    name="passwordConfirmation"
+                    id="confirmPassword"
+                    autoComplete="new-password"
+                    isInvalid={formik.errors.passwordConfirmation}
+                    required
+                  />
+                  <Form.Label htmlFor="confirmPassword">{t('logIn.confirmPass')}</Form.Label>
+                  <Form.Control.Feedback type="invalid" tooltip>
+                    {authFailed
+                      ? t('validation.409')
+                      : t(formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                  {t('logIn.doRegister')}
+                </Button>
+              </Form>
             </div>
-            <Form onSubmit={formik.handleSubmit} className="w-50">
-              <h1 className="text-center mb-4">{t('logIn.register')}</h1>
-              <Form.Group className="form-floating mb-3">
-                <Form.Control
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.username}
-                  placeholder={t('validation.length')}
-                  name="username"
-                  id="username"
-                  autoComplete="username"
-                  isInvalid={(formik.errors.username && formik.touched.username) || authFailed}
-                  required
-                  ref={inputRef}
-                />
-                <Form.Label htmlFor="username">{t('logIn.nameRegistr')}</Form.Label>
-                <Form.Control.Feedback type="invalid" placement="right" tooltip>
-                  {t(formik.errors.username)}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group className="form-floating mb-3">
-                <Form.Control
-                  type="password"
-                  onChange={formik.handleChange}
-                  value={formik.values.password}
-                  onBlur={formik.handleBlur}
-                  placeholder={t('validation.passwordLength')}
-                  name="password"
-                  id="password"
-                  autoComplete="current-password"
-                  isInvalid={(formik.errors.password && formik.touched.password) || authFailed}
-                  required
-                />
-                <Form.Control.Feedback type="invalid" tooltip>
-                  {t(formik.errors.password)}
-                </Form.Control.Feedback>
-                <Form.Label htmlFor="password">{t('logIn.password')}</Form.Label>
-              </Form.Group>
-              <Form.Group className="form-floating mb-4">
-                <Form.Control
-                  type="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.passwordConfirmation}
-                  placeholder={t('validation.mustMatch')}
-                  name="passwordConfirmation"
-                  id="confirmPassword"
-                  autoComplete="new-password"
-                  isInvalid={formik.errors.passwordConfirmation}
-                  required
-                />
-                <Form.Label htmlFor="confirmPassword">{t('logIn.confirmPass')}</Form.Label>
-                <Form.Control.Feedback type="invalid" tooltip>
-                  {authFailed
-                    ? t('validation.409')
-                    : t(formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">
-                {t('logIn.doRegister')}
-              </Button>
-            </Form>
           </div>
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
