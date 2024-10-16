@@ -126,7 +126,10 @@ const SignUp = () => {
                   <Form.Control.Feedback type="invalid" tooltip>
                     {authFailed
                       ? t('validation.409')
-                      : t(formik.touched.passwordConfirmation && formik.errors.passwordConfirmation)}
+                      : t(
+                        formik.touched.passwordConfirmation &&
+                        formik.errors.passwordConfirmation
+                        )}
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">

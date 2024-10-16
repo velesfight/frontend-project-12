@@ -23,7 +23,7 @@ const ChannelList = () => {
 
   return (
     <>
-    <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
+      <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>{t('chatPage.channels')}</b>
         <Button
           type="button"
@@ -43,7 +43,7 @@ const ChannelList = () => {
           <span className="visually-hidden">+</span>
         </Button>
       </div>
-    <ul
+      <ul
         id="channels-box"
         className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block"
       >
@@ -58,7 +58,8 @@ const ChannelList = () => {
           />
         ))}
       </ul>
-  </>
+    </>
   );
 };
+
 export default ChannelList;
