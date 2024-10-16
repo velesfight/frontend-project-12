@@ -40,8 +40,7 @@ const init = async () => {
     store.dispatch(removeChannel(payload.id));
     store.dispatch(removeMessagesByChannelId(payload.id));
   });
-  socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } })),
-  );
+  socket.on('renameChannel', (payload) => store.dispatch(updateChannel({ id: payload.id, changes: { name: payload.name } })));
 
   return (
     <RollbarProvider config={rollbarConfig}>
