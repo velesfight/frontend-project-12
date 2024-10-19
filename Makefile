@@ -14,9 +14,7 @@ deploy:
 	git push heroku main
 
 start:
-	npm run start
-
+	npx start-server -s ./frontend/build
 
 build:
-	rm frontend/build -rf
-	npm run build
+	make -C frontend build
