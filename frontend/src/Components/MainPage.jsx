@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
+import { animateScroll } from 'react-scroll';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -43,6 +44,10 @@ const MainPage1 = () => {
     fetchData();
   }, [dispatch, t, getAuthToken, navigate]);
 
+  useEffect(() => {
+    const argument = { containerId: 'messages-box', delay: 0, duration: 0 };
+    animateScroll.scrollToBottom(argument);
+  }, [messages.length]);
   return (
     <>
       {getModalComponent(modalType)}

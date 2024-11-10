@@ -119,20 +119,20 @@ const SignUp = () => {
                     name="passwordConfirmation"
                     id="confirmPassword"
                     autoComplete="new-password"
-                    isInvalid={formik.errors.passwordConfirmation}
+                    isInvalid={
+                      (formik.errors.passwordConfirmation
+                    && formik.touched.passwordConfirmation) || authFailed
+                  }
                     required
                   />
                   <Form.Label htmlFor="confirmPassword">{t('logIn.confirmPass')}</Form.Label>
                   <Form.Control.Feedback type="invalid" tooltip>
                     {authFailed
                       ? t('validation.409')
-                      : t(
-                        formik.touched.passwordConfirmation
-                        && formik.errors.passwordConfirmation,
-                      )}
+                      : t(formik.errors.passwordConfirmation)}
                   </Form.Control.Feedback>
                 </Form.Group>
-                <Button type="submit" className="w-100 mb-3 btn btn-outline-primary">
+                <Button type="submit" variant="outline-primary" className="w-100 mb-3">
                   {t('logIn.doRegister')}
                 </Button>
               </Form>

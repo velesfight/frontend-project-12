@@ -27,7 +27,8 @@ const ChannelList = () => {
         <b>{t('chatPage.channels')}</b>
         <Button
           type="button"
-          className="p-0 text-primary btn btn-group-vertical"
+          variant="group-vertical"
+          className="p-0 text-primary"
           onClick={() => dispatch(showModal({ modalType: 'adding', channelId: null }))}
         >
           <svg
