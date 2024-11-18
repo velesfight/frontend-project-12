@@ -6,8 +6,9 @@ import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../../contexts/useAuth';
-import routes from '../routes/routes';
+import useAuth from '../../hooks/useAuth';
+import appRoutes from '../../routes/appRoutes';
+import apiRoutes from '../../routes/apiRoutes';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -39,11 +40,11 @@ const SignUp = () => {
       setAuthFailed(false);
       try {
         const res = await axios.post(
-          routes.signUpPath(),
+          apiRoutes.signUpPath(),
           { username: values.username, password: values.password },
         );
         auth.logIn(res.data);
-        navigate(routes.chatPage());
+        navigate(appRoutes.chatPage());
       } catch (error) {
         formik.setSubmitting(false);
         if (error.response.status === 409) {

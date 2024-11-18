@@ -8,8 +8,9 @@ import filter from 'leo-profanity';
 import App from './App';
 import store from './Components/store';
 import resources from './locales/index.js';
-import ApiContext from './contexts/apiContext';
-import SocketContext from './contexts/useSocket';
+import ApiContext from './hooks/apiContext';
+import FilterProvider from './contexts/filterContext';
+import SocketContext from './hooks/useSocket';
 import { addChannel, removeChannel, updateChannel } from './slices/apiSlece';
 import { addMessage, removeMessagesByChannelId } from './slices/messagesSlice';
 
@@ -48,9 +49,11 @@ const init = async () => {
         <ReduxProvider store={store}>
           <SocketContext.Provider value={socket}>
             <ApiContext.Provider value={null}>
-              <I18nextProvider i18n={i18n}>
-                <App />
-              </I18nextProvider>
+              <FilterProvider>
+                <I18nextProvider i18n={i18n}>
+                  <App />
+                </I18nextProvider>
+              </FilterProvider>
             </ApiContext.Provider>
           </SocketContext.Provider>
         </ReduxProvider>

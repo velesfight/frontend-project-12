@@ -12,8 +12,8 @@ import filter from 'leo-profanity';
 
 import { hideModal } from '../../slices/uiSlisec';
 import { selectors, updateChannel } from '../../slices/apiSlece';
-import useAuth from '../../contexts/useAuth';
-import routes from '../routes/routes';
+import useAuth from '../../hooks/useAuth';
+import apiRoutes from '../../routes/apiRoutes';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -48,7 +48,7 @@ const Rename = () => {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        await axios.patch(routes.channelsPath1(channelId), { name: filter.clean(values.name) }, { headers: { Authorization: `Bearer ${getAuthToken()}` } });
+        await axios.patch(apiRoutes.channelsPath1(channelId), { name: filter.clean(values.name) }, { headers: { Authorization: `Bearer ${getAuthToken()}` } });
         dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
         dispatch(hideModal());
         toast.success(t('modals.doneRename'));

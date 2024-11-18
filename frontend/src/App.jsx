@@ -6,16 +6,17 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
-import useAuth from './contexts/useAuth';
-import MainPage from './Components/MainPage.jsx';
-import LoginPage from './Components/LoginPage/LoginPage';
-import NotFoundPage from './Components/NotFoundPage.jsx';
-import AuthProvider from './Components/AuthProvider.js';
-import SignUp from './Components/SignUpPage/SignUp';
+import useAuth from './hooks/useAuth';
+import MainPage from './Components/pages/MainPage.jsx';
+import LoginPage from './Components/pages/LoginPage';
+import NotFoundPage from './Components/pages/NotFoundPage';
+import AuthProvider from './contexts/AuthContext.js';
+import SignUp from './Components/pages/SignUp';
 import store from './Components/store.js';
-import routes from './Components/routes/routes';
+import appRoutes from './routes/appRoutes';
+import apiRoutes from './routes/apiRoutes';
 import 'react-toastify/dist/ReactToastify.css';
-import HeaderChat from './Components/Navbar';
+import HeaderChat from './Components/pages/Navbar';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -23,7 +24,7 @@ const PrivateRoute = ({ children }) => {
 
   return (
     user ? children : (
-      <Navigate to={routes.loginPath()} state={{ from: location }} />
+      <Navigate to={apiRoutes.loginPath()} state={{ from: location }} />
     )
   );
 };
@@ -38,7 +39,7 @@ const App = () => {
               <HeaderChat />
               <Routes>
                 <Route
-                  path={routes.chatPage()}
+                  path={appRoutes.chatPage()}
                   element={(
                     <PrivateRoute>
                       <MainPage />
@@ -46,11 +47,11 @@ const App = () => {
                   )}
                 />
                 <Route
-                  path={routes.loginPath()}
+                  path={apiRoutes.loginPath()}
                   element={<LoginPage />}
                 />
                 <Route
-                  path={routes.signUpPath()}
+                  path={apiRoutes.signUpPath()}
                   element={<SignUp />}
                 />
                 <Route

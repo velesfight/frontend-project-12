@@ -6,8 +6,9 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import useAuth from '../../contexts/useAuth';
-import routes from '../routes/routes';
+import useAuth from '../../hooks/useAuth';
+import apiRoutes from '../../routes/apiRoutes';
+import appRoutes from '../../routes/appRoutes';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -34,9 +35,9 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       setAuthFailed(false);
       try {
-        const res = await axios.post(routes.loginPath(), values);
+        const res = await axios.post(apiRoutes.loginPath(), values);
         auth.logIn(res.data);
-        navigate(routes.chatPage());
+        navigate(appRoutes.chatPage());
       } catch (err) {
         formik.setSubmitting(false);
         if (err.isAxiosError && err.response.status === 401) {
@@ -107,7 +108,7 @@ const LoginPage = () => {
                 <div className="text-center">
                   <span>{t('logIn.noAccount')}</span>
                   {' '}
-                  <Link to={routes.signUpPath()}>{t('logIn.register')}</Link>
+                  <Link to={apiRoutes.signUpPath()}>{t('logIn.register')}</Link>
                 </div>
               </div>
             </div>

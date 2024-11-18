@@ -3,34 +3,33 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import { useFormik } from 'formik';
-import filter from 'leo-profanity';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
-
 import { addMessage } from '../../slices/messagesSlice';
-import useAuth from '../../contexts/useAuth';
-import routes from '../routes/routes';
+import useFilter from '../../hooks/useFilter';
+import useAuth from '../../hooks/useAuth';
+import apiRoutes from '../../routes/apiRoutes';
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
-  const { getAuthToken } = useAuth();
+  const { getAuthToken, user } = useAuth();
+  const filterWords = useFilter();
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const { username } = JSON.parse(localStorage.getItem('userId'));
 
   const formik = useFormik({
     initialValues: { messageInput: '' },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       if (values.messageInput !== '') {
         const message = {
-          body: filter.clean(values.messageInput),
-          username,
+          body: filterWords(values.messageInput),
+          username: user.username,
           channelId: currentChannelId,
         };
 
         try {
-          const response = await axios.post(routes.messagesPath(), message, {
+          const response = await axios.post(apiRoutes.messagesPath(), message, {
             headers: { Authorization: `Bearer ${getAuthToken()}` },
           });
           dispatch(addMessage(response.data));

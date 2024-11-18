@@ -6,11 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
 import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlece';
 import { hideModal } from '../../slices/uiSlisec';
-import useAuth from '../../contexts/useAuth';
-import routes from '../routes/routes';
+import useAuth from '../../hooks/useAuth';
+import useFilter from '../../hooks/useFilter';
+import apiRoutes from '../../routes/apiRoutes';
 
 const Add = () => {
   const dispatch = useDispatch();
@@ -18,6 +18,7 @@ const Add = () => {
   const channels = useSelector(selectors.selectAll);
   const { t } = useTranslation();
   const { getAuthToken } = useAuth();
+  const filterWords = useFilter();
 
   useEffect(() => {
     if (inputEl.current) {
@@ -40,9 +41,10 @@ const Add = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
-      const newChannel = { name: filter.clean(values.name), removable: true };
+      const filteredName = filterWords(values.name);
+      const newChannel = { name: filteredName, removable: true };
       try {
-        const response = await axios.post(routes.channelsPath(), newChannel, {
+        const response = await axios.post(apiRoutes.channelsPath(), newChannel, {
           headers: { Authorization: `Bearer ${getAuthToken()}` },
         });
         dispatch(addChannel(response.data));

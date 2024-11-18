@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import routes from '../Components/routes/routes';
-import getAuthToken from '../Components/AuthProvider';
+import routes from '../routes/appRoutes';
+import getAuthToken from '../contexts/AuthContext';
 /* eslint-disable no-param-reassign */
 
 const fetchMessages = createAsyncThunk(

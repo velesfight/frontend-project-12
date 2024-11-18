@@ -5,13 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../contexts/useAuth';
-import { selectors, addChannels, setCurrentChannelId } from '../slices/apiSlece';
-import { selectors1, addMessages } from '../slices/messagesSlice';
-import SendMessageForm from './messages/SendMessageForm';
-import ChannelList from './channels/ChannelsList';
-import getModalComponent from './modals/typeModals';
-import routes from './routes/routes';
+import useAuth from '../../hooks/useAuth';
+import { selectors, addChannels, setCurrentChannelId } from '../../slices/apiSlece';
+import { selectors1, addMessages } from '../../slices/messagesSlice';
+import SendMessageForm from '../messages/SendMessageForm';
+import ChannelList from '../channels/ChannelsList';
+import getModalComponent from '../modals/typeModals';
+import apiRoutes from '../../routes/apiRoutes';
+import appRoutes from '../../routes/appRoutes';
 
 const MainPage1 = () => {
   const { t } = useTranslation();
@@ -28,15 +29,15 @@ const MainPage1 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const channelsResponse = await axios.get(routes.channelsPath(), { headers: { Authorization: `Bearer ${getAuthToken()}` } });
+        const channelsResponse = await axios.get(apiRoutes.channelsPath(), { headers: { Authorization: `Bearer ${getAuthToken()}` } });
         dispatch(addChannels(channelsResponse.data));
         dispatch(setCurrentChannelId(channelsResponse.data[0].id));
-        const messagesResponse = await axios.get(routes.messagesPath(), { headers: { Authorization: `Bearer ${getAuthToken()}` } });
+        const messagesResponse = await axios.get(apiRoutes.messagesPath(), { headers: { Authorization: `Bearer ${getAuthToken()}` } });
         dispatch(addMessages(messagesResponse.data));
       } catch (error) {
         if (error.response && error.response.status === 401) {
           toast.error(t('errors.network'));
-          navigate(routes.loginPage());
+          navigate(appRoutes.loginPage());
         }
         console.error('Fetch error:', error);
       }
@@ -48,6 +49,14 @@ const MainPage1 = () => {
     const argument = { containerId: 'messages-box', delay: 0, duration: 0 };
     animateScroll.scrollToBottom(argument);
   }, [messages.length]);
+  useEffect(() => {
+    const argument = { containerId: 'channels-box', delay: 0, duration: 0 };
+    animateScroll.scrollToBottom(argument);
+    const generalChannel = channels.find((channel) => channel.name === 'general');
+    if (generalChannel && currentChannel.name === generalChannel.name) {
+      animateScroll.scrollToTop(argument);
+    }
+  }, [currentChannel, channels]);
   return (
     <>
       {getModalComponent(modalType)}

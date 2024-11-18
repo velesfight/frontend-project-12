@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createSlice, createEntityAdapter, createAsyncThunk } from '@reduxjs/toolkit';
-import routes from '../Components/routes/routes';
-import getAuthToken from '../Components/AuthProvider';
+import routes from '../routes/appRoutes';
+import getAuthToken from '../contexts/AuthContext';
 /* eslint-disable no-param-reassign */
 
 const fetchData = createAsyncThunk(
@@ -33,8 +33,15 @@ export const channelsSlice = createSlice({
     updateChannel: (state, action) => {
       channelsAdapter.updateOne(state, action.payload);
     },
-    removeChannel:
-      channelsAdapter.removeOne,
+    removeChannel: (state, { payload }) => {
+      if (state.currentChannelId === payload) {
+        const newCurrentChannelId = state.ids.find((id) => id !== payload);
+        if (newCurrentChannelId) {
+          state.currentChannelId = newCurrentChannelId;
+        }
+      }
+      channelsAdapter.removeOne(state, payload);
+    },
   },
   extraReducers: (builder) => {
     builder
