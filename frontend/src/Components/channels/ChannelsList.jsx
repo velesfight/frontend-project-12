@@ -2,8 +2,8 @@ import { Button } from 'react-bootstrap';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { selectors, setCurrentChannelId } from '../../slices/apiSlece';
-import { showModal } from '../../slices/uiSlisec';
+import { selectors, setCurrentChannelId } from '../../slices/apiSlice';
+import { showModal } from '../../slices/uiSlice';
 import Channel from './Channel';
 
 const ChannelList = () => {

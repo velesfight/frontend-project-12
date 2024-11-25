@@ -6,12 +6,12 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import filter from 'leo-profanity';
 import App from './App';
-import store from './Components/store';
+import store from './store';
 import resources from './locales/index.js';
 import ApiContext from './hooks/apiContext';
 import FilterProvider from './contexts/filterContext';
 import SocketContext from './hooks/useSocket';
-import { addChannel, removeChannel, updateChannel } from './slices/apiSlece';
+import { addChannel, removeChannel, updateChannel } from './slices/apiSlice';
 import { addMessage, removeMessagesByChannelId } from './slices/messagesSlice';
 
 const init = async () => {

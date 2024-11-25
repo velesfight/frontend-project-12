@@ -6,9 +6,10 @@ import { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import useAuth from '../../hooks/useAuth';
-import apiRoutes from '../../routes/apiRoutes';
-import appRoutes from '../../routes/appRoutes';
+import useAuth from '../hooks/useAuth';
+import apiRoutes from '../routes/apiRoutes';
+import appRoutes from '../routes/appRoutes';
+import avatar from '../assets/avatar.jpg';
 
 const LoginPage = () => {
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ const LoginPage = () => {
             <div className="card-body row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
                 <img
-                  src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/063a378c056cf85ad42c97f5ad1465cfe5806731/frontend/src/assets/avatar.jpg?raw=true"
+                  src={avatar}
                   className="rounded-circle"
                   alt={t('logIn.alt')}
                 />

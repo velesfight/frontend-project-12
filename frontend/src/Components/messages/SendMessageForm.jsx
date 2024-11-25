@@ -9,6 +9,7 @@ import { addMessage } from '../../slices/messagesSlice';
 import useFilter from '../../hooks/useFilter';
 import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
+import getAuthHeaders from '../../headers';
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
@@ -29,9 +30,11 @@ const SendMessageForm = () => {
         };
 
         try {
-          const response = await axios.post(apiRoutes.messagesPath(), message, {
-            headers: { Authorization: `Bearer ${getAuthToken()}` },
-          });
+          const response = await axios.post(
+            apiRoutes.messagesPath(),
+            message,
+            getAuthHeaders(getAuthToken()),
+          );
           dispatch(addMessage(response.data));
           resetForm();
         } catch (error) {

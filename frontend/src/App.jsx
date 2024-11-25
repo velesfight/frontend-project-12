@@ -7,16 +7,16 @@ import {
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import useAuth from './hooks/useAuth';
-import MainPage from './Components/pages/MainPage.jsx';
-import LoginPage from './Components/pages/LoginPage';
-import NotFoundPage from './Components/pages/NotFoundPage';
+import MainPage from './pages/MainPage';
+import LoginPage from './pages/LoginPage';
+import NotFoundPage from './pages/NotFoundPage';
 import AuthProvider from './contexts/AuthContext.js';
-import SignUp from './Components/pages/SignUp';
-import store from './Components/store.js';
+import SignUp from './pages/SignUp';
+import store from './store';
 import appRoutes from './routes/appRoutes';
 import apiRoutes from './routes/apiRoutes';
 import 'react-toastify/dist/ReactToastify.css';
-import HeaderChat from './Components/pages/Navbar';
+import HeaderChat from './pages/Navbar';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();

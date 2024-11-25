@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
-import { setCurrentChannelId } from '../../slices/apiSlece';
-import { showModal } from '../../slices/uiSlisec';
+import { setCurrentChannelId } from '../../slices/apiSlice';
+import { showModal } from '../../slices/uiSlice';
 
 const Channel = ({ channel }) => {
   const { t } = useTranslation();

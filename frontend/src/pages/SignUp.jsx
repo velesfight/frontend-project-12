@@ -6,9 +6,10 @@ import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../../hooks/useAuth';
-import appRoutes from '../../routes/appRoutes';
-import apiRoutes from '../../routes/apiRoutes';
+import useAuth from '../hooks/useAuth';
+import appRoutes from '../routes/appRoutes';
+import apiRoutes from '../routes/apiRoutes';
+import avatarReg from '../assets/avatarReg.jpg';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -67,7 +68,7 @@ const SignUp = () => {
             <div className="card-body d-flex flex-column flex-md-row justify-content-around align-items-center p-5">
               <div>
                 <img
-                  src="https://github.com/hexlet-components/js-react-hexlet-chat/blob/main/frontend/src/assets/avatar_1.jpg?raw=true"
+                  src={avatarReg}
                   className="rounded-circle"
                   alt={t('signup.header')}
                 />

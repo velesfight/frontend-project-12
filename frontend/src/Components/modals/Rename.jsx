@@ -8,10 +8,10 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import filter from 'leo-profanity';
-
-import { hideModal } from '../../slices/uiSlisec';
-import { selectors, updateChannel } from '../../slices/apiSlece';
+import useFilter from '../../hooks/useFilter';
+import getAuthHeaders from '../../headers';
+import { hideModal } from '../../slices/uiSlice';
+import { selectors, updateChannel } from '../../slices/apiSlice';
 import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
 
@@ -20,6 +20,7 @@ const Rename = () => {
   const dispatch = useDispatch();
   const inputEl = useRef();
   const { getAuthToken } = useAuth();
+  const filterWords = useFilter();
 
   useEffect(() => {
     if (inputEl.current) {
@@ -35,6 +36,7 @@ const Rename = () => {
   const validationSchema = Yup.object().shape({
     name: Yup
       .string()
+      .trim()
       .min(3, (t('validation.length')))
       .max(20, (t('validation.length')))
       .notOneOf(channels.map((ch) => ch.name), (t('validation.unique')))
@@ -47,9 +49,14 @@ const Rename = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      const filterName = filterWords(values.name);
       try {
-        await axios.patch(apiRoutes.channelsPath1(channelId), { name: filter.clean(values.name) }, { headers: { Authorization: `Bearer ${getAuthToken()}` } });
-        dispatch(updateChannel({ id: channelId, changes: { name: filter.clean(values.name) } }));
+        await axios.patch(
+          apiRoutes.channelsPath1(channelId),
+          { name: filterName },
+          getAuthHeaders(getAuthToken()),
+        );
+        dispatch(updateChannel({ id: channelId, changes: { name: filterName } }));
         dispatch(hideModal());
         toast.success(t('modals.doneRename'));
       } catch (error) {
@@ -75,7 +82,6 @@ const Rename = () => {
               id="name"
               type="text"
               disabled={formik.isSubmitting}
-              onBlur={formik.handleBlur}
               onChange={formik.handleChange}
               value={formik.values.name}
               ref={inputEl}

@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlece';
-import { hideModal } from '../../slices/uiSlisec';
+import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlice';
+import { hideModal } from '../../slices/uiSlice';
 import useAuth from '../../hooks/useAuth';
 import useFilter from '../../hooks/useFilter';
 import apiRoutes from '../../routes/apiRoutes';
+import getAuthHeaders from '../../headers';
 
 const Add = () => {
   const dispatch = useDispatch();
@@ -44,9 +45,11 @@ const Add = () => {
       const filteredName = filterWords(values.name);
       const newChannel = { name: filteredName, removable: true };
       try {
-        const response = await axios.post(apiRoutes.channelsPath(), newChannel, {
-          headers: { Authorization: `Bearer ${getAuthToken()}` },
-        });
+        const response = await axios.post(
+          apiRoutes.channelsPath(),
+          newChannel,
+          getAuthHeaders(getAuthToken()),
+        );
         dispatch(addChannel(response.data));
         dispatch(setCurrentChannelId(response.data.id));
         dispatch(hideModal());

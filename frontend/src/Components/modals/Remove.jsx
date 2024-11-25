@@ -4,11 +4,12 @@ import { Modal, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { hideModal } from '../../slices/uiSlisec';
-import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlece';
+import { hideModal } from '../../slices/uiSlice';
+import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlice';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
 import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
+import getAuthHeaders from '../../headers';
 
 const Remove = () => {
   const { t } = useTranslation();
@@ -23,12 +24,8 @@ const Remove = () => {
 
   const handleRemove = async () => {
     try {
-      await axios.delete(apiRoutes.channelsPath1(channelId), {
-        headers: { Authorization: `Bearer ${getAuthToken()}` },
-      });
-      await axios.delete(apiRoutes.messagesPath1(channelId), {
-        headers: { Authorization: `Bearer ${getAuthToken()}` },
-      });
+      await axios.delete(apiRoutes.channelsPath1(channelId), getAuthHeaders(getAuthToken()));
+      await axios.delete(apiRoutes.messagesPath1(channelId), getAuthHeaders(getAuthToken()));
 
       dispatch(removeChannel(channelId));
       dispatch(removeMessagesByChannelId(channelId));
