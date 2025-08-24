@@ -22,14 +22,16 @@ const SendMessageForm = () => {
   const { t } = useTranslation();
   const { getAuthToken, user } = useAuth();
   const filterWords = useFilter();
-  const inputRef = useRef(null);
-  const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const currentChannelId = useSelector(
+    (state: RootState) => state.channels.currentChannelId,
+  );
 
   const formik = useFormik({
     initialValues: { messageInput: '' },
     onSubmit: async (values, { setSubmitting, resetForm }) => {
-      if (values.messageInput !== '') {
+      if (!user || values.messageInput.trim() === '') return;
         const message = {
           body: filterWords(values.messageInput),
           username: user.username,
@@ -49,13 +51,12 @@ const SendMessageForm = () => {
         } finally {
           setSubmitting(false);
         }
-      }
     },
   });
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, [currentChannelId, dispatch]);
+ useEffect(() => {
+    inputRef.current?.focus();
+  }, [currentChannelId]);
 
   return (
     <div className="mt-auto px-5 py-3">

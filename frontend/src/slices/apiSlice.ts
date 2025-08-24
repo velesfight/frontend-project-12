@@ -1,22 +1,24 @@
 import axios from 'axios';
 import { createSlice, createEntityAdapter, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import routes from '../routes/apiRoutes';
+import apiRoutes from '../routes/apiRoutes';
 import getAuthToken from '../contexts/AuthContext';
 import { RootState } from '../store';
 /* eslint-disable no-param-reassign */
 
-interface Channel {
+export interface Channel {
   id: number;
   name: string;
   removable: boolean;
 }
 
-const fetchData = createAsyncThunk(
+export const fetchData = createAsyncThunk(
   'channels/fetchData',
-  async () => {
-    const response = await axios.get(routes.channelsPath(), { headers: { Authorization: `Bearer ${getAuthToken()}` } });
-    return response.data;
-  },
+  async (token: string) => {
+    const response = await axios.get(apiRoutes.channelsPath(), {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data as Channel[];
+  }
 );
 
 const channelsAdapter = createEntityAdapter<Channel>();
@@ -83,5 +85,5 @@ export const {
 export const selectors = channelsAdapter.getSelectors<RootState>(
   (state) => state.channels,
 );
-export { fetchData };
+
 export default channelsSlice.reducer;

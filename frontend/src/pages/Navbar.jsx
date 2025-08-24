@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth.ts';
 import appRoutes from '../routes/appRoutes';
 
 const HeaderChat = () => {

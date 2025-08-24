@@ -6,7 +6,7 @@ import { useRef, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth.ts';
 import appRoutes from '../routes/appRoutes';
 import apiRoutes from '../routes/apiRoutes';
 import avatarReg from '../assets/avatarReg.jpg';

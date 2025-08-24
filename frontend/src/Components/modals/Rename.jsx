@@ -12,7 +12,7 @@ import useFilter from '../../hooks/useFilter';
 import getAuthHeaders from '../../headers';
 import { hideModal } from '../../slices/uiSlice';
 import { selectors, updateChannel } from '../../slices/apiSlice';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth.ts';
 import apiRoutes from '../../routes/apiRoutes';
 
 const Rename = () => {

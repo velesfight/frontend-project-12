@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { hideModal } from '../../slices/uiSlice';
 import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlice';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth.ts';
 import apiRoutes from '../../routes/apiRoutes';
 import getAuthHeaders from '../../headers';
 

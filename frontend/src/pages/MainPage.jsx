@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth.ts';
 import { selectors, addChannels, setCurrentChannelId } from '../slices/apiSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from '../Components/messages/SendMessageForm';

@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlice';
 import { hideModal } from '../../slices/uiSlice';
-import useAuth from '../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth.ts';
 import useFilter from '../../hooks/useFilter';
 import apiRoutes from '../../routes/apiRoutes';
 import getAuthHeaders from '../../headers';
