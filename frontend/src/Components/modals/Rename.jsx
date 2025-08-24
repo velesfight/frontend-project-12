@@ -21,17 +21,18 @@ const Rename = () => {
   const inputEl = useRef();
   const { getAuthToken } = useAuth();
   const filterWords = useFilter();
-
-  useEffect(() => {
-    if (inputEl.current) {
-      inputEl.current.select();
-    }
-  }, []);
-
   const channels = useSelector(selectors.selectAll);
   const channelId = useSelector((state) => state.modal.channelId);
   const curChannel = channels.find((ch) => ch.id === channelId);
   const isOpened = useSelector((state) => state.modal.isOpen);
+  useEffect(() => {
+    if (isOpened && inputEl.current) {
+      setTimeout(() => {
+        inputEl.current.focus();
+        inputEl.current.select();
+      }, 0);
+    }
+  }, [isOpened]);
 
   const validationSchema = Yup.object().shape({
     name: Yup
@@ -85,7 +86,7 @@ const Rename = () => {
               onChange={formik.handleChange}
               value={formik.values.name}
               ref={inputEl}
-              className="mb-2"
+              className="mb-2 form-control"
               isInvalid={formik.errors.name && formik.touched.name}
               required
             />
