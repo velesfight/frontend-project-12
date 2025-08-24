@@ -1,25 +1,26 @@
 import { Button } from 'react-bootstrap';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
+import { RootState } from '../../store';
 import { useTranslation } from 'react-i18next';
 import { selectors, setCurrentChannelId } from '../../slices/apiSlice';
 import { showModal } from '../../slices/uiSlice';
 import Channel from './Channel';
 
-const ChannelList = () => {
-  const dispatch = useDispatch();
+const ChannelList: React.FC  = () => {
+  const dispatch = useAppDispatch();
   const { t } = useTranslation();
-  const channels = useSelector(selectors.selectAll);
-  const currentChannelId = useSelector(
-    (state) => state.channels.currentChannelId,
+const channels = useAppSelector(selectors.selectAll); 
+  const currentChannelId = useAppSelector(
+    (state: RootState) => state.channels.currentChannelId,
   );
 
-  const changeChannel = (id) => {
+  const changeChannel = (id: number) => {
     dispatch(setCurrentChannelId(id));
   };
 
-  const handleRemoveChannel = (id) => dispatch(showModal({ modalType: 'removing', channelId: id }));
-  const handleRenameChannel = (id) => dispatch(showModal({ modalType: 'renaming', channelId: id }));
+  const handleRemoveChannel = (id: number) => dispatch(showModal({ modalType: 'removing', channelId: id }));
+  const handleRenameChannel = (id: number) => dispatch(showModal({ modalType: 'renaming', channelId: id }));
 
   return (
     <>

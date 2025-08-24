@@ -1,19 +1,36 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import {
+import { RootState, AppDispatch } from '../../store'
+import { 
   Dropdown, Button, ButtonGroup, Nav,
 } from 'react-bootstrap';
 import { setCurrentChannelId } from '../../slices/apiSlice';
 import { showModal } from '../../slices/uiSlice';
 
-const Channel = ({ channel }) => {
+interface ChannelProps {
+  channel: {
+    id: number;
+    name: string;
+    removable: boolean;
+  };
+  currentChannelId: number;
+  handleChoose: (id: number) => void;
+  handleRemoveChannel: (id: number) => void;
+  handleRenameChannel: (id: number) => void;
+}
+const Channel: React.FC<ChannelProps> = ({
+  channel,
+  currentChannelId,
+  handleChoose,
+  handleRemoveChannel,
+  handleRenameChannel,
+}) => {
   const { t } = useTranslation();
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const variant = channel.id === currentChannelId ? 'secondary' : null;
-  const dispatch = useDispatch();
+  const variant: 'secondary' | undefined = channel.id === currentChannelId ? 'secondary' : undefined;
+  const dispatch = useDispatch<AppDispatch>();
 
-  const changeChannel = (id) => {
+  const changeChannel = (id: number) => {
     dispatch(setCurrentChannelId(id));
   };
 

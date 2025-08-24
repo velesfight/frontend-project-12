@@ -5,11 +5,18 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { AppDispatch, RootState } from '../../store';
 import { addMessage } from '../../slices/messagesSlice';
 import useFilter from '../../hooks/useFilter';
 import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
 import getAuthHeaders from '../../headers';
+
+interface Message {
+  body: string;
+  username: string;
+  channelId: number;
+}
 
 const SendMessageForm = () => {
   const { t } = useTranslation();
