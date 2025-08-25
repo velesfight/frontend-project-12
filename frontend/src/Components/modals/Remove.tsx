@@ -7,13 +7,14 @@ import { toast } from 'react-toastify';
 import { hideModal } from '../../slices/uiSlice';
 import { selectors, removeChannel, setCurrentChannelId } from '../../slices/apiSlice';
 import { removeMessagesByChannelId } from '../../slices/messagesSlice';
-import useAuth from '../../hooks/useAuth.ts';
+import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
 import getAuthHeaders from '../../headers';
+import { RootState, AppDispatch } from '../../store';
 
-const Remove = () => {
+const Remove: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
   const channelId = useSelector((state) => state.modal.channelId);
   const { currentChannelId } = useSelector((state) => state.channels);
   const isOpened = useSelector((state) => state.modal.isOpen);

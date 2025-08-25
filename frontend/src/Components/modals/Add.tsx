@@ -8,14 +8,19 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { addChannel, selectors, setCurrentChannelId } from '../../slices/apiSlice';
 import { hideModal } from '../../slices/uiSlice';
-import useAuth from '../../hooks/useAuth.ts';
+import useAuth from '../../hooks/useAuth';
 import useFilter from '../../hooks/useFilter';
 import apiRoutes from '../../routes/apiRoutes';
 import getAuthHeaders from '../../headers';
+import { AppDispatch } from '../../store';
 
-const Add = () => {
-  const dispatch = useDispatch();
-  const inputEl = useRef();
+interface AddChannelFormValues {
+  name: string;
+}
+
+const Add: React.FC  = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const inputEl = useRef<HTMLInputElement>(null);
   const channels = useSelector(selectors.selectAll);
   const { t } = useTranslation();
   const { getAuthToken } = useAuth();
@@ -36,7 +41,7 @@ const Add = () => {
       .required(t('validation.required')),
   });
 
-  const formik = useFormik({
+  const formik = useFormik<AddChannelFormValues>({
     initialValues: {
       name: '',
     },
@@ -82,7 +87,8 @@ const Add = () => {
               id="name"
               onChange={formik.handleChange}
               value={formik.values.name}
-              isInvalid={formik.touched.name && formik.errors.name}
+              isInvalid={!!formik.touched.name && !!formik.errors.name}
+
             />
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
