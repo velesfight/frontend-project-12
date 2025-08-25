@@ -12,24 +12,28 @@ import useFilter from '../../hooks/useFilter';
 import getAuthHeaders from '../../headers';
 import { hideModal } from '../../slices/uiSlice';
 import { selectors, updateChannel } from '../../slices/apiSlice';
-import useAuth from '../../hooks/useAuth.ts';
+import useAuth from '../../hooks/useAuth';
 import apiRoutes from '../../routes/apiRoutes';
+import { RootState, AppDispatch } from '../../store';
 
-const Rename = () => {
+
+const Rename: React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const inputEl = useRef();
+  const dispatch = useDispatch<AppDispatch>();
+  const inputEl = useRef<HTMLInputElement>(null);
   const { getAuthToken } = useAuth();
   const filterWords = useFilter();
+
   const channels = useSelector(selectors.selectAll);
-  const channelId = useSelector((state) => state.modal.channelId);
+  const channelId = useSelector((state: RootState) => state.modal.channelId);
+  const isOpened = useSelector((state: RootState) => state.modal.isOpen);
   const curChannel = channels.find((ch) => ch.id === channelId);
-  const isOpened = useSelector((state) => state.modal.isOpen);
+
   useEffect(() => {
     if (isOpened && inputEl.current) {
       setTimeout(() => {
-        inputEl.current.focus();
-        inputEl.current.select();
+        inputEl.current?.focus();
+        inputEl.current?.select();
       }, 0);
     }
   }, [isOpened]);
@@ -50,6 +54,7 @@ const Rename = () => {
     },
     validationSchema,
     onSubmit: async (values) => {
+      if (!channelId) return;
       const filterName = filterWords(values.name);
       try {
         await axios.patch(
@@ -87,7 +92,7 @@ const Rename = () => {
               value={formik.values.name}
               ref={inputEl}
               className="mb-2 form-control"
-              isInvalid={formik.errors.name && formik.touched.name}
+              isInvalid={!!formik.errors.name && !!formik.touched.name}
               required
             />
             <Form.Label className="visually-hidden" htmlFor="name">{t('modals.channelName')}</Form.Label>

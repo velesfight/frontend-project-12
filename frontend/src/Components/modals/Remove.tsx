@@ -14,16 +14,17 @@ import { RootState, AppDispatch } from '../../store';
 
 const Remove: React.FC = () => {
   const { t } = useTranslation();
-    const dispatch = useDispatch<AppDispatch>();
-  const channelId = useSelector((state) => state.modal.channelId);
-  const { currentChannelId } = useSelector((state) => state.channels);
-  const isOpened = useSelector((state) => state.modal.isOpen);
+  const dispatch = useDispatch<AppDispatch>();
+  const channelId = useSelector((state: RootState) => state.modal.channelId);
+  const currentChannelId = useSelector((state: RootState) => state.channels.currentChannelId);
+  const isOpened = useSelector((state: RootState) => state.modal.isOpen);
   const { getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
 
   const handleClose = () => dispatch(hideModal());
 
   const handleRemove = async () => {
+    if (!channelId) return;
     try {
       await axios.delete(apiRoutes.channelsPath1(channelId), getAuthHeaders(getAuthToken()));
       await axios.delete(apiRoutes.messagesPath1(channelId), getAuthHeaders(getAuthToken()));
