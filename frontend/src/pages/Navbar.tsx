@@ -2,10 +2,11 @@ import React from 'react';
 import { Button, Navbar as BootstrapNavbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import useAuth from '../hooks/useAuth.ts';
+import useAuth from '../hooks/useAuth';
 import appRoutes from '../routes/appRoutes';
 
-const HeaderChat = () => {
+
+const HeaderChat: React.FC  = () => {
   const { logOut, user } = useAuth();
   const { t } = useTranslation();
 

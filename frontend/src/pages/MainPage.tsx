@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth.ts';
+import useAuth from '../hooks/useAuth';
 import { selectors, addChannels, setCurrentChannelId } from '../slices/apiSlice';
 import { selectors1, addMessages } from '../slices/messagesSlice';
 import SendMessageForm from '../Components/messages/SendMessageForm';
@@ -14,16 +14,33 @@ import getModalComponent from '../Components/modals/typeModals';
 import apiRoutes from '../routes/apiRoutes';
 import appRoutes from '../routes/appRoutes';
 import getAuthHeaders from '../headers';
+import { RootState, AppDispatch } from '../store';
+import { ModalState } from '../slices/uiSlice';
 
-const MainPage1 = () => {
+// Типы для сообщений и каналов
+interface Message {
+  id: number;
+  channelId: number;
+  username: string;
+  body: string;
+}
+
+interface Channel {
+  id: number;
+  name: string;
+}
+
+const MainPage1:React.FC = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { getAuthToken } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const messages = useSelector(selectors1.selectAll);
-  const modalType = useSelector((state) => state.modal.modalType);
-  const { currentChannelId } = useSelector((state) => state.channels);
+  const modalType = useSelector<RootState, ModalState['modalType']>(
+    (state) => state.modal.modalType
+  );
+const currentChannelId = useSelector<RootState, number | null>((state) => state.channels.currentChannelId);
   const currentChannel = channels.find((channel) => channel.id === currentChannelId);
   const filteredMessages = messages.filter((message) => message.channelId === currentChannelId);
 
@@ -41,7 +58,7 @@ const MainPage1 = () => {
           getAuthHeaders(getAuthToken()),
         );
         dispatch(addMessages(messagesResponse.data));
-      } catch (error) {
+      } catch (error: any) {
         if (error.response && error.response.status === 401) {
           toast.error(t('errors.network'));
           navigate(appRoutes.loginPage());

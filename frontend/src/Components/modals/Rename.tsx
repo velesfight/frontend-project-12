@@ -62,7 +62,7 @@ const Rename: React.FC = () => {
           { name: filterName },
           getAuthHeaders(getAuthToken()),
         );
-        dispatch(updateChannel({ id: channelId, changes: { name: filterName } }));
+        dispatch(updateChannel({ id: Number(channelId), changes: { name: filterName } }));
         dispatch(hideModal());
         toast.success(t('modals.doneRename'));
       } catch (error) {

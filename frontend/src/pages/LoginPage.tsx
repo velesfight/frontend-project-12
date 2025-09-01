@@ -1,21 +1,26 @@
-import axios from 'axios';
-import { useFormik } from 'formik';
+import axios, { AxiosError } from 'axios';
+import { useFormik, FormikHelpers } from 'formik';
 import { Button, Form } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useRef, useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import useAuth from '../hooks/useAuth.ts';
+import useAuth from '../hooks/useAuth';
 import apiRoutes from '../routes/apiRoutes';
 import appRoutes from '../routes/appRoutes';
 import avatar from '../assets/avatar.jpg';
 
-const LoginPage = () => {
+interface LoginValues {
+  username: string;
+  password: string;
+}
+
+const LoginPage: React.FC = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const [authFailed, setAuthFailed] = useState(false);
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const validationSchema = Yup.object().shape({
@@ -24,26 +29,27 @@ const LoginPage = () => {
   });
 
   useEffect(() => {
-    inputRef.current.focus();
+    inputRef.current?.focus();
   }, []);
 
-  const formik = useFormik({
+  const formik = useFormik<LoginValues>({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values: LoginValues, { setSubmitting }: FormikHelpers<LoginValues>) => {
       setAuthFailed(false);
       try {
         const res = await axios.post(apiRoutes.loginPath(), values);
         auth.logIn(res.data);
         navigate(appRoutes.chatPage());
       } catch (err) {
+         const error = err as AxiosError;
         formik.setSubmitting(false);
-        if (err.isAxiosError && err.response.status === 401) {
+        if (error.response?.status === 401) {
           setAuthFailed(true);
-          inputRef.current.select();
+          inputRef.current?.select();
           toast.error(t('errors.unknown'));
           return;
         }
@@ -76,7 +82,7 @@ const LoginPage = () => {
                     name="username"
                     id="username"
                     autoComplete="username"
-                    isInvalid={formik.errors.username && formik.touched.username}
+                    isInvalid={!!formik.errors.username && !!formik.touched.username}
                     required
                     ref={inputRef}
                   />

@@ -9,7 +9,7 @@ const NotFoundPage = () => {
     <Card className="text-center h-100">
       <Card.Body>
         <Card.Text>{t('errors.notFound')}</Card.Text>
-        <Link to={appRoutes.loginPage}>{t('errors.home')}</Link>
+        <Link to={appRoutes.loginPage()}>{t('errors.home')}</Link>
       </Card.Body>
     </Card>
   );

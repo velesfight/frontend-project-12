@@ -29,7 +29,7 @@ const Remove: React.FC = () => {
       await axios.delete(apiRoutes.channelsPath1(channelId), getAuthHeaders(getAuthToken()));
       await axios.delete(apiRoutes.messagesPath1(channelId), getAuthHeaders(getAuthToken()));
 
-      dispatch(removeChannel(channelId));
+      dispatch(removeChannel(Number(channelId)));
       dispatch(removeMessagesByChannelId(channelId));
       toast.success(t('modals.doneRemove'));
 
